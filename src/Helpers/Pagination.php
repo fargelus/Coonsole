@@ -19,7 +19,8 @@ class Pagination
 		$this->_current_page = $current_page;
 	}
 
-	public function totalPages() {
+	public function totalPages() : int
+	{
 		if ($this->_count > 0 && $this->_max_per_page > 0) {
 			$result = (int) ceil($this->_count / $this->_max_per_page);
 		} else {
@@ -29,13 +30,25 @@ class Pagination
 		return $result;
 	}
 
-	public function getStartId ($sort = 'DESC') {
+	public function getStartId($sort = 'DESC') : int
+	{
 		if ($sort === 'DESC') {
 			$id = $this->_count - ($this->_current_page * $this->_max_per_page);
 		} else {
 			$id = ($this->_current_page - 1) * $this->_max_per_page;
 		}
 
-		return $id;
+		return ($id < 0) ? 0 : (int) $id;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function designData() : array
+	{
+		return $data = [
+			'current_page' => $this->_current_page,
+			'total_pages' => $this->totalPages(),
+		];
 	}
 }

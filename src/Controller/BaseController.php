@@ -18,24 +18,41 @@ abstract class BaseController extends Controller
 
 	public function __construct()
 	{
-		//print_r();
+		$this->before();
+	}
+
+	protected function before()
+	{
+
+	}
+
+	protected function after()
+	{
+		//Здесь мы собираем всякое говнецо
 	}
 
 	protected function render(string $view, array $parameters = [], Response $response = NULL): Response
 	{
+		$this->after();
 		$parameters = array_merge($parameters, $this->_main, $this->_footer);
 		return parent::render($view, $parameters, $response);
 	}
 
+	/**
+	 * @param $name - Имя класса
+	 *
+	 * @return object
+	 * @throws \ReflectionException
+	 * @throws \Exception
+	 */
 	protected function getModel($name)
 	{
-		$model = $name.'Model';
-		$result = FALSE;
-
-		if (class_exists($model)) {
-			$result = new $model;
+		$model = '\App\Model\\'.ucfirst($name).'Model';
+		if (!class_exists($model)) {
+			throw new \Exception('Undefined model');
 		}
+		$result = new \ReflectionClass($model);
 
-		return $result;
+		return $result->newInstance();
 	}
 }

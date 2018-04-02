@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Entity\MyId;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Events;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemsRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Items
 {
@@ -38,12 +41,12 @@ class Items
     private $link;
 
     /**
-     * @ORM\Column(type="string", length = 15)
+     * @ORM\Column(type="datetime")
      */
     private $time_created;
 
     /**
-     * @ORM\Column(type="string", length = 15)
+     * @ORM\Column(type="datetime")
      */
     private $time_updated;
 
@@ -54,7 +57,7 @@ class Items
 
 	public function __construct()
 	{
-		$this->time_created = time();
+
 	}
 
 	/**
@@ -178,6 +181,19 @@ class Items
     public function getAuthorId()
 	{
 		return $this->authorId;
+	}
+
+	/**
+	 * @ORM\PrePersist
+	 */
+	public function prePersist()
+	{
+		$data = new \DateTime();
+		if (empty($this->time_created)) {
+			$this->time_created = $data;
+		}
+
+		$this->time_updated = $data;
 	}
 
 

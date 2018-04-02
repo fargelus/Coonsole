@@ -33,18 +33,19 @@ class ItemsRepository extends ServiceEntityRepository
 
     /**
      * @param int $page - номер страницы
+	 * @param int $count
      * @return array
 	 * @throws
      */
-    public function getItemsperpage($page)
+    public function getList(int $page, int $count = 10) : array
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT * FROM items n
-        WHERE n.id >= :id
-        ORDER BY n.id ASC LIMIT 10';
+        $sql = 'SELECT * FROM items n WHERE n.id >= :id ORDER BY n.id ASC LIMIT '.(int) $count;
         $stmt = $conn->prepare($sql);
-        $stmt->execute(['id' => (int)$page]);
+        $stmt->execute([
+			'id' => (int) $page,
+		]);
 
         return $stmt->fetchAll();
     }

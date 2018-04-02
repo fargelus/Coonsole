@@ -17,6 +17,9 @@ define('DAY', 24 * HOUR);
 define('WEEK', 7 * DAY);
 define('MONTH', 30 * DAY);
 
+//FORMAT
+define('APP_DATE_TIME_MYSQL', 'Y-m-d H:i:s');
+
 define('APP_USER_ADMIN', 1);
 define('APP_USER_USER', 3);
 define('APP_USER_BAN', 4);
