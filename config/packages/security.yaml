@@ -1,0 +1,46 @@
+security:
+    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers\
+    hide_user_not_found: false
+    encoders:
+            App\Entity\User: bcrypt
+    providers:
+        #in_memory: { memory: ~ }
+        database_users:
+            entity: { class: App\Entity\User, property: username }
+       # main:
+           # entity: { class: User, property: username }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern:    ^/
+            anonymous: ~
+            http_basic: ~
+            # guard:
+             #     authenticators:
+              #    app.form_login_authenticator
+            provider: database_users
+            #guard:
+                # authenticators:
+                 #  - app.form_login_authenticator
+            #anonymous: true
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+              path: logout
+              target: /
+
+    access_control:
+       # - { path: /admin/.*, role: ROLE_ADMIN }
+        #- { path: /.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+                            # if true, forward the user to the login form instead of redirecting
+            #use_forward: false
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html

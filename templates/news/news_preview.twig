@@ -1,0 +1,12 @@
+{% extends "content.twig" %}
+{% block content %}
+    {% if news is defined %}
+        Количество {{ news|length }}
+        {% for post in news %}
+            {% block post %}
+                <li><a href="/news/{{ post.link }}">{{ post.name }}</a><br> {{ post.description }}</li>
+            {% endblock %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
