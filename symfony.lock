@@ -251,6 +251,9 @@
     "twig/twig": {
         "version": "v2.4.4"
     },
+    "vkcom/vk-php-sdk": {
+        "version": "0.1.8"
+    },
     "zendframework/zend-code": {
         "version": "3.3.0"
     },

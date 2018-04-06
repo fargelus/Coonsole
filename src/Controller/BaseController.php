@@ -10,6 +10,10 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use VK\OAuth\Scopes\VKOAuthUserScope;
+use VK\OAuth\VKOAuth;
+use VK\OAuth\VKOAuthDisplay;
+use VK\OAuth\VKOAuthResponseType;
 
 abstract class BaseController extends Controller
 {
@@ -28,7 +32,14 @@ abstract class BaseController extends Controller
 
 	protected function after()
 	{
-		//Здесь мы собираем всякое говнецо
+		//Если не авторизован, то выводим соц. сети
+		if (empty($this->getUser())){
+			$oauth = new VKOAuth();
+			$browser_url = $oauth->getAuthorizeUrl(VKOAuthResponseType::CODE, VK_CLIENT_ID, VK_REDIRECT, VKOAuthDisplay::PAGE, [VKOAuthUserScope::WALL, VKOAuthUserScope::EMAIL], VK_CLIENT_SECRET);
+			$this->_main['vk_link'] = $browser_url;
+		};
+		//$this->_main['user'] = $this->getUser();
+		//print_r($this->_main['user']);
 	}
 
 	protected function render(string $view, array $parameters = [], Response $response = NULL): Response

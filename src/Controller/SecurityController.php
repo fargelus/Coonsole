@@ -13,19 +13,34 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use VK\OAuth\VKOAuth;
 
-class SecurityController extends Controller
+class SecurityController extends BaseController
 {
 
 	/**
 	 * @Route("/login", name="login")
 	 *
 	 * @return Response
+	 * @throws
 	 */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
-
 		$error = $authUtils->getLastAuthenticationError();
+
+		if (isset($_GET['oauth'])) {
+			switch ($_GET['oauth']) {
+				case 'vk':
+					if (isset($_GET['code'])) {
+						$oauth = new VKOAuth();
+						$response = $oauth->getAccessToken(VK_CLIENT_ID, VK_CLIENT_SECRET, VK_REDIRECT, $_GET['code']);
+						print_r($response);
+						$access_token = $response['access_token'];
+						$email = $response['email'];
+					}
+					break;
+			}
+		}
 
 		// last username entered by the user
 		$lastUsername = $authUtils->getLastUsername();

@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Helpers\Imagick;
 use App\Helpers\Pagination;
 
 class ItemsController extends BaseController
@@ -107,8 +106,7 @@ class ItemsController extends BaseController
 				$query = $em->getConnection()->prepare("SELECT max(id) as max FROM items");
 				$query->execute();
 				$res = $query->fetch();
-				$link_id = $res['max'];
-				$link_id = (empty($link_id) || $link_id === 0) ? 1 : $link_id + 1;
+				$link_id = (empty($res['max']) || $res['max'] === 0) ? 1 : $res['max'] + 1;
 
 				$item = new Items();
 				$item->setName($data['name']);
