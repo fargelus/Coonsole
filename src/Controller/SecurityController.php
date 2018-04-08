@@ -28,20 +28,6 @@ class SecurityController extends BaseController
     {
 		$error = $authUtils->getLastAuthenticationError();
 
-		if (isset($_GET['oauth'])) {
-			switch ($_GET['oauth']) {
-				case 'vk':
-					if (isset($_GET['code'])) {
-						$oauth = new VKOAuth();
-						$response = $oauth->getAccessToken(VK_CLIENT_ID, VK_CLIENT_SECRET, VK_REDIRECT, $_GET['code']);
-						print_r($response);
-						$access_token = $response['access_token'];
-						$email = $response['email'];
-					}
-					break;
-			}
-		}
-
 		// last username entered by the user
 		$lastUsername = $authUtils->getLastUsername();
 
@@ -52,6 +38,54 @@ class SecurityController extends BaseController
 		//$content = $this->render('news/news_preview.twig', $tmpl_params);
 		//return $content;
     }
+
+	/**
+	 * @Route("/login/social")
+	 */
+	public function socialRedirectAction (Request $request)
+	{
+		if (isset($_GET['oauth'])) {
+			switch ($_GET['oauth']) {
+				case 'vk':
+					if (isset($_GET['code'])) {
+						$oauth = new VKOAuth();
+						$response = $oauth->getAccessToken(VK_CLIENT_ID, VK_CLIENT_SECRET, VK_REDIRECT, $_GET['code']);
+						$this->redirect('/login/check');
+						//print_r($response);
+						//$access_token = $response['access_token'];
+						//$email = $response['email'];
+					}
+					break;
+			}
+		}
+		return;
+	}
+
+	/**
+	 * @Route("/login/check/")
+	 */
+	public function socialAction(Request $request, AuthenticationUtils $authUtils)
+	{
+		return $this->render('content.twig');
+		/*if (isset($_GET['oauth'])) {
+			switch ($_GET['oauth']) {
+				case 'vk':
+					if (isset($_GET['code'])) {
+						//$oauth = new VKOAuth();
+						//$response = $oauth->getAccessToken(VK_CLIENT_ID, VK_CLIENT_SECRET, VK_REDIRECT, $_GET['code']);
+						//print_r($response);
+						//$access_token = $response['access_token'];
+						//$email = $response['email'];
+					}
+					break;
+			}*/
+		//}
+
+		//return $this->render('content.twig', array(
+		//'last_username' => $lastUsername,
+		//'error'         => $error,
+	//));
+	}
 
 	/**
 	 *  Route("/login_check", name="security_login_check")

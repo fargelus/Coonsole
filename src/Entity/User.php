@@ -129,6 +129,7 @@ class User implements UserInterface, \Serializable
 			$this->password,
 			// see section on salt below
 			$this->salt,
+			$this->getRoles(),
 		));
 	}
 
@@ -141,6 +142,7 @@ class User implements UserInterface, \Serializable
 			$this->password,
 			// see section on salt below
 			$this->salt,
+			$this->role,
 			) = unserialize($serialized);
 	}
 

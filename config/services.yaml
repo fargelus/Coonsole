@@ -23,8 +23,14 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+   # App\Security\SocialUserProvider:
+         #   arguments:
+              #  $container: '%admin_email%'
     app.form_login_authenticator:
         class: App\Security\FormLoginAuthenticator
+        arguments: ["@router", "@security.password_encoder"]
+    app.api_key_user_provider:
+        class: App\Security\SocialUserProvider
         arguments: ["@router", "@security.password_encoder"]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

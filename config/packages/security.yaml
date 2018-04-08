@@ -7,23 +7,48 @@ security:
         #in_memory: { memory: ~ }
         database_users:
             entity: { class: App\Entity\User, property: username }
+            #id: App\Security\SocialUserProvider
+        api_key_user_provider:
+            id: App\Security\SocialUserProvider
        # main:
            # entity: { class: User, property: username }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        social:
+           pattern: ^/login/check/mem
+           stateless: false
+           anonymous: ~
+
+           #simple_preauth:
+           simple_preauth:
+              authenticator:
+                App\Security\SocialAuthenticator
+           provider: api_key_user_provider
+           #form_login:
+              #login_path: /login/check
+              #check_path: /login/check
+           #form_login:
+              #login_path: login
+              #check_path: login
         main:
             pattern:    ^/
             anonymous: ~
             http_basic: ~
+            #simple_preauth:
+                          #authenticator:
+                           # App\Security\SocialAuthenticator
             # guard:
              #     authenticators:
               #    app.form_login_authenticator
-            provider: database_users
+            provider: api_key_user_provider
+            simple_preauth:
+                authenticator: App\Security\SocialAuthenticator
             #guard:
-                # authenticators:
-                 #  - app.form_login_authenticator
+            #simple_preauth:
+                 #authenticator:
+                  #App\Security\SocialAuthenticator
             #anonymous: true
             form_login:
                 login_path: login

@@ -24,7 +24,7 @@ define('APP_DATE_TIME_MYSQL', 'Y-m-d H:i:s');
 
 define('VK_CLIENT_ID', 6438289);
 define('VK_CLIENT_SECRET', 'ejattL3RCBunmbbSKiWY');
-define('VK_REDIRECT', APP_DOMAIN.'login?oauth=vk');
+define('VK_REDIRECT', APP_DOMAIN.'login/check/?oauth=vk');
 
 define('APP_USER_ADMIN', 1);
 define('APP_USER_USER', 3);
