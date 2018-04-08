@@ -13,3 +13,5 @@
 ###< symfony/web-server-bundle ###
 
 /frontend/node_modules/
+/frontend/build/
+.idea
