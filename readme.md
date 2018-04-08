@@ -13,5 +13,6 @@
 #### Сборка
 *Девелоп сборка*
 ```bash
+yarn
 npm run gulp build
 ```
