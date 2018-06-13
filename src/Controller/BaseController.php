@@ -45,7 +45,8 @@ abstract class BaseController extends Controller
 	protected function render(string $view, array $parameters = [], Response $response = NULL): Response
 	{
 		$this->after();
-		$parameters = array_merge($parameters, $this->_main, $this->_footer);
+		//TODO убрать
+		$parameters = array_merge($parameters, $this->_main, $this->_footer, ['message' => 'test']);
 		return parent::render($view, $parameters, $response);
 	}
 

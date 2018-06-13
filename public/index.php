@@ -35,9 +35,3 @@ $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
-?>
-
-<script type="text/javascript" src="bundle.js"></script>
-<div id="app">
-  <p>{{ message }}</p>
-</div>

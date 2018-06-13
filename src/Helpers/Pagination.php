@@ -12,13 +12,24 @@ class Pagination
 	private $_max_per_page;
 	private $_count;
 
-	public function __construct($count, $max, $current_page = 1)
+	/**
+	 * Pagination constructor.
+	 *
+	 * @param int $count
+	 * @param int $max
+	 * @param int $current_page
+	 */
+	public function __construct(int $count, int $max, int $current_page = 1)
 	{
 		$this->_count = $count;
 		$this->_max_per_page = $max;
 		$this->_current_page = $current_page;
 	}
 
+	/**
+	 * Количество всех страниц
+	 * @return int
+	 */
 	public function totalPages() : int
 	{
 		if ($this->_count > 0 && $this->_max_per_page > 0) {
@@ -30,7 +41,12 @@ class Pagination
 		return $result;
 	}
 
-	public function getStartId($sort = 'DESC') : int
+	/**
+	 * @param string $sort
+	 *
+	 * @return int
+	 */
+	public function getStartId(string $sort = 'DESC') : int
 	{
 		if ($sort === 'DESC') {
 			$id = $this->_count - ($this->_current_page * $this->_max_per_page);

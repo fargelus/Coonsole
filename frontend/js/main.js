@@ -1,8 +1,9 @@
 const Vue = require('vue');
 
-const vm = new Vue({
-  el: '#el',
+const app = new Vue({
+  el: '#app',
   data: {
-    message: 'Hello Coonsole',
+    test: 'Hello Coonsole',
+    input: '# hello'
   },
 });
