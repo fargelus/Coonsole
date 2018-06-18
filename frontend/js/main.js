@@ -1,9 +1,7 @@
-const Vue = require('vue');
+import Vue from 'vue';
+import App from './vue/App.vue';
 
-const app = new Vue({
+const vm = new Vue({
   el: '#app',
-  data: {
-    test: 'Hello Coonsole',
-    input: '# hello'
-  },
+  render: h => h(App),
 });

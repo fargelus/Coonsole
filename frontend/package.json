@@ -2,11 +2,9 @@
   "name": "Coonsole",
   "version": "1.0.0",
   "scripts": {
-    "client": "browserify js/main.js -o ../public/bundle.js",
-    "gulp": "./node_modules/.bin/gulp"
+    "build": "webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "browserify": "^16.2.2",
     "del": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -20,9 +18,12 @@
     "gulp-stylus": "^2.7.0",
     "gulp-uglify": "^3.0.0",
     "stylus": "^0.54.5",
-    "watchify": "^3.11.0"
+    "vue-template-compiler": "^2.5.16",
+    "webpack-cli": "^3.0.8"
   },
   "dependencies": {
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-loader": "^15.2.4",
+    "webpack": "^4.12.0"
   }
 }
