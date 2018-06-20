@@ -6,6 +6,7 @@ use App\Entity\Items;
 use App\Entity\User;
 use App\Repository\ItemsRepository;
 use App\Model\ItemsModel;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -81,8 +82,11 @@ class ItemsController extends BaseController
 			'meta'	=>	'lel',
 		];
 
-		$content = $this->render('news/news_preview.twig', $tmpl_params);
-        return $content;
+
+		//$content = $this->render('news/news_preview.twig', $tmpl_params);
+		//$content = new Response($tmpl_params);
+
+        return new JsonResponse($tmpl_params);
     }
 
 	/**
