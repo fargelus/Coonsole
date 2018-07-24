@@ -5,18 +5,9 @@
     "build": "webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "del": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.10.0",
-    "gulp": "gulpjs/gulp.git#4.0",
-    "gulp-clean-css": "^3.9.3",
-    "gulp-concat": "^2.6.1",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-stylus": "^2.7.0",
-    "gulp-uglify": "^3.0.0",
     "stylus": "^0.54.5",
     "vue-template-compiler": "^2.5.16",
     "webpack-cli": "^3.0.8"
