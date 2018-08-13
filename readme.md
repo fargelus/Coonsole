@@ -13,6 +13,7 @@
 #### Сборка
 *Девелоп сборка*
 ```bash
+cd frontend/
 yarn
-npm run gulp build
+npm run build
 ```

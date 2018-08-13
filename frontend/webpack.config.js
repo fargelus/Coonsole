@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
+  watch: true,
   entry: [
     './js/main.js',
   ],
@@ -15,6 +16,14 @@ module.exports = {
       {
         test: /\.vue$/,
         use: 'vue-loader',
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader',
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/,
+        loader: 'file-loader',
       },
     ],
   },
