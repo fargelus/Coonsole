@@ -24,6 +24,9 @@
 
 <style scoped>
   .header-top {
+    margin: 0 auto;
+    margin-bottom: 8px;
+    max-width: 940px;
     font-size: 16px;
     align-items: center;
   }
@@ -89,6 +92,7 @@
 </style>
 
 <script>
+
   export default {
     data() {
       return {

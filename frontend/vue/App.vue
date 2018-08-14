@@ -2,6 +2,8 @@
   <div id="wrapper">
     <div id="app">
       <Header/>
+      <HeaderFilter/>
+
     </div>
   </div>
 </template>
@@ -14,7 +16,6 @@
   }
 
   #app {
-    max-width: 940px;
     margin: 0 auto;
     padding: 0;
   }
@@ -27,10 +28,14 @@
 
 <script>
   import Header from './components/header.vue';
+  import HeaderFilter from './components/HeaderFilter.vue';
 
   export default {
+
     components: {
-      Header
-    }
+      Header,
+      HeaderFilter
+    },
+
   }
 </script>
