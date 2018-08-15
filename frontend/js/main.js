@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from '../vue/App.vue';
-import '../styles/all.css';
+import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
 import CompassIcon from '../assets/images/compass.svg';
 
