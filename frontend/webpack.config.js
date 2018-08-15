@@ -18,8 +18,12 @@ module.exports = {
         use: 'vue-loader',
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        test: /\.styl$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'stylus-loader',
+        ],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,

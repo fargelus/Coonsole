@@ -1,6 +1,6 @@
 <template>
-  <div id="wrapper">
-    <div id="app">
+  <div id="wrapper" class="app-wrapper">
+    <div id="app" class="app">
       <Header/>
       <HeaderFilter/>
 
@@ -8,22 +8,21 @@
   </div>
 </template>
 
-<style>
-  #wrapper {
-    border-top: 5px solid #EC5A24;
-    width: 100%;
-    padding: 8px 0;
-  }
+<style lang="styl" scoped>
+  @require '../styl/_variables.styl'
 
-  #app {
-    margin: 0 auto;
-    padding: 0;
-  }
+  .app-wrapper
+    border-top: 5px solid $flamingo
+    width: 100%
+    padding: 8px 0
 
-  .top_line {
-    width: 100%;
-    height: 4px;
-  }
+  .app
+    margin: 0 auto
+    padding: 0
+
+  .top_line
+    width: 100%
+    height: 4px
 </style>
 
 <script>

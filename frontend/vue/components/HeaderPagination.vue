@@ -6,19 +6,15 @@
     </div>
 </template>
 
-<style>
-    .header-pagination {
-        position: absolute;
-        height: 32px;
-        right: 0;
-    }
+<style lang="styl" scoped>
+  .header-pagination
+      position: absolute;
+      height: 32px;
+      right: 0;
 
-    .pagination-button {
-        position: relative;
-        width: 20px;
-    }
-
-
+  .pagination-button
+      position: relative;
+      width: 20px;
 </style>
 
 <script>
