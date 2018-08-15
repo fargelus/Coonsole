@@ -58,8 +58,7 @@
     padding: 0 10px
     box-sizing: border-box
     margin: 0
-    width: calc(100% - 73px);
-
+    width: calc(100% - 73px)
     border-top-left-radius: 4px
     border-bottom-left-radius: 4px
 
@@ -69,7 +68,6 @@
     background-color: $gallery
     border: 0
     border-radius: 0
-
     border-top-right-radius: 4px
     border-bottom-right-radius: 4px
 
