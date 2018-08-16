@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Router from './router';
 import App from '../vue/App.vue';
 import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
@@ -17,8 +18,10 @@ function bindImagesSource(imagesObj) {
 }
 
 const vm = new Vue({
-  el: '#app',
-  render: h => h(App),
+    el: '#app',
+    template: '<router-view></router-view>',
+    Router,
+    render: h => h(App),
 });
 
 const DOMSelectorToImagesMap = {
