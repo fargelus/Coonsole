@@ -4,6 +4,8 @@ import App from '../vue/App.vue';
 import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
 import CompassIcon from '../assets/images/compass.svg';
+import UI from './ui';
+
 
 // Привязывает путь к картинкам в бандле
 function bindImagesSource(imagesObj) {

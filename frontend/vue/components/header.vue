@@ -16,8 +16,10 @@
     </div>
 
     <div class="header-top__group interact-element">
-      <button type="button" class="button button-theme--snow">{{ Sale }}</button>
-      <button type="button" class="button button-theme--orange header-top__button">{{ Sign_In }}</button>
+      <ui-button snow>{{ Sale }}</ui-button>
+      <!--<button type="button" class="button button-theme--snow">{{ Sale }}</button>-->
+      <ui-button class="header-top__button" orange>{{ Sign_In }}</ui-button>
+      <!--<button type="button" class="button button-theme--orange ">{{ Sign_In }}</button>-->
     </div>
   </div>
 </template>
