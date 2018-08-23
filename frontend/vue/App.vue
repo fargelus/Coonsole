@@ -4,6 +4,7 @@
       <Header/>
       <HeaderFilter/>
       <router-view></router-view>
+      <Modal/>
     </div>
   </div>
 </template>
@@ -26,14 +27,16 @@
 </style>
 
 <script>
-  import Header from './components/header.vue';
+  import Header from './components/Header.vue';
   import HeaderFilter from './components/HeaderFilter.vue';
+  import Modal from './components/Modal.vue';
 
   export default {
 
     components: {
       Header,
-      HeaderFilter
+      HeaderFilter,
+      Modal
     },
 
   }

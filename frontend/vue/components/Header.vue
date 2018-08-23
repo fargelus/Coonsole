@@ -1,5 +1,5 @@
 <template>
-  <div id="js-header" class="header-top">
+  <div class="header-top">
     <div class="header-top__group">
       <img class="js-logo" alt="coonsole_logo" width="54" height="48">
 
@@ -8,8 +8,7 @@
         <button type="button" class="button site-search__button interact-element">{{ Find }}</button>
       </div>
 
-      <!-- Пока поставим заглушки -->
-      <button type="button" class="button interact-element site-city__button transparent header-top__button">
+      <button type="button" class="button button--logo-compass interact-element site-city__button transparent header-top__button">
         <!-- TODO CSS -->
         <img class="js-compass">{{ City }}
       </button>
@@ -78,7 +77,6 @@
 </style>
 
 <script>
-
   export default {
     data() {
       return {

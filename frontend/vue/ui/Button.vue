@@ -3,7 +3,7 @@
 
             :class="{
                 'button-theme--snow': snow,
-                'button-theme--orange': orange,
+                'button-theme--orange': orange
             }"
             :disabled="disabled"
             :type="type"
@@ -16,12 +16,6 @@
     @require '../../styl/_variables'
 
     .button
-        cursor: pointer
-        display: inline-block
-        border-radius: 4px
-        color: $masala
-        padding: 0 12px
-        font-size: 16px
         overflow: hidden
         text-overflow: ellipsis
 
