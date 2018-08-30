@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from './router';
+import router from './router';
 import App from '../vue/App.vue';
 import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
@@ -22,9 +22,9 @@ function bindImagesSource(imagesObj) {
 const vm = new Vue({
     el: '#app',
     template: '<router-view></router-view>',
-    Router,
+    router,
     render: h => h(App),
-});
+}).$mount('#app');
 
 const DOMSelectorToImagesMap = {
   '.js-logo': LogoIcon,

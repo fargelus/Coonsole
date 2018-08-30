@@ -1,9 +1,14 @@
 <template lang="html">
-  Hello World
+  <div>{{this.name}}</div>
 </template>
 
 <script>
   export default {
-    name: 'Modal'
+      data(){
+          return {
+              name: 'Modal'
+
+          }
+      },
   }
 </script>

@@ -3,8 +3,8 @@
     <div id="app" class="app">
       <Header/>
       <HeaderFilter/>
-      <router-view></router-view>
       <Modal/>
+      <router-view></router-view>
     </div>
   </div>
 </template>

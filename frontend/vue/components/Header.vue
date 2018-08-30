@@ -61,6 +61,9 @@
     margin: 0
     width: calc(100% - 73px)
     border-top-left-radius: 4px
+    font-family: 'Roboto Condensed', sans-serif
+    font-size: 14px
+    font-weight: lighter
     border-bottom-left-radius: 4px
 
   .site-search__button
