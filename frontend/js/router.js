@@ -3,8 +3,7 @@ import VueRouter from 'vue-router';
 
 import App from '../vue/App.vue';
 import MarketList from '../vue/components/market/MarketList.vue';
-import Modal from '../vue/components/Modal.vue';
-
+import CitiesListModal from '../vue/components/CitiesListModal.vue';
 
 const routes = [
     {
@@ -21,7 +20,7 @@ const routes = [
             next();
         }*/
     },
-    { path: '/bar', component: Modal },
+    { path: '/bar', component: CitiesListModal },
 ];
 
 const router = new VueRouter({

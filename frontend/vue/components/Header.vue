@@ -8,20 +8,46 @@
         <button type="button" class="button site-search__button interact-element">{{ Find }}</button>
       </div>
 
-      <button type="button" class="button button--logo-compass interact-element site-city__button transparent header-top__button">
-        <!-- TODO CSS -->
-        <img class="js-compass">{{ City }}
+      <button @click="toggleCitiesListModal" type="button" class="button button--logo-compass interact-element site-city__button transparent header-top__button">
+        <img class="js-compass button__label-left">{{ City }}
       </button>
     </div>
 
     <div class="header-top__group interact-element">
       <ui-button snow>{{ Sale }}</ui-button>
-      <!--<button type="button" class="button button-theme--snow">{{ Sale }}</button>-->
       <ui-button class="header-top__button" orange>{{ Sign_In }}</ui-button>
-      <!--<button type="button" class="button button-theme--orange ">{{ Sign_In }}</button>-->
     </div>
+
+    <CitiesListModal v-if="showCitiesListModal"/>
   </div>
 </template>
+
+<script>
+  import CitiesListModal from './CitiesListModal.vue';
+
+  export default {
+    data() {
+      return {
+        Sale: 'Продать',
+        Sign_In: 'Войти',
+        City: 'Санкт-Петербург',
+        Find: 'Найти',
+        Search_enter: 'Введите запрос',
+        showCitiesListModal: false,
+      };
+    },
+
+    methods: {
+      toggleCitiesListModal() {
+        this.showCitiesListModal = !this.showCitiesListModal;
+      }
+    },
+
+    components: {
+      CitiesListModal,
+    }
+  }
+</script>
 
 <style lang="styl" scoped>
   @require '../../styl/_variables.styl'
@@ -78,17 +104,3 @@
   .site-city__button
     margin-top: 8px
 </style>
-
-<script>
-  export default {
-    data() {
-      return {
-        Sale: 'Продать',
-        Sign_In: 'Войти',
-        City: 'Санкт-Петербург',
-        Find: 'Найти',
-        Search_enter: 'Введите запрос'
-      };
-    }
-  }
-</script>
