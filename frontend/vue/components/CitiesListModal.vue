@@ -9,26 +9,19 @@
 </template>
 
 <script>
-  const serviceURL = 'http://api.geonames.org';
-  const username = 'fargelus';
-  let method = 'countryInfo';
+  import $ from 'jquery';
 
-  const countryInfoURL = `${serviceURL}/${method}?lang=ru&country=RU&username=${username}`;
-  const coords = {};
+  const serviceURL = 'http://api.geonames.org',
+        username = 'fargelus',
+        method = 'citiesJSON',
+        russianCitiesURL = `${serviceURL}/${method}?north=81.8616409300001&south=41.1853530000001&east=-169.05&west=19.25&lang=ru&username=${username}`;
 
-  // Получим координаты РОССИИ
-  $.get(countryInfoURL, (xmlData) => {
-    coords.west = $(xmlData).find('west').text();
-    coords.east = $(xmlData).find('east').text();
-    coords.north = $(xmlData).find('north').text();
-    coords.south = $(xmlData).find('south').text();
-  }).then(() => {
-    method = 'citiesJSON';
-    const citiesListURL = `${serviceURL}/?north=${coords.north}&south=${coords.south}&east=${coords.east}&west=${coords.west}&lang=ru&username=${username}`;
-
-    $.getJSON(citiesListURL, (citiesList) => {
+  $.ajax({
+    url: russianCitiesURL,
+    datatype: 'jsonp',
+    success: (russianCitiesJSON) => {
       console.dir(citiesList);
-    });
+    }
   });
 
   export default {

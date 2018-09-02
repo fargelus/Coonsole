@@ -1,5 +1,6 @@
 const { VueLoaderPlugin } = require('vue-loader');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -38,5 +39,9 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
   ],
 };
