@@ -13,8 +13,8 @@
 
   const serviceURL = 'http://api.geonames.org',
         username = 'fargelus',
-        method = 'citiesJSON',
-        russianCitiesURL = `${serviceURL}/${method}?north=81.8616409300001&south=41.1853530000001&east=-169.05&west=19.25&lang=ru&username=${username}`;
+        method = 'searchJSON',
+        russianCitiesURL = `${serviceURL}/${method}?username=${username}&country=ru&maxRows=20&lang=ru&style=SHORT`;
 
   $.ajax({
     url: russianCitiesURL,
