@@ -44,6 +44,17 @@ module.exports = {
         test: /\.(gif|png|jpe?g|svg)$/,
         loader: 'file-loader',
       },
+      {
+        test: /\.(ttf|woff(2)?|eot)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/',
+            },
+        }],
+      },
     ],
   },
   resolve: {
