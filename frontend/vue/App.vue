@@ -45,7 +45,6 @@
 
   .app
     margin: 0 auto
-    padding-top: 12px
     height: 100%
 
 </style>
