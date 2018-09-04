@@ -1,5 +1,5 @@
 <template>
-    <div class="header-filter interact-element">
+    <div class="header-filter interact-element bg-theme--gallery">
         <div class="header-filter__content">
             <HeaderPagination/>
         </div>
@@ -12,7 +12,6 @@
   .header-filter
       position: relative
       width: 100%
-      background-color: $gallery
 
   .header-filter__content
       position: relative

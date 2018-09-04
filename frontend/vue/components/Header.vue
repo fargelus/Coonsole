@@ -8,7 +8,7 @@
         <button type="button" class="button site-search__button interact-element">{{ Find }}</button>
       </div>
 
-      <button @click="toggleCitiesListModal" type="button" class="button button--logo-compass interact-element site-city__button transparent header-top__button">
+      <button @click="cityButtonClick" type="button" class="button button--logo-compass interact-element site-city__button transparent header-top__button">
         <img class="js-compass button__label-left">{{ City }}
       </button>
     </div>
@@ -17,8 +17,6 @@
       <ui-button snow>{{ Sale }}</ui-button>
       <ui-button class="header-top__button" orange>{{ Sign_In }}</ui-button>
     </div>
-
-    <CitiesListModal v-if="showCitiesListModal"/>
   </div>
 </template>
 
@@ -33,13 +31,12 @@
         City: 'Санкт-Петербург',
         Find: 'Найти',
         Search_enter: 'Введите запрос',
-        showCitiesListModal: false,
       };
     },
 
     methods: {
-      toggleCitiesListModal() {
-        this.showCitiesListModal = !this.showCitiesListModal;
+      cityButtonClick() {
+        this.$emit('city-button-click');
       }
     },
 
@@ -51,6 +48,7 @@
 
 <style lang="styl" scoped>
   @require '../../styl/_variables.styl'
+  @require '../../styl/_mixins.styl'
 
   .header-top
     margin: 0 auto
@@ -87,10 +85,8 @@
     margin: 0
     width: calc(100% - 73px)
     border-top-left-radius: 4px
-    font-family: 'Roboto Condensed', sans-serif
+    border-bottom-left-radius: 4px    
     font-size: 14px
-    font-weight: lighter
-    border-bottom-left-radius: 4px
 
   .site-search__button
     position: absolute
