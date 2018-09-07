@@ -1,20 +1,21 @@
 import Vue from 'vue';
+import $ from 'jquery';
+import _ from 'underscore';
 import router from './router';
 import App from '../vue/App.vue';
 import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
 import CompassIcon from '../assets/images/compass.svg';
-import UI from './ui';
+import './ui';
 
 
 // Привязывает путь к картинкам в бандле
 function bindImagesSource(imagesObj) {
-  Object.keys(imagesObj).forEach((selector) => {
-    const imagePath = imagesObj[selector];
-    const HTMLCollection = document.querySelectorAll(selector);
+  _.each(imagesObj, (Image, selector) => {
+    const $elems = $(selector);
 
-    HTMLCollection.forEach((singleElem) => {
-      singleElem.src = imagePath;
+    $elems.each((__, HTMLElem) => {
+      HTMLElem.src = Image;
     });
   });
 }

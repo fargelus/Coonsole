@@ -97,7 +97,7 @@
 
   .site-search__button
     position: absolute
-    right: 5px
+    right: 4px
     background-color: $gallery
     border: 0
     border-radius: 0
