@@ -9,17 +9,17 @@
 
       <div class="cols-wrapper cities-list-modal__cols-wrapper">
         <ul class="cols-wrapper__column">
-          <li class="cities-list-modal__city-item" v-for="city in mainCities.slice(0, 10)">
+          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(0, 10)">
             {{ city }}
           </li>
         </ul>
         <ul class="cols-wrapper__column">
-          <li class="cities-list-modal__city-item" v-for="city in mainCities.slice(10, 20)">
+          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(10, 20)">
             {{ city }}
           </li>
         </ul>
         <ul class="cols-wrapper__column">
-          <li class="cities-list-modal__city-item" v-for="city in mainCities.slice(20, 30)">
+          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(20, 30)">
             {{ city }}
           </li>
         </ul>
@@ -82,6 +82,11 @@
         // Из объекта нужно только название города
         this.mainCities = filterCitiesObjByProperty(bigCitiesInfo, 'name');
       },
+
+      cityItemClicked(evt) {
+        const choosedCityName = $(evt.currentTarget).text().trim();
+        this.$emit('city-changed', choosedCityName);
+      }
     }
   }
 </script>

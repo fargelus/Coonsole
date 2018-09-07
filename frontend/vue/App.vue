@@ -1,11 +1,11 @@
 <template>
   <div id="app" class="app top-line--flamingo">
     <div class="main-content">
-      <Header v-on:city-button-click="showCitiesListModal"/>
+      <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
       <HeaderFilter/>
     </div>
 
-    <CitiesListModal :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
+    <CitiesListModal v-on:city-changed="setNewUserLocation" :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
     <router-view></router-view>
   </div>
 </template>
@@ -21,7 +21,8 @@
     data() {
       return {
         isCitiesModalListOpen: false,
-        citiesModalData: []
+        citiesModalData: [],
+        currentUserLocation: 'Санкт-Петербург'
       }
     },
 
@@ -56,6 +57,11 @@
       hideCitiesListModal() {
         this.isCitiesModalListOpen = false;
         $('.main-content').removeClass('blured');
+      },
+
+      setNewUserLocation(choosedCityName) {
+        this.hideCitiesListModal();
+        this.currentUserLocation = choosedCityName;
       }
     },
 

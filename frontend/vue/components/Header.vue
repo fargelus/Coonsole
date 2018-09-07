@@ -9,7 +9,7 @@
       </div>
 
       <button @click="cityButtonClick" type="button" class="button button--logo-compass interact-element group-button-last transparent header-top__button">
-        <img class="js-compass button__label-left">{{ City }}
+        <img class="js-compass button__label-left">{{ location }}
       </button>
     </div>
 
@@ -28,10 +28,16 @@
       return {
         Sale: 'Продать',
         Sign_In: 'Войти',
-        City: 'Санкт-Петербург',
         Find: 'Поиск',
-        Search_enter: 'Введите запрос',
+        Search_enter: 'Введите запрос'
       };
+    },
+
+    props: {
+      location: {
+        type: String,
+        default: 'Санкт-Петербург'
+      },
     },
 
     methods: {
@@ -57,7 +63,6 @@
 
   .header-top, .header-top__group
     display: flex
-    justify-content: space-between
 
   .header-top__group
     align-items: center
@@ -67,9 +72,10 @@
       align-items: stretch
       flex: 1 1 auto
       justify-content: flex-end
+      margin-right: 50px
 
   .header-top__search
-    margin-left: 30px
+    margin-left: 75px
     flex: 1 1 auto
 
   .header-top__button
