@@ -1,12 +1,6 @@
-@font-face
-  font-family Roboto
-  font-style normal
-  font-weight 400
-
-  src s("url('../assets/fonts/%s%s.ttf'))", Roboto, 400)
-
-@font-face
-  font-family RobotoCondensed
-  font-style normal
-  font-weight 400
-  src s("url('../assets/fonts/%s%s.ttf'))", RobotoCondensed, 400)
+for font in Roboto RobotoCondensed RobotoRegular
+  @font-face
+    font-family: font
+    font-style: normal
+    font-weight: 400
+    src: s("url('../assets/fonts/%s%s.ttf'))", font, 400)

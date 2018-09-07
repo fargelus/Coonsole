@@ -5,7 +5,7 @@
       <HeaderFilter/>
     </div>
 
-    <CitiesListModal v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
+    <CitiesListModal :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
     <router-view></router-view>
   </div>
 </template>
@@ -21,6 +21,7 @@
     data() {
       return {
         isCitiesModalListOpen: false,
+        citiesModalData: []
       }
     },
 
@@ -33,8 +34,17 @@
     beforeCreate() {
       const that = this;
       $.getJSON('./data/cities.json', (res) => {
-        console.dir(res);
+        that.citiesModalData = res;
       });
+    },
+
+    computed: {
+      // Когда компонент модалки отрисовывается
+      // мы можем еще не получить данные с сервера
+      // поэтому такой вот хак(
+      getCitiesModalData() {
+        return this.citiesModalData ? this.citiesModalData : [];
+      }
     },
 
     methods: {
