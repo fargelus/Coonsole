@@ -32,7 +32,6 @@
 
   .cities-list-modal
     &.modal
-      display: none
       position: relative
 
     &__search-input
