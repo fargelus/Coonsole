@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app top-line--flamingo">
-    <div class="main-content">
+    <div class="main-content" :class="{blured: isCitiesModalListOpen}">
       <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
       <HeaderFilter/>
     </div>
@@ -51,12 +51,10 @@
     methods: {
       showCitiesListModal() {
         this.isCitiesModalListOpen = true;
-        $('.main-content').addClass('blured');
       },
 
       hideCitiesListModal() {
         this.isCitiesModalListOpen = false;
-        $('.main-content').removeClass('blured');
       },
 
       setNewUserLocation(choosedCityName) {

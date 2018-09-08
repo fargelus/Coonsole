@@ -13,6 +13,9 @@ module.exports = {
   entry: [
     './js/main.js',
   ],
+  optimization: {
+    minimize: true,
+  },
   output: {
     path: path.resolve(__dirname, './../public/'),
     filename: 'bundle.js',
