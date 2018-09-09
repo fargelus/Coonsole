@@ -1,6 +1,10 @@
 <template>
   <div class="modal cities-list-modal top-line--flamingo">
-    <input class="cities-list-modal__search-input" type="text" :placeholder="chooseCity">
+    <input @input="dropCitiesList" class="cities-list-modal__search-input" type="text" :placeholder="chooseCity">
+
+    <div class="cities-list-modal__drop-box js-cities-drop-box">
+      {{ citiesListFilteredByUserInput }}
+    </div>
 
     <div class="cities-list-modal__content">
       <div class="cities-list-modal__content-title bg-theme--gallery">
@@ -30,6 +34,7 @@
 
 <script>
   import _ from 'underscore';
+  import $ from 'jquery';
 
   export default {
     data() {
@@ -39,6 +44,7 @@
         title: 'Введите город поиска или выберите город из списка популярных.',
         allCities: [],
         mainCities: [],
+        citiesListFilteredByUserInput: []
       }
     },
 
@@ -86,6 +92,54 @@
       cityItemClicked(evt) {
         const choosedCityName = $(evt.currentTarget).text().trim();
         this.$emit('city-changed', choosedCityName);
+      },
+
+      /**
+      * Фильтрует названия всех городов по пользовательскому вводу
+      *
+      * @param  {String} pattern - Значение введенное пользователем.
+      * @return {Array} Список всех городов, названия которых совпадают с pattern
+      */
+      getMatchedCitiesList(pattern) {
+        // Получим длину введенных символов
+        const patternLen = pattern.length;
+        if (!patternLen) return [];
+
+        // Небольшая эвристика:
+        // избыточно на каждой итерации фильтровать весь список городов
+        // достаточно отфильтровать последний результат
+        const filteredArray = this.citiesListFilteredByUserInput.length
+                              ? this.citiesListFilteredByUserInput
+                              : this.allCities;
+
+        if (filteredArray.length === 1) return filteredArray;
+
+        return _.filter(filteredArray, (cityName) => {
+          const slicedCityName = cityName.slice(0, patternLen);
+          return slicedCityName === pattern;
+        });
+      },
+
+      dropCitiesList(evt) {
+        const elem = evt.currentTarget,
+              capitalizeString = (str) => str[0].toUpperCase() + str.slice(1);
+
+        let userInput = $(elem).val(),
+            correctUserInput = userInput;
+
+        if (userInput) {
+          const firstLetter = userInput[0];
+
+          if (firstLetter.match(/[a-z]/)) {
+            correctUserInput = '';
+          } else if (firstLetter.match(/[а-я]/)) {
+            // Приведём первую букву к верхнему регистру
+            // Формат русскоязычных городов гарантируется
+            correctUserInput = capitalizeString(userInput);
+          }
+        }
+
+        this.citiesListFilteredByUserInput = this.getMatchedCitiesList(correctUserInput);
       }
     }
   }
@@ -108,6 +162,11 @@
 
       &::placeholder
        color: $silver
+
+    &__drop-box
+        background-color: $snow
+        width: 100%
+        overflow-y: scroll
 
     &__content
       font-size: 14px
