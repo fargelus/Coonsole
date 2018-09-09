@@ -1,10 +1,10 @@
 <template>
   <div class="modal cities-list-modal top-line--flamingo">
-    <input @input="dropCitiesList" class="cities-list-modal__search-input" type="text" :placeholder="chooseCity">
+    <input @input="dropCitiesList" class="cities-list-modal__search-input" type="text" :placeholder="chooseCityPlaceholder">
 
-    <div class="cities-list-modal__drop-box js-cities-drop-box">
+    <ul class="cities-list-modal__drop-box js-cities-drop-box">
       {{ citiesListFilteredByUserInput }}
-    </div>
+    </ul>
 
     <div class="cities-list-modal__content">
       <div class="cities-list-modal__content-title bg-theme--gallery">
@@ -13,21 +13,27 @@
 
       <div class="cols-wrapper cities-list-modal__cols-wrapper">
         <ul class="cols-wrapper__column">
-          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(0, 10)">
-            {{ city }}
+          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(0, 10)">
+            {{ mainCities[id] }}
           </li>
         </ul>
+
         <ul class="cols-wrapper__column">
-          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(10, 20)">
-            {{ city }}
+          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(10, 20)">
+            {{ mainCities[id] }}
           </li>
         </ul>
+
         <ul class="cols-wrapper__column">
-          <li @click="cityItemClicked" class="cities-list-modal__city-item" v-for="city in mainCities.slice(20, 30)">
-            {{ city }}
+          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(20, 30)">
+            {{ mainCities[id] }}
           </li>
         </ul>
       </div>
+    </div>
+
+    <div class="cities-list-modal__control-buttons">
+      <button @click="cityItemChoosedByUser" class="button button-theme--orange cities-list-modal__control-button-item" :class="{ 'button--disabled': !!selectedCityID === false }" type="button">{{ acceptButtonText }}</button>
     </div>
   </div>
 </template>
@@ -40,11 +46,13 @@
     data() {
       return {
         name: 'CitiesListModal',
-        chooseCity: 'Введите город',
+        chooseCityPlaceholder: 'Введите город',
         title: 'Введите город поиска или выберите город из списка популярных.',
         allCities: [],
-        mainCities: [],
-        citiesListFilteredByUserInput: []
+        mainCities: {},
+        citiesListFilteredByUserInput: [],
+        acceptButtonText: 'Принять',
+        selectedCityID: undefined
       }
     },
 
@@ -86,11 +94,19 @@
         const bigCitiesInfo = _.first(citiesSortedByPopulation.reverse(), 30);
 
         // Из объекта нужно только название города
-        this.mainCities = filterCitiesObjByProperty(bigCitiesInfo, 'name');
+        const mainCityName = filterCitiesObjByProperty(bigCitiesInfo, 'name');
+
+        // Заполним объект id:имя города,
+        // чтобы гарантировать уникальность каждого города при отрисовке
+        _.each(mainCityName, (cityName, index) => {
+          this.mainCities[index] = cityName;
+        });
       },
 
-      cityItemClicked(evt) {
-        const choosedCityName = $(evt.currentTarget).text().trim();
+      cityItemChoosedByUser(evt) {
+        if (!this.selectedCityID) return;
+
+        const choosedCityName = this.mainCities[this.selectedCityID];
         this.$emit('city-changed', choosedCityName);
       },
 
@@ -140,6 +156,10 @@
         }
 
         this.citiesListFilteredByUserInput = this.getMatchedCitiesList(correctUserInput);
+      },
+
+      sliceMainCitiesObj(start, stop) {
+        return _.keys(this.mainCities).slice(start, stop);
       }
     }
   }
@@ -185,4 +205,17 @@
 
       &:hover
         text-decoration: underline
+
+    &__control-buttons
+      display: flex
+      justify-content: flex-end
+      margin-top: 30px
+
+    &__control-button-item
+      text-transform: capitalize
+      font-family: RobotoRegular
+      font-size: 16px
+      line-height: 1.18
+      width: 170px
+      height: 30px
 </style>
