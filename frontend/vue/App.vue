@@ -2,11 +2,11 @@
   <div id="app" class="app top-line--flamingo">
     <div class="main-content" :class="{blured: isCitiesModalListOpen}">
       <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
-      <HeaderFilter/>
+      <HeaderFilter v-if="false"/>
     </div>
 
     <CitiesListModal v-on:city-changed="setNewUserLocation" :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
-    <router-view></router-view>
+    <router-view v-if="false"></router-view>
   </div>
 </template>
 
@@ -32,6 +32,9 @@
       CitiesListModal,
     },
 
+    /**
+     * Получает и сохраняет список городов.
+     */
     beforeCreate() {
       const that = this;
       $.getJSON('./data/cities.json', (res) => {
@@ -57,6 +60,11 @@
         this.isCitiesModalListOpen = false;
       },
 
+      /**
+       * Передает выбранный пользователем город в дочерний компонент Header.
+       *
+       * @param {String} choosedCityName - Название города возвращенного из модалки.
+       */
       setNewUserLocation(choosedCityName) {
         this.hideCitiesListModal();
         this.currentUserLocation = choosedCityName;

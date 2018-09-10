@@ -8,7 +8,7 @@
         <button type="button" class="button site-search__button interact-element">{{ Find }}</button>
       </div>
 
-      <button @click="cityButtonClick" type="button" class="button button--logo-compass interact-element group-button-last transparent header-top__button">
+      <button @click="cityButtonClick" type="button" class="button interact-element group-button-last transparent header-top__button">
         <img class="js-compass button__label-left">{{ userLocation }}
       </button>
     </div>
@@ -21,8 +21,6 @@
 </template>
 
 <script>
-  import CitiesListModal from './CitiesListModal.vue';
-
   export default {
     data() {
       return {
@@ -41,6 +39,10 @@
     },
 
     watch:{
+      /**
+       * Если props изменился извне,
+       * установим это значение, иначе возьмем текущее
+       */
       location(newVal) {
         this.userLocation = newVal ? newVal : this.userLocation;
       }
@@ -51,10 +53,6 @@
         this.$emit('city-button-click');
       }
     },
-
-    components: {
-      CitiesListModal,
-    }
   }
 </script>
 

@@ -69,6 +69,9 @@
     },
 
     methods: {
+      /**
+       * Преобразуем список всех переданных городов.
+       */
       parseCitiesListProp() {
         // Фильтрация городов по 1-му свойству
         const filterCitiesObjByProperty = (cities, prop) => {
@@ -95,17 +98,20 @@
         this.mainCities = filterCitiesObjByProperty(bigCitiesInfo, 'name');
       },
 
-      cityItemChoosedByUser(evt) {
+      /**
+       * Окончательный выбор города и закрытие модалки
+       */
+      cityItemChoosedByUser() {
         if (!this.finalSelectedCityItem) return;
         this.$emit('city-changed', this.finalSelectedCityItem);
       },
 
       /**
-      * Фильтрует названия всех городов по пользовательскому вводу
-      *
-      * @param  {String} pattern - Значение введенное пользователем.
-      * @return {Array} Список всех городов, названия которых совпадают с pattern
-      */
+       * Фильтрует названия всех городов по пользовательскому вводу
+       *
+       * @param  {String} pattern - Значение введенное пользователем.
+       * @return {Array} Список всех городов, названия которых совпадают с pattern
+       */
       getMatchedCitiesList(pattern) {
         // Получим длину введенных символов
         const patternLen = pattern.length;
@@ -126,6 +132,12 @@
         });
       },
 
+      /**
+       * Заполним выпадающий список всех городов.
+       * Города фильтруются на лету, в зависимости от ввода пользователя
+       *
+       * @param  {String} inputText - Значение введенное пользователем в текстовом поле поиска.
+       */
       dropCitiesList(inputText) {
         const capitalizeString = (str) => str[0].toUpperCase() + str.slice(1);
         let correctUserInput = inputText;
@@ -146,12 +158,12 @@
       },
 
       /**
-      * 1). Пользователь выбрал город из выпадающего списка.
-      * 2). Изменим соответствующее свойство, чтобы обновился
-      *     атрибут value у дочернего компонента SearchBar
-      *
-      * @param  {Object} evt - Объект события клик
-      */
+       * 1). Пользователь выбрал город из выпадающего списка.
+       * 2). Изменим соответствующее свойство, чтобы обновился
+       *     атрибут value у дочернего компонента SearchBar
+       *
+       * @param  {Object} evt - Объект события клик
+       */
       dropdownCityChoosedByUser(evt) {
         const selectedCity = evt.currentTarget.innerHTML.trim();
         // Скроем dropdown с городами

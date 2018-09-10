@@ -20,7 +20,7 @@ export default {
       type: String,
       default: 'Поиск'
     },
-    
+
     inputVal: {
       type: String,
       default: ''
@@ -28,17 +28,28 @@ export default {
   },
 
   watch: {
+    /**
+     * Обновляем текстовое поле значением переданным из родительский компонента
+     *
+     * @param {String} newVal - обновленное значение вх.параметра inputVal
+     */
     inputVal(newVal) {
       this.userInput = newVal;
     }
   },
 
   methods: {
+    /**
+     * Сброс введенного значения
+     */
     resetUserInput() {
       this.userInput = '';
     },
 
-    inputByUserHandler(evt) {
+    /**
+     * Передаем введенное значение в родительский компонент
+     */
+    inputByUserHandler() {
       this.$emit('user-typing', this.userInput);
     }
   }
