@@ -7,23 +7,23 @@ centered($position-val = absolute)
   top: 0
 
 size(width, height=width)
-	width width
-	height height
+  width width
+  height height
 
 cross(color = #000)
-	position relative
-	&::before
-	&::after
-		content ''
-		background color
-		height 2px
-		width 25px
-		margin 0 auto
-		position absolute
-		left 0
-		top 50%
-		display block
-	&::before
-		transform translateY(-50%) rotate(-45deg)
-	&::after
-		transform translateY(-50%) rotate(45deg)
+  position relative
+  &::before
+  &::after
+  	content ''
+  	background color
+  	height 2px
+  	width 25px
+  	margin 0 auto
+  	position absolute
+  	left 0
+  	top 50%
+  	display block
+  &::before
+  	transform translateY(-50%) rotate(-45deg)
+  &::after
+  	transform translateY(-50%) rotate(45deg)

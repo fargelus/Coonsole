@@ -9,7 +9,7 @@
       </div>
 
       <button @click="cityButtonClick" type="button" class="button button--logo-compass interact-element group-button-last transparent header-top__button">
-        <img class="js-compass button__label-left">{{ location }}
+        <img class="js-compass button__label-left">{{ userLocation }}
       </button>
     </div>
 
@@ -29,15 +29,21 @@
         Sale: 'Продать',
         Sign_In: 'Войти',
         Find: 'Поиск',
-        Search_enter: 'Введите запрос'
+        Search_enter: 'Введите запрос',
+        userLocation: 'Санкт-Петербург'
       };
     },
 
     props: {
       location: {
         type: String,
-        default: 'Санкт-Петербург'
       },
+    },
+
+    watch:{
+      location(newVal) {
+        this.userLocation = newVal ? newVal : this.userLocation;
+      }
     },
 
     methods: {
@@ -72,7 +78,6 @@
       align-items: stretch
       flex: 1 1 auto
       justify-content: flex-end
-      margin-right: 50px
 
   .header-top__search
     margin-left: 75px
@@ -86,8 +91,6 @@
     max-width: 420px
 
   input.site-search__input
-    position: absolute
-    left: 0
     line-height: 32px
     color: $masala
     outline: 0
@@ -106,7 +109,8 @@
     right: 4px
     background-color: $gallery
     border: 0
-    border-radius: 0
     border-top-right-radius: 4px
     border-bottom-right-radius: 4px
+    border-top-left-radius: 0
+    border-bottom-left-radius: 0
 </style>

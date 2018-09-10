@@ -37,7 +37,7 @@
 <script>
   import _ from 'underscore';
   import $ from 'jquery';
-  import SearchBar from './SearchBar.vue';
+  import SearchBar from '../ui/SearchBar.vue';
 
   export default {
     data() {
@@ -159,7 +159,7 @@
 
         // Обновляем value в компоненте SearchBar
         this.citySelectedFromDropdownList = selectedCity;
-        
+
         // Сохраним результат как финальный на данном этапе
         this.finalSelectedCityItem = selectedCity;
       }
@@ -177,6 +177,11 @@
   .cities-list-modal
     &.modal
       position: relative
+
+    &.top-line--flamingo
+      &::before
+        position: absolute
+        width: 100%
 
     &__searchbar
       padding: 18px 24px 18px 23px

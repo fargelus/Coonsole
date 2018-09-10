@@ -22,7 +22,7 @@
       return {
         isCitiesModalListOpen: false,
         citiesModalData: [],
-        currentUserLocation: 'Санкт-Петербург'
+        currentUserLocation: ''
       }
     },
 
@@ -75,5 +75,6 @@
   .app
     margin: 0 auto
     height: 100%
+    max-width: 1152px
 
 </style>
