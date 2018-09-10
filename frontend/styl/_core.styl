@@ -1,5 +1,6 @@
 @require '_variables'
 @require 'fonts'
+@require '_mixins'
 
 html, body
   height: 100%
@@ -15,3 +16,10 @@ body
 
 ul
   list-style-type: none
+
+.cross-shape
+  cross(color=$flamingo)
+  cursor: pointer
+  display: block
+  size(33px)
+  position: absolute

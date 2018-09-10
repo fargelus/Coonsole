@@ -1,9 +1,11 @@
 <template>
   <div class="modal cities-list-modal top-line--flamingo">
-    <input @input="dropCitiesList" class="cities-list-modal__search-input" type="text" :placeholder="chooseCityPlaceholder">
+    <SearchBar :inputVal="citySelectedFromDropdownList" v-on:user-typing="dropCitiesList" class="cities-list-modal__searchbar" :inputPlaceholder="chooseCityPlaceholder"/>
 
-    <ul class="cities-list-modal__drop-box js-cities-drop-box">
-      {{ citiesListFilteredByUserInput }}
+    <ul class="cities-list-modal__drop-box">
+      <li @click="dropdownCityChoosedByUser" class="cities-list-modal__drop-box-item" v-for="filteredCity in citiesListFilteredByUserInput">
+        {{ filteredCity }}
+      </li>
     </ul>
 
     <div class="cities-list-modal__content">
@@ -13,27 +15,21 @@
 
       <div class="cols-wrapper cities-list-modal__cols-wrapper">
         <ul class="cols-wrapper__column">
-          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(0, 10)">
-            {{ mainCities[id] }}
-          </li>
+          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(0, 10)">{{ city }}</li>
         </ul>
 
         <ul class="cols-wrapper__column">
-          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(10, 20)">
-            {{ mainCities[id] }}
-          </li>
+          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(10, 20)">{{ city }}</li>
         </ul>
 
         <ul class="cols-wrapper__column">
-          <li @click="selectedCityID = id" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':id === selectedCityID}" v-for="id in sliceMainCitiesObj(20, 30)">
-            {{ mainCities[id] }}
-          </li>
+          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(20, 30)">{{ city }}</li>
         </ul>
       </div>
     </div>
 
     <div class="cities-list-modal__control-buttons">
-      <button @click="cityItemChoosedByUser" class="button button-theme--orange cities-list-modal__control-button-item" :class="{ 'button--disabled': !!selectedCityID === false }" type="button">{{ acceptButtonText }}</button>
+      <button @click="cityItemChoosedByUser" class="button button-theme--orange cities-list-modal__control-button-item" :class="{ 'button--disabled': !!finalSelectedCityItem === false }" type="button">{{ acceptButtonText }}</button>
     </div>
   </div>
 </template>
@@ -41,6 +37,7 @@
 <script>
   import _ from 'underscore';
   import $ from 'jquery';
+  import SearchBar from './SearchBar.vue';
 
   export default {
     data() {
@@ -49,10 +46,11 @@
         chooseCityPlaceholder: 'Введите город',
         title: 'Введите город поиска или выберите город из списка популярных.',
         allCities: [],
-        mainCities: {},
+        mainCities: [],
         citiesListFilteredByUserInput: [],
         acceptButtonText: 'Принять',
-        selectedCityID: undefined
+        finalSelectedCityItem: '',
+        citySelectedFromDropdownList: ''
       }
     },
 
@@ -94,20 +92,12 @@
         const bigCitiesInfo = _.first(citiesSortedByPopulation.reverse(), 30);
 
         // Из объекта нужно только название города
-        const mainCityName = filterCitiesObjByProperty(bigCitiesInfo, 'name');
-
-        // Заполним объект id:имя города,
-        // чтобы гарантировать уникальность каждого города при отрисовке
-        _.each(mainCityName, (cityName, index) => {
-          this.mainCities[index] = cityName;
-        });
+        this.mainCities = filterCitiesObjByProperty(bigCitiesInfo, 'name');
       },
 
       cityItemChoosedByUser(evt) {
-        if (!this.selectedCityID) return;
-
-        const choosedCityName = this.mainCities[this.selectedCityID];
-        this.$emit('city-changed', choosedCityName);
+        if (!this.finalSelectedCityItem) return;
+        this.$emit('city-changed', this.finalSelectedCityItem);
       },
 
       /**
@@ -136,31 +126,47 @@
         });
       },
 
-      dropCitiesList(evt) {
-        const elem = evt.currentTarget,
-              capitalizeString = (str) => str[0].toUpperCase() + str.slice(1);
+      dropCitiesList(inputText) {
+        const capitalizeString = (str) => str[0].toUpperCase() + str.slice(1);
+        let correctUserInput = inputText;
 
-        let userInput = $(elem).val(),
-            correctUserInput = userInput;
-
-        if (userInput) {
-          const firstLetter = userInput[0];
+        if (inputText) {
+          const firstLetter = inputText[0];
 
           if (firstLetter.match(/[a-z]/)) {
             correctUserInput = '';
           } else if (firstLetter.match(/[а-я]/)) {
             // Приведём первую букву к верхнему регистру
             // Формат русскоязычных городов гарантируется
-            correctUserInput = capitalizeString(userInput);
+            correctUserInput = capitalizeString(inputText);
           }
         }
 
         this.citiesListFilteredByUserInput = this.getMatchedCitiesList(correctUserInput);
       },
 
-      sliceMainCitiesObj(start, stop) {
-        return _.keys(this.mainCities).slice(start, stop);
+      /**
+      * 1). Пользователь выбрал город из выпадающего списка.
+      * 2). Изменим соответствующее свойство, чтобы обновился
+      *     атрибут value у дочернего компонента SearchBar
+      *
+      * @param  {Object} evt - Объект события клик
+      */
+      dropdownCityChoosedByUser(evt) {
+        const selectedCity = evt.currentTarget.innerHTML.trim();
+        // Скроем dropdown с городами
+        this.citiesListFilteredByUserInput = [];
+
+        // Обновляем value в компоненте SearchBar
+        this.citySelectedFromDropdownList = selectedCity;
+        
+        // Сохраним результат как финальный на данном этапе
+        this.finalSelectedCityItem = selectedCity;
       }
+    },
+
+    components: {
+      SearchBar
     }
   }
 </script>
@@ -172,21 +178,30 @@
     &.modal
       position: relative
 
-    &__search-input
-      box-sizing: border-box
-      display: block
-      font-size: 22px
+    &__searchbar
       padding: 18px 24px 18px 23px
+      font-size: 22px
       line-height: 1.18
-      width: 100%
-
-      &::placeholder
-       color: $silver
 
     &__drop-box
         background-color: $snow
         width: 100%
-        overflow-y: scroll
+        position: absolute
+        /*left: 0
+        top: 60px*/
+        overflow-y: auto
+        max-height: 174px
+
+    &__drop-box-item
+        font-size: 22px
+        font-family: RobotoRegular
+        line-height: 1.18
+        color: $gray
+        padding: 8px 0 8px 23px
+        cursor: pointer
+
+        &:hover
+          background-color: $gallery
 
     &__content
       font-size: 14px
