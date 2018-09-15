@@ -1,7 +1,7 @@
 @require '_variables'
 @require '_mixins'
 
-html, body
+html, body, main, aside, aside > *, .page-content
   height: 100%
 
 body
@@ -10,7 +10,6 @@ body
   padding: 0
   color: $masala
   min-height: 100%
-  font-family: RobotoCondensed
   //размер общий должен быть 1152, но на body вещать нельзя, ибо полоска сверху уменьшается
 
 ul

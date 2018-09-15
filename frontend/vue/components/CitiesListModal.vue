@@ -188,7 +188,7 @@
 
   .cities-list-modal
     &.modal
-      position: relative
+      top: 70px
 
     &.top-line--flamingo
       &::before

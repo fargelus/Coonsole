@@ -1,12 +1,16 @@
 <template>
-  <div id="app" class="app top-line--flamingo">
-    <div class="main-content" :class="{blured: isCitiesModalListOpen}">
-      <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
-      <HeaderFilter v-if="false"/>
+  <div id="app" class="app">
+    <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
+      <header>
+        <Top :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
+        <HeaderFilter v-if="false"/>
+      </header>
 
-      <aside>
-        <Filters class="main-content__aside"/>
-      </aside>
+      <main>
+        <aside class="page-content__aside">
+          <Filters/>
+        </aside>
+      </main>
     </div>
 
     <CitiesListModal v-on:city-changed="setNewUserLocation" :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
@@ -17,7 +21,7 @@
 <script>
   import $ from 'jquery';
   import ClickOutside from 'vue-click-outside';
-  import Header from './components/Header.vue';
+  import Top from './components/Top.vue';
   import HeaderFilter from './components/HeaderFilter.vue';
   import CitiesListModal from './components/CitiesListModal.vue';
   import Filters from './components/Filters.vue';
@@ -32,7 +36,7 @@
     },
 
     components: {
-      Header,
+      Top,
       HeaderFilter,
       CitiesListModal,
       Filters
@@ -91,7 +95,7 @@
     height: 100%
     max-width: 1152px
 
-  .main-content
+  .page-content
     &__aside
       max-width: 232px
 </style>
