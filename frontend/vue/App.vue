@@ -3,6 +3,10 @@
     <div class="main-content" :class="{blured: isCitiesModalListOpen}">
       <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
       <HeaderFilter v-if="false"/>
+      
+      <aside>
+        <Filters/>
+      </aside>
     </div>
 
     <CitiesListModal v-on:city-changed="setNewUserLocation" :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
@@ -16,6 +20,7 @@
   import Header from './components/Header.vue';
   import HeaderFilter from './components/HeaderFilter.vue';
   import CitiesListModal from './components/CitiesListModal.vue';
+  import Filters from './components/Filters.vue';
 
   export default {
     data() {
@@ -30,6 +35,7 @@
       Header,
       HeaderFilter,
       CitiesListModal,
+      Filters
     },
 
     /**
