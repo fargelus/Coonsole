@@ -3,9 +3,9 @@
     <div class="main-content" :class="{blured: isCitiesModalListOpen}">
       <Header :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
       <HeaderFilter v-if="false"/>
-      
+
       <aside>
-        <Filters/>
+        <Filters class="main-content__aside"/>
       </aside>
     </div>
 
@@ -91,4 +91,7 @@
     height: 100%
     max-width: 1152px
 
+  .main-content
+    &__aside
+      max-width: 232px
 </style>
