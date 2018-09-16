@@ -5,15 +5,20 @@
   background-color: transparent
   border: 0
 
-.top-line--flamingo
+$top-line
   &::before
-    background-color: $flamingo
     content: ''
     top: 0
     left: 0
     height: 5px
     position: fixed
     width: 100vw
+
+for color in flamingo masala
+  .top-line--{color}
+    @extend $top-line
+    &::before
+      background-color: $ + color
 
 .blured
   filter: blur(11px)
@@ -25,3 +30,6 @@
   background-color: $snow
   color: $flamingo
   opacity: 1
+
+.border-theme--gallery
+  border: 1px solid $gallery

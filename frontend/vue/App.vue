@@ -10,6 +10,8 @@
         <aside class="page-content__aside">
           <Filters/>
         </aside>
+
+        <MarketList class="page-content__market border-theme--gallery"/>
       </main>
     </div>
 
@@ -25,6 +27,7 @@
   import HeaderFilter from './components/HeaderFilter.vue';
   import CitiesListModal from './components/CitiesListModal.vue';
   import Filters from './components/Filters.vue';
+  import MarketList from './components/market/MarketList.vue';
 
   export default {
     data() {
@@ -39,7 +42,8 @@
       Top,
       HeaderFilter,
       CitiesListModal,
-      Filters
+      Filters,
+      MarketList
     },
 
     /**
@@ -97,5 +101,14 @@
 
   .page-content
     &__aside
-      max-width: 232px
+      min-width: 232px
+      float: left
+      clear: both
+
+    &__market
+      margin-left: 232px
+      padding: 0 0 15px 32px
+      min-height: 100%
+      border-right: 0
+      border-left: 0
 </style>
