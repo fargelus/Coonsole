@@ -50,12 +50,19 @@
         citiesListFilteredByUserInput: [],
         acceptButtonText: 'Принять',
         finalSelectedCityItem: '',
+        searchText: '',
         citySelectedFromDropdownList: ''
       }
     },
 
     props: {
       citiesListProp: Array
+    },
+
+    computed: {
+        oldCityLength() {
+            return this.searchText.length;
+        }
     },
 
     beforeMount() {
@@ -120,7 +127,7 @@
         // Небольшая эвристика:
         // избыточно на каждой итерации фильтровать весь список городов
         // достаточно отфильтровать последний результат
-        const filteredArray = this.citiesListFilteredByUserInput.length
+        const filteredArray = (this.citiesListFilteredByUserInput.length && patternLen >= this.oldCityLength)
                               ? this.citiesListFilteredByUserInput
                               : this.allCities;
 
@@ -155,6 +162,7 @@
         }
 
         this.citiesListFilteredByUserInput = this.getMatchedCitiesList(correctUserInput);
+        this.searchText = inputText;
       },
 
       /**
