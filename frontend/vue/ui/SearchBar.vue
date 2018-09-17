@@ -1,6 +1,6 @@
 <template>
   <div class="searchbar-wrapper">
-    <input v-model="userInput" @input="inputByUserHandler" class="search-input" type="text" :placeholder="inputPlaceholder">
+    <input v-model="userInput" @input="inputByUserHandler" @focus="onFocus" class="search-input" type="text" :placeholder="inputPlaceholder">
     <span @click="resetUserInput" class="cross-shape searchbar-wrapper__cross-shape"></span>
   </div>
 </template>
@@ -39,12 +39,18 @@ export default {
   },
 
   methods: {
-    /**
-     * Сброс введенного значения
-     */
-    resetUserInput() {
-      this.userInput = '';
-    },
+      onFocus() {
+          console.log('work?');
+          this.$emit('focus');
+      },
+
+      /**
+       * Сброс введенного значения
+       */
+      resetUserInput() {
+          this.userInput = '';
+          this.$emit('clear');
+      },
 
     /**
      * Передаем введенное значение в родительский компонент

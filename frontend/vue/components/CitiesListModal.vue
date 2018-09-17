@@ -1,9 +1,15 @@
 <template>
-  <div class="modal cities-list-modal top-line--flamingo">
-    <SearchBar :inputVal="citySelectedFromDropdownList" v-on:user-typing="dropCitiesList" class="cities-list-modal__searchbar" :inputPlaceholder="chooseCityPlaceholder"/>
+  <div class="modal cities-list-modal top-line--flamingo" @keydown="onKeyDown">
+    <SearchBar class="cities-list-modal__searchbar"
+               :inputVal="citySelectedFromDropdownList"
+               :inputPlaceholder="chooseCityPlaceholder"
+               @user-typing="dropCitiesList"
+               @focus="onFocus"
+               @clear="resetForm"
+    />
 
-    <ul class="cities-list-modal__drop-box">
-      <li @click="dropdownCityChoosedByUser" class="cities-list-modal__drop-box-item" v-for="filteredCity in citiesListFilteredByUserInput">
+    <ul class="cities-list-modal__drop-box" v-if="showDropdown && citiesListFilteredByUserInput.length > 0">
+      <li @click="dropdownCityChoosedByUser" class="cities-list-modal__drop-box-item" v-for="filteredCity, itemIndex in citiesListFilteredByUserInput" :class="{'cities-list-modal__drop-box-item__selected': itemIndex === index}">
         {{ filteredCity }}
       </li>
     </ul>
@@ -15,15 +21,15 @@
 
       <div class="cols-wrapper cities-list-modal__cols-wrapper">
         <ul class="cols-wrapper__column">
-          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(0, 10)">{{ city }}</li>
+          <li @click="setCity(city)" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(0, 10)">{{ city }}</li>
         </ul>
 
         <ul class="cols-wrapper__column">
-          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(10, 20)">{{ city }}</li>
+          <li @click="setCity(city)" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(10, 20)">{{ city }}</li>
         </ul>
 
         <ul class="cols-wrapper__column">
-          <li @click="finalSelectedCityItem = city" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(20, 30)">{{ city }}</li>
+          <li @click="setCity(city)" class="cities-list-modal__city-item" :class="{'bg-theme--black-n-white':finalSelectedCityItem === city}" v-for="city in mainCities.slice(20, 30)">{{ city }}</li>
         </ul>
       </div>
     </div>
@@ -36,7 +42,6 @@
 
 <script>
   import _ from 'underscore';
-  import $ from 'jquery';
   import SearchBar from '../ui/SearchBar.vue';
 
   export default {
@@ -51,7 +56,9 @@
         acceptButtonText: 'Принять',
         finalSelectedCityItem: '',
         searchText: '',
-        citySelectedFromDropdownList: ''
+        citySelectedFromDropdownList: '',
+        index: -1,
+        showDropdown: false,
       }
     },
 
@@ -76,7 +83,70 @@
     },
 
     methods: {
-      /**
+        resetForm() {
+            this.showDropdown = false;
+            this.index = -1;
+            this.citiesListFilteredByUserInput = [];
+        },
+
+        onFocus() {
+            this.showDropdown = true;
+            console.log('work!');
+        },
+
+        /**
+         * Выбор выделенного города
+         */
+        onKeyDown(event) {
+            if (event.code === 'ArrowDown') {
+                if (this.showDropdown) {
+                    if (this.index < this.citiesListFilteredByUserInput.length - 1) {
+                        this.index++;
+                    }
+                }
+                else {
+                    this.showDropdown = true;
+                    this.index = 0;
+                }
+            }
+
+            if (event.code === 'ArrowUp') {
+                if (this.index > 0) {
+                    this.index--;
+                }
+
+                event.preventDefault();
+            }
+
+            if (event.code === 'Enter') {
+                if (this.showDropdown && this.index >= 0) {
+                    this.setCity(this.citiesListFilteredByUserInput[this.index]);
+                    event.preventDefault();
+                }
+
+            }
+
+            if (event.code === 'Escape') {
+                if (this.showDropdown) {
+                    this.showDropdown = false;
+                    this.index = -1;
+                    event.preventDefault();
+                }
+            }
+        },
+
+        setCity(cityName) {
+            // Обновляем value в компоненте SearchBar
+            this.citySelectedFromDropdownList = cityName;
+
+            // Сохраним результат как финальный на данном этапе
+            this.finalSelectedCityItem = cityName;
+
+            this.citiesListFilteredByUserInput = [];
+            this.index = -1;
+        },
+
+        /**
        * Преобразуем список всех переданных городов.
        */
       parseCitiesListProp() {
@@ -150,6 +220,7 @@
         let correctUserInput = inputText;
 
         if (inputText) {
+            this.showDropdown = true;
           const firstLetter = inputText[0];
 
           if (firstLetter.match(/[a-z]/)) {
@@ -182,6 +253,8 @@
 
         // Сохраним результат как финальный на данном этапе
         this.finalSelectedCityItem = selectedCity;
+        this.showDropdown = false;
+          this.index = -1;
       }
     },
 
@@ -195,6 +268,7 @@
   @require '../../styl/_variables'
 
   .cities-list-modal
+    background-color: white
     &.modal
       top: 70px
 
@@ -224,6 +298,9 @@
         color: $gray
         padding: 8px 0 8px 23px
         cursor: pointer
+
+        &__selected
+            background-color: $gallery
 
         &:hover
           background-color: $gallery
