@@ -4,8 +4,9 @@
       <img class="js-logo" alt="coonsole_logo" width="138" height="36">
 
       <div class="site-search header-top__search interact-element">
-        <input type="text" class="site-search__input interact-element" :placeholder="Search_enter">
-        <button type="button" class="button site-search__button interact-element">{{ Find }}</button>
+          <input type="text" class="site-search__input interact-element" :placeholder="Search_enter">
+          <ui-button class="site-search__button interact-element">{{ Find }}</ui-button>
+          <!--<button type="button" class="button ">{{ Find }}</button>-->
       </div>
 
       <button @click="cityButtonClick" type="button" class="button interact-element group-button-last transparent header-top__button">
@@ -100,15 +101,13 @@
     width: calc(100% - 73px)
     border-top-left-radius: 4px
     border-bottom-left-radius: 4px
-    font-size: 14px
+    font-size: 16px
 
   .site-search__button
     position: absolute
     right: 4px
     background-color: $gallery
-    border: 0
-    border-top-right-radius: 4px
-    border-bottom-right-radius: 4px
-    border-top-left-radius: 0
-    border-bottom-left-radius: 0
+    border-radius: 0 !important
+    border-top-right-radius: 4px !important
+    border-bottom-right-radius: 4px !important
 </style>

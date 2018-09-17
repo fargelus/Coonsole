@@ -93,10 +93,12 @@ export default {
           margin-right: 20px
 
       &:hover
-        opacity: 1
+        background-color: $pinky
+        color: $masala
 
     &__title
       margin-top: 12px
+      font-weight: 500
 
     &__inner--price
       display: flex

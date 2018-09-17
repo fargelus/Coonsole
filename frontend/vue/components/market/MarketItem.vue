@@ -1,7 +1,7 @@
 <template>
   <div class="market-item">
     <div class="poster-wrapper bg-theme--gallery"></div>
-    <div class="market-item__caption top-line--masala border-theme--gallery">
+    <div class="market-item__caption top-line--masala">
       <h3 class="market-item__title">{{ itemTitle }}</h3>
       <div class="market-item__bottom">
         <span class="market-item__release-date">{{ itemReleaseDate }}</span>
@@ -25,15 +25,27 @@ export default {
 </script>
 
 <style lang="styl">
-  .market-item
+    @require "../../../styl/_variables"
+
+.market-item
     max-width: 205px
     font-family: RobotoCondensed
     cursor: pointer
+    box-sizing: border-box
+
+    &:hover
+        & .market-item__caption
+            border: 1px solid $gallery
+
+        & .top-line--masala:before
+            background-color: $blaze-orange
+
 
     &__caption
-      padding: 12px
-      border-bottom-left-radius: 4px
-      border-bottom-right-radius: 4px
+        border: 1px solid $snow
+        padding: 12px
+        border-bottom-left-radius: 4px
+        border-bottom-right-radius: 4px
 
     &__title
       font-size: 18px

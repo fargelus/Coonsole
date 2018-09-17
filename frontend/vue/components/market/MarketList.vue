@@ -22,7 +22,11 @@
 </script>
 
 <style lang="styl">
-  .market-list
+    @require "../../../styl/_variables"
+
+.market-list
+    background-color: $snow
+
     display: flex
     flex-flow: row wrap
 

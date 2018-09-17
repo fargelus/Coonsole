@@ -2,8 +2,10 @@
   <div id="app" class="app">
     <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
       <header>
-        <Top :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
-        <HeaderFilter v-if="false"/>
+          <div class="header-line">
+              <Top :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
+              <HeaderFilter v-if="false"/>
+          </div>
       </header>
 
       <main>
@@ -97,9 +99,23 @@
   .app
     margin: 0 auto
     height: 100%
+
+  header
+    background-color: $snow
+    width: 100%
+
+  .header-line
     max-width: 1152px
+    margin: 0 auto
+
+  main
+    max-width: 1152px
+    margin: 0 auto !important
 
   .page-content
+    &.top-line--flamingo::before
+      z-index: 1000
+
     &__aside
       min-width: 232px
       float: left
