@@ -329,7 +329,6 @@
       display: flex
       justify-content: flex-end
       margin-top: 30px
-      margin-right: 24px
       margin: 30px 24px 0 24px
 
     &__control-button-item
