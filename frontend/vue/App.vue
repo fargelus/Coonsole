@@ -91,7 +91,7 @@
   }
 </script>
 
-<style lang="styl" scoped>
+<style lang="styl">
   @require '../styl/_variables.styl'
 
   .app
@@ -109,6 +109,6 @@
       margin-left: 232px
       padding: 0 0 15px 32px
       min-height: 100%
-      border-right: 0
-      border-left: 0
+      border-right: 0 !important
+      border-left: 0 !important
 </style>

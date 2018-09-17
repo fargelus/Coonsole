@@ -56,14 +56,14 @@
   }
 </script>
 
-<style lang="styl" scoped>
+<style lang="styl">
   @require '../../styl/_variables'
   @require '../../styl/_mixins'
 
   .header-top
     font-size: 16px
     align-items: center
-    padding: 16px 48px 14px
+    padding: 16px 10px 14px 48px
 
   .header-top, .header-top__group
     display: flex

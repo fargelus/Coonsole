@@ -164,14 +164,14 @@
           return [];
         };
 
-        // Названия всех городов
-        this.allCities = filterCitiesObjByProperty(this.citiesListProp, 'name');
+        // Отсортируем города по убыванию их населения
+        const citiesSortedByPopulation = _.sortBy(this.citiesListProp, (citiesRaw) => citiesRaw.population).reverse();
 
-        // Отсортируем города по возрастанию их населения
-        const citiesSortedByPopulation = _.sortBy(this.citiesListProp, (citiesRaw) => citiesRaw.population);
+        // Названия всех городов
+        this.allCities = filterCitiesObjByProperty(citiesSortedByPopulation, 'name');
 
         // Получим первые 30 городов с самым большим населением
-        const bigCitiesInfo = _.first(citiesSortedByPopulation.reverse(), 30);
+        const bigCitiesInfo = _.first(citiesSortedByPopulation, 30);
 
         // Из объекта нужно только название города
         this.mainCities = filterCitiesObjByProperty(bigCitiesInfo, 'name');
@@ -270,9 +270,10 @@
   @require '../../styl/_variables'
 
   .cities-list-modal
-    background-color: $snow
     &.modal
       top: 70px
+      height: 460px
+      background-color: $snow
 
     &.top-line--flamingo
       &::before
@@ -291,6 +292,7 @@
         /*left: 0
         top: 60px*/
         overflow-y: auto
+        box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75)
         max-height: 174px
 
     &__drop-box-item
