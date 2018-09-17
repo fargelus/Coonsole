@@ -35,7 +35,7 @@
     </div>
 
     <div class="cities-list-modal__control-buttons">
-      <button @click="cityItemChoosedByUser" class="button button-theme--orange cities-list-modal__control-button-item" :class="{ 'button--disabled': !!finalSelectedCityItem === false }" type="button">{{ acceptButtonText }}</button>
+        <ui-button orange @click="cityItemChoosedByUser" class="cities-list-modal__control-button-item" :class="{ 'button--disabled': !!finalSelectedCityItem === false }">{{ acceptButtonText }}</ui-button>
     </div>
   </div>
 </template>
@@ -87,6 +87,8 @@
             this.showDropdown = false;
             this.index = -1;
             this.citiesListFilteredByUserInput = [];
+            this.finalSelectedCityItem = '';
+            this.citySelectedFromDropdownList = '';
         },
 
         onFocus() {
@@ -264,11 +266,11 @@
   }
 </script>
 
-<style lang="styl" scoped>
+<style lang="styl">
   @require '../../styl/_variables'
 
   .cities-list-modal
-    background-color: white
+    background-color: $snow
     &.modal
       top: 70px
 
@@ -327,6 +329,8 @@
       display: flex
       justify-content: flex-end
       margin-top: 30px
+      margin-right: 24px
+      margin: 30px 24px 0 24px
 
     &__control-button-item
       text-transform: capitalize
