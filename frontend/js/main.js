@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import $ from 'jquery';
 import _ from 'underscore';
 import router from './router';
 import App from '../vue/App.vue';
@@ -12,10 +11,10 @@ import './ui';
 // Привязывает путь к картинкам в бандле
 function bindImagesSource(imagesObj) {
   _.each(imagesObj, (Image, selector) => {
-    const $elems = $(selector);
+    const elems = document.querySelectorAll(selector);
 
-    $elems.each((__, HTMLElem) => {
-      HTMLElem.src = Image;
+    _.each(elems, (HTMLElem) => {
+        HTMLElem.src = Image;
     });
   });
 }

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import $ from 'jquery';
+  import axios from 'axios';
   import ClickOutside from 'vue-click-outside';
   import Top from './components/Top.vue';
   import HeaderFilter from './components/HeaderFilter.vue';
@@ -53,9 +53,8 @@
      */
     beforeCreate() {
       const that = this;
-      $.getJSON('./data/cities.json', (res) => {
-        that.citiesModalData = res;
-      });
+      axios.get('./data/cities.json')
+        .then((response) => that.citiesModalData = response.data);
     },
 
     computed: {

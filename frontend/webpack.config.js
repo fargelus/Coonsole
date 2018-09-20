@@ -1,6 +1,5 @@
 const { VueLoaderPlugin } = require('vue-loader');
 const path = require('path');
-const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // postcss plugins
@@ -68,10 +67,6 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-    }),
     new CopyWebpackPlugin([{
       from: 'assets/cities.json',
       to: 'data/',
