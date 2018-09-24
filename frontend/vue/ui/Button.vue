@@ -1,6 +1,5 @@
 <template>
     <button type="button" class="button"
-
             :class="{
                 'button-theme--snow': snow,
                 'button-theme--orange': orange
@@ -12,7 +11,7 @@
     </button>
 </template>
 
-<style lang="styl">
+<style lang="styl" type="text/stylus">
     @require '../../styl/_variables'
 
     .button
