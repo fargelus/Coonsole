@@ -6,7 +6,7 @@
                :placeholder="inputPlaceholder"
                @input="setDropboxValues"
                @focus="setDropboxValues"
-               @keydown="traverseDropboxItems">
+               @keydown="onKeyDown">
 
         <span @click="reset" class="cross-shape searchbar-wrapper__cross-shape"></span>
 
@@ -53,11 +53,14 @@
                 this.hideDropbox();
                 this.filteredSearchContent = [];
                 this.selectedDropboxItemIndex = -1;
+                this.userInputParser('');
             },
 
-            traverseDropboxItems(evt) {
+            onKeyDown(evt) {
                 const isIndexLowerLast = this.selectedDropboxItemIndex < this.filteredSearchContent.length - 1;
                 const isIndexGreaterZero = this.selectedDropboxItemIndex > 0;
+
+                if (!this.userInput) return;
 
                 if (evt.code === 'ArrowDown' && isIndexLowerLast) {
                     this.selectedDropboxItemIndex++;
@@ -65,7 +68,7 @@
                     this.selectedDropboxItemIndex--;
                 } else if (evt.code === 'Escape') {
                     this.reset();
-                } else if (evt.code === 'Enter') {
+                } else if (evt.code === 'Enter' && this.selectedDropboxItemIndex > 0) {
                     this.searchDone(this.filteredSearchContent[this.selectedDropboxItemIndex]);
                 } else if (evt.code === 'Backspace') {
                     this.filteredSearchContent = [];
@@ -103,12 +106,17 @@
              * Города фильтруются на лету, в зависимости от ввода пользователя*
              */
             setDropboxValues() {
-                if (!this.userInput) return;
-
                 let correctUserInput = this.userInputParser(this.userInput);
 
                 // Фильтруем
                 this.filteredSearchContent = this.getFilteredSearchResults(correctUserInput);
+
+                // Если пользователь набрал валидный город, то спрячем дропбокс
+                const isOneItemLeft = this.filteredSearchContent.length === 1;
+                const isFilteredSearchContainsUserInput = this.filteredSearchContent.includes(correctUserInput);
+                if (isOneItemLeft && isFilteredSearchContainsUserInput) {
+                    this.searchDone(this.userInput);
+                }
             },
 
             /**
@@ -118,11 +126,16 @@
                 this.filteredSearchContent = [];
             },
 
+            /**
+             * Уведомляем родительский компонент, что поиск завершен
+             *
+             * @param {String} resultQuery - Результат поиска
+             */
             searchDone(resultQuery) {
                 this.hideDropbox();
-                this.userInput = resultQuery;
+                this.userInput = resultQuery !== this.userInput ? resultQuery : this.userInput;
 
-                this.$emit('search-query', resultQuery);
+                this.$emit('search-query', this.userInput);
             }
         },
 

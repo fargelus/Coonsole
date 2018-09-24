@@ -71,6 +71,12 @@
              * @return {String} correctUserInput - Исправленный символ
              */
             getParsedUserInput(inputText) {
+                if (!inputText) {
+                    // Отключим кнопку "Принять"
+                    this.finalSelectedCityItem = '';
+                    return inputText;
+                }
+
                 const capitalizeString = (str) => {
                     if (str[0].charCodeAt(0) >= 65 && str[0].charCodeAt(0) <= 90) {
                         return str;
