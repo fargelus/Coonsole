@@ -34,6 +34,6 @@
       flex: 1 1 100%
       margin-top: 32px
       &:not(:nth-child(4n))
-        margin-right: 20px
+        margin-right: 12px
 
 </style>
