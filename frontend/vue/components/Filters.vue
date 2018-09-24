@@ -59,9 +59,9 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="styl" type="text/stylus">
   @require "../../styl/_variables"
-  @require "../../styl/modificators/_mixes"
+  @require "../../styl/modificators/_modifators"
 
   .filters
     &__item
