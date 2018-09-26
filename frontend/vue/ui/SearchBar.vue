@@ -8,7 +8,7 @@
                @focus="setDropboxValues"
                @keydown="onKeyDown">
 
-        <span @click="reset" class="cross-shape searchbar-wrapper__cross-shape"></span>
+        <span @click="reset" v-if="userInput.length" class="cross-shape searchbar-wrapper__cross-shape"></span>
 
         <DropBox v-if="filteredSearchContent.length"
                  :content="filteredSearchContent"
