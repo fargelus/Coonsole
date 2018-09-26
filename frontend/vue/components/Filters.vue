@@ -15,19 +15,22 @@
             <div class="filter-item__inner filter-item__inner--price" v-else-if="filterItem.price">
                 <input type="number"
                        id="from-price-selector"
+                       v-model="from"
+                       :class="{'filter-item__element--active' : from.length > 0}"
                        class="filter-item__element filter-item__element--price-selector"
                        value="0"
                        min="0"
-                       max="9999"
+                       max="19999"
                        :placeholder="filterItem.price.from"
                        @change="validatePrice">
 
                 <input type="number"
                        id="till-price-selector"
+                       v-model="till"
+                       :class="{'filter-item__element--active' : till.length > 0}"
                        class="filter-item__element filter-item__element--price-selector"
                        min="1"
-                       max="10000"
-                       value="10000"
+                       max="20000"
                        :placeholder="filterItem.price.till"
                        @change="validatePrice">
             </div>
@@ -71,6 +74,8 @@
                         }
                     },
                 ],
+                from: '',
+                till: '',
             };
         },
 
@@ -180,6 +185,11 @@
                 background-color: $pinky
                 color: $masala
 
+            &:focus
+                border-bottom: 2px solid $blaze-orange
+
+            &--active
+                border-bottom: 2px solid $masala
         &__title
             margin-top: 12px
             font-weight: 500
