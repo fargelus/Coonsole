@@ -2,12 +2,34 @@
     <div class="filters bg-theme--gallery">
         <div class="filter-item filters__item" v-for="filterItem in filterItems">
             <h3 class="filter-item__title">{{ filterItem.title }}</h3>
+
             <ul class="filter-item__inner" v-if="filterItem.items">
-                <li @click="filterSelectedByUser($event, filterItem)" class="filter-item__element filter-item__element--checkbox" :class="{'bg-theme--white-orange': filterItem.active === userSelectItem}" v-for="userSelectItem in filterItem.items">{{ userSelectItem }}</li>
+                <li v-for="userSelectItem in filterItem.items"
+                    @click="filterSelectedByUser($event, filterItem)"
+                    class="filter-item__element filter-item__element--checkbox"
+                    :class="{'bg-theme--white-orange': filterItem.active === userSelectItem}">
+                    {{ userSelectItem }}
+                </li>
             </ul>
+
             <div class="filter-item__inner filter-item__inner--price" v-else-if="filterItem.price">
-                <input type="text" class="filter-item__element filter-item__element--price-selector" :placeholder="filterItem.price.from">
-                <input type="text" class="filter-item__element filter-item__element--price-selector" :placeholder="filterItem.price.till">
+                <input type="number"
+                       id="from-price-selector"
+                       class="filter-item__element filter-item__element--price-selector"
+                       value="0"
+                       min="0"
+                       max="9999"
+                       :placeholder="filterItem.price.from"
+                       @change="validatePrice">
+
+                <input type="number"
+                       id="till-price-selector"
+                       class="filter-item__element filter-item__element--price-selector"
+                       min="1"
+                       max="10000"
+                       value="10000"
+                       :placeholder="filterItem.price.till"
+                       @change="validatePrice">
             </div>
         </div>
     </div>
@@ -53,9 +75,62 @@
         },
 
         methods: {
+            /**
+             * Меняем внешний вид текущего активного фильтра
+             * @param {MouseEvent} evt - Объект события мыши
+             * @param {Object} selectedFilterItem - Текущий объект фильтра(элемент filterItems)
+             */
             filterSelectedByUser(evt, selectedFilterItem) {
-                const filterItemName = evt.target.innerHTML;
-                selectedFilterItem.active = filterItemName;
+                selectedFilterItem.active = evt.target.innerHTML.trim();
+            },
+
+            /**
+             * Валидация цены: цена "от" не должна быть больше цены "до"
+             * @param {MouseEvent} evt - Объект события мыши
+             */
+            validatePrice(evt) {
+                const inputElement = evt.target;
+
+                // Возвращ.зн-я:
+                // 1 - Больше максимального зн-я
+                // 0 - В границах между максим. и миним.
+                // -1 - Меньше миним.
+                const isValueBeyond = (current, min, max) => {
+                    if (current > max) return 1;
+                    if (current < min) return -1;
+                    return 0;
+                };
+
+                // Валидация граничных зн-й
+                const currentValue = inputElement.valueAsNumber;
+                const maxValue = inputElement.getAttribute('max');
+                const minValue = inputElement.getAttribute('min');
+                const isBeyond = isValueBeyond(currentValue, minValue, maxValue);
+                if (isBeyond) {
+                    inputElement.value = isBeyond === -1 ? minValue : maxValue;
+                }
+
+                // Выбираем оба инпута
+                const fromPriceInputElement = document.getElementById('from-price-selector');
+                const tillPriceInputElement = document.getElementById('till-price-selector');
+
+                // Проверяем валидны ли поля на тек.момент
+                const isFromPriceInputHasValidError = fromPriceInputElement.classList.contains('validation-error');
+                const isTillPriceInputHasValidError = tillPriceInputElement.classList.contains('validation-error');
+                const isAnybodyHasValidError = isFromPriceInputHasValidError || isTillPriceInputHasValidError;
+
+                // Если значение "от" больше зн-я "до"
+                // вешаем на текущий инпут класс,
+                // сообщающий об ошибке валидации
+                const inputClasses = inputElement.classList;
+                if (fromPriceInputElement.valueAsNumber >= tillPriceInputElement.valueAsNumber) {
+                    // Ошибка валидации должна быть одна
+                    if (!isAnybodyHasValidError) {
+                        inputClasses.add('validation-error');
+                    }
+                } else if (inputClasses.contains('validation-error')) {
+                    inputClasses.remove('validation-error');
+                }
             }
         },
     }
@@ -87,12 +162,19 @@
 
             &--price-selector
                 background-color: transparent
-                max-width: 72px
+                width: 65px
                 border-bottom: 2px solid $silver
                 padding-left: 3px
 
                 &:not(:last-child)
                     margin-right: 20px
+
+                // Спрячем стрелки(только для webkit)
+                &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+                    appearance: none
+
+                // Стрелки для FF
+                -moz-appearance: textfield
 
             &:hover
                 background-color: $pinky
