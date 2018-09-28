@@ -29,6 +29,7 @@
                        v-model="till"
                        :class="{'filter-item__element--active' : till.length > 0}"
                        class="filter-item__element filter-item__element--price-selector"
+                       value="20000"
                        min="1"
                        max="20000"
                        :placeholder="filterItem.price.till"
@@ -90,12 +91,12 @@
             },
 
             /**
-             * Валидация цены: цена "от" не должна быть больше цены "до"
-             * @param {MouseEvent} evt - Объект события мыши
+             * Если зн-е цены больше/меньше порогового, то
+             * ставим текущее зн-е цены максимальным или минимальным.
+             *
+             * @param {HTMLElement} inputElement - Инпут с ценой
              */
-            validatePrice(evt) {
-                const inputElement = evt.target;
-
+            setPriceValueInRange(inputElement) {
                 // Возвращ.зн-я:
                 // 1 - Больше максимального зн-я
                 // 0 - В границах между максим. и миним.
@@ -111,9 +112,28 @@
                 const maxValue = inputElement.getAttribute('max');
                 const minValue = inputElement.getAttribute('min');
                 const isBeyond = isValueBeyond(currentValue, minValue, maxValue);
+
                 if (isBeyond) {
-                    inputElement.value = isBeyond === -1 ? minValue : maxValue;
+                    const inputID = inputElement.getAttribute('id');
+                    const targetVal = isBeyond === -1 ? minValue : maxValue;
+
+                    if (inputID.match(/from/)) {
+                        this.from = targetVal;
+                    } else {
+                        this.till = targetVal;
+                    }
                 }
+            },
+
+            /**
+             * Валидация цены: цена "от" не должна быть больше цены "до"
+             * @param {MouseEvent} evt - Объект события мыши
+             */
+            validatePrice(evt) {
+                const inputElement = evt.target;
+
+                // Установка значения в пределах границ
+                this.setPriceValueInRange(inputElement);
 
                 // Выбираем оба инпута
                 const fromPriceInputElement = document.getElementById('from-price-selector');
@@ -128,13 +148,15 @@
                 // вешаем на текущий инпут класс,
                 // сообщающий об ошибке валидации
                 const inputClasses = inputElement.classList;
-                if (fromPriceInputElement.valueAsNumber >= tillPriceInputElement.valueAsNumber) {
+                const isUserAlreadyFillModels = this.from && this.till;
+                if (isUserAlreadyFillModels && +this.from >= +this.till) {
                     // Ошибка валидации должна быть одна
                     if (!isAnybodyHasValidError) {
                         inputClasses.add('validation-error');
                     }
-                } else if (inputClasses.contains('validation-error')) {
-                    inputClasses.remove('validation-error');
+                } else {
+                    fromPriceInputElement.classList.remove('validation-error');
+                    tillPriceInputElement.classList.remove('validation-error');
                 }
             }
         },
