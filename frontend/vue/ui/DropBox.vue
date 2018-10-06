@@ -1,12 +1,14 @@
 <template>
-    <ul class="dropbox">
-        <li v-for="item in content"
-            @click="itemClick"
-            class="dropbox-item dropbox__item text-color--gray"
-            :class="{'dropbox__item--selected': content.indexOf(item) === selectedItemIndex}">
+    <select class="dropbox"
+            :style="toggleSelectStyle"
+            :disabled="isSelectDisabled"
+            :size="selectMaxSize">
+        <option class="dropbox-item dropbox__item text-color--gray"
+                @click="itemClick"
+                v-for="item in content">
             {{item}}
-        </li>
-    </ul>
+        </option>
+    </select>
 </template>
 
 <script>
@@ -15,29 +17,98 @@
 
         data() {
             return {
-                selectedItemIndex: -1,
-            };
-        },
+                selectDefaultSize: 1,
 
-        props: {
-            content: Array,
-            startTraverseFromIndex: Number,
-        },
-
-        watch: {
-            startTraverseFromIndex(traverseItemIndex) {
-                if (traverseItemIndex > -1) {
-                    this.selectedItemIndex = traverseItemIndex;
-                }
+                // Для расчета в методе calculateSelectSize должно быть > 1
+                selectMaxSize: 2,
             }
         },
 
+        props: {
+            content: {
+                type: Array,
+                default: [],
+            },
+            startTraverse: false,
+        },
+
+        mounted() {
+            this.calculateSelectSize();
+        },
+
         methods: {
+            calculateSelectSize() {
+                this.calculateInitialSelectSize();
+                this.setSelectSizeBelowOrEqualToContent();
+            },
+
+            /**
+             * Расчет начального значения атрибута size селекта.
+             * Начальное значение берем исходя из размера потомков(option):
+             * пытаемся отобразить как можно больше элементов
+             */
+            calculateInitialSelectSize() {
+                const selectMaxHeight = parseInt( getComputedStyle(this.$el).maxHeight, 10 );
+
+                const firstOption = this.$el.children[0];
+                const optionHeight = firstOption.clientHeight;
+
+                this.selectMaxSize = Math.floor(selectMaxHeight / optionHeight);
+                this.selectDefaultSize = this.selectMaxSize;
+            },
+
+            /**
+             * Сопоставляем размер селекта с размером вх.данных
+             */
+            setSelectSizeBelowOrEqualToContent() {
+                const contentItemsCounter = this.content.length;
+
+                this.selectMaxSize = contentItemsCounter > this.selectMaxSize
+                                     ? this.selectDefaultSize
+                                     : contentItemsCounter;
+
+                /* Граничный случай: contentItemsCounter < this.selectDefaultSize */
+                if (contentItemsCounter < this.selectMaxSize) {
+                    this.selectMaxSize = contentItemsCounter;
+                }
+            },
+
             itemClick(evt) {
                 const itemText = evt.target.innerHTML.trim();
                 this.$emit('item-clicked', itemText);
             },
-        }
+        },
+
+        computed: {
+            toggleSelectStyle() {
+                if (this.isSelectDisabled) {
+                    const childOption = this.$el.children[0];
+                    return 'padding: ' + getComputedStyle(childOption).padding;
+                }
+
+                return '';
+            },
+
+            isSelectDisabled() {
+                return this.selectMaxSize === 1;
+            },
+        },
+
+        watch: {
+            content() {
+                this.setSelectSizeBelowOrEqualToContent();
+            },
+
+            startTraverse(isUserWantsToStartTraverse) {
+                if (isUserWantsToStartTraverse) {
+                    this.$el.focus();
+
+                    if (this.selectMaxSize > 1) {
+                        this.$el.selectedIndex = 1;
+                    }
+                }
+            },
+        },
     }
 </script>
 
@@ -46,16 +117,20 @@
 @require '../../styl/modificators/_modifators.styl'
 
 .dropbox
-    background-color: $snow
     width: 100%
     position: absolute
+    cursor: pointer
     overflow-y: auto
     box-shadow: 0 1px 5px 0 rgba(50, 50, 50, 0.75)
     font-family: RobotoRegular
 
     &__item
         cursor: pointer
+        background-color: $snow
 
-        &:hover, &--selected
-            @extend .bg-theme--gallery
+        &:hover:not(:checked)
+            @extend .box-shadow--gallery
+
+    &:not(:checked)
+        @extend .bg-theme--gallery
 </style>

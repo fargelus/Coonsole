@@ -3,7 +3,8 @@
         <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
             <header>
                 <div class="header-line">
-                    <Top :location="currentUserLocation" v-on:city-button-click="showCitiesListModal"/>
+                    <Top :location="currentUserLocation"
+                         v-on:city-button-click="showCitiesListModal"/>
                     <HeaderFilter v-if="false"/>
                 </div>
             </header>
@@ -17,7 +18,11 @@
             </main>
         </div>
 
-        <CitiesListModal v-on:city-changed="setNewUserLocation" :citiesListProp="getCitiesModalData" v-if="isCitiesModalListOpen" v-click-outside="hideCitiesListModal"/>
+        <CitiesListModal
+            :city-changed="setNewUserLocation"
+            :citiesListProp="getCitiesModalData"
+            v-if="isCitiesModalListOpen"
+            v-click-outside="hideCitiesListModal"/>
         <router-view v-if="false"></router-view>
     </div>
 </template>
@@ -69,10 +74,12 @@
         methods: {
             showCitiesListModal() {
                 this.isCitiesModalListOpen = true;
+                document.body.classList.add('ov-hidden');
             },
 
             hideCitiesListModal() {
                 this.isCitiesModalListOpen = false;
+                document.body.classList.remove('ov-hidden');
             },
 
             /**

@@ -1,18 +1,17 @@
 <template>
-    <div class="searchbar" v-click-outside="hideDropbox">
+    <div class="searchbar" v-click-outside="hideDropbox" @keydown="onKeyDown">
         <input type="text"
                class="search-input"
                v-model="userInput"
                :placeholder="inputPlaceholder"
                @input="setDropboxValues"
-               @focus="setDropboxValues"
-               @keydown="onKeyDown">
+               @focus="setDropboxValues">
 
         <span @click="reset" v-if="userInput.length" class="cross-shape searchbar-wrapper__cross-shape"></span>
 
         <DropBox v-if="filteredSearchContent.length"
                  :content="filteredSearchContent"
-                 :startTraverseFromIndex="selectedDropboxItemIndex"
+                 :startTraverse="isDropboxStartTraverse"
                  @item-clicked="searchDone"/>
     </div>
 </template>
@@ -29,7 +28,7 @@
             return {
                 userInput: '',
                 filteredSearchContent: [],
-                selectedDropboxItemIndex: -1,
+                isDropboxStartTraverse: false,
             }
         },
 
@@ -56,22 +55,29 @@
                 this.userInputParser('');
             },
 
-            onKeyDown(evt) {
-                const isIndexLowerLast = this.selectedDropboxItemIndex < this.filteredSearchContent.length - 1;
-                const isIndexGreaterZero = this.selectedDropboxItemIndex > 0;
+            /**
+             * Прячем выпадающий список
+             */
+            hideDropbox() {
+                this.filteredSearchContent = [];
+            },
 
+            onKeyDown(evt) {
                 if (!this.userInput) return;
 
-                if (evt.code === 'ArrowDown' && isIndexLowerLast) {
-                    this.selectedDropboxItemIndex++;
-                } else if (evt.code === 'ArrowUp' && isIndexGreaterZero) {
-                    this.selectedDropboxItemIndex--;
-                } else if (evt.code === 'Escape') {
-                    this.reset();
-                } else if (evt.code === 'Enter' && this.selectedDropboxItemIndex > 0) {
-                    this.searchDone(this.filteredSearchContent[this.selectedDropboxItemIndex]);
-                } else if (evt.code === 'Backspace') {
-                    this.filteredSearchContent = [];
+                if (evt.code === 'ArrowDown') {
+                    this.isDropboxStartTraverse = true;
+                } else if (evt.code !== 'ArrowUp') {
+                    this.isDropboxStartTraverse = false;
+                    this.$el.querySelector('.search-input').focus();
+
+                    if (evt.code === 'Escape') {
+                        this.reset();
+                    }
+
+                    if (evt.code === 'Backspace') {
+                        this.filteredSearchContent = [];
+                    }
                 }
             },
 
@@ -117,13 +123,6 @@
                 if (isOneItemLeft && isFilteredSearchContainsUserInput) {
                     this.searchDone(this.userInput);
                 }
-            },
-
-            /**
-             * Прячем выпадающий список
-             */
-            hideDropbox() {
-                this.filteredSearchContent = [];
             },
 
             /**

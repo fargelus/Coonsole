@@ -186,10 +186,10 @@
 
         .dropbox
             max-height: 174px
+            font-size: 22px
+            color: $gray
 
             &__item
-                font-size: 22px
-                color: $gray
                 padding: 8px 0 8px 23px
 
     &__content-title
