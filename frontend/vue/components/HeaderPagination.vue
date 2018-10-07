@@ -6,7 +6,7 @@
     </div>
 </template>
 
-<style lang="styl" scoped>
+<style lang="styl" scoped type="text/stylus">
   .header-pagination
       position: absolute;
       height: 32px;

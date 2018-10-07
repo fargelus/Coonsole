@@ -1,20 +1,19 @@
 <template>
     <div id="app" class="app">
         <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
-            <header>
-                <div class="header-line">
-                    <Top :location="currentUserLocation"
-                         v-on:city-button-click="showCitiesListModal"/>
-                    <HeaderFilter v-if="false"/>
-                </div>
+            <header class="page-content__header">
+                <Top class="page-content__header-top"
+                     :outerLocation="currentUserLocation"
+                     @city-button-click="showCitiesListModal"/>
+                <HeaderFilter v-if="false"/>
             </header>
 
-            <main>
+            <main class="main page-content__main">
                 <aside class="page-content__aside">
                     <Filters/>
                 </aside>
 
-                <MarketList class="page-content__market border-theme--gallery"/>
+                <MarketList class="page-content__market"/>
             </main>
         </div>
 
@@ -102,25 +101,34 @@
 <style lang="styl" type="text/stylus">
     @require '../styl/_variables.styl'
 
+    /* Common Styles */
+    .app, .page-content__header-top, .main
+        margin: 0 auto
+
+    .page-content__header-top, .main
+        max-width: 1152px
+
+    .page-content__header, .page-content__aside
+        position: fixed
+        z-index: 1
+
+    /* End Of Common Styles */
+
     .app
-        margin: 0 auto
         height: 100%
-
-    header
-        background-color: $snow
-        width: 100%
-
-    .header-line
-        max-width: 1152px
-        margin: 0 auto
-
-    main
-        max-width: 1152px
-        margin: 0 auto !important
 
     .page-content
         &.top-line--flamingo::before
             z-index: 1000
+
+        &__header
+            background-color: $snow
+            left: 0
+            top: 0
+            width: 100%
+
+        &__main
+            padding-top: 67px
 
         &__aside
             min-width: 232px
@@ -131,6 +139,4 @@
             margin-left: 232px
             padding: 0 0 15px 32px
             min-height: 100%
-            border-right: 0 !important
-            border-left: 0 !important
 </style>
