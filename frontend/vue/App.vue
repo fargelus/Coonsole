@@ -18,7 +18,7 @@
         </div>
 
         <CitiesListModal
-            :city-changed="setNewUserLocation"
+            @city-changed="setNewUserLocation"
             :citiesListProp="getCitiesModalData"
             v-if="isCitiesModalListOpen"
             v-click-outside="hideCitiesListModal"/>

@@ -40,8 +40,20 @@
                 type: String,
                 default: 'Поиск'
             },
+            deliveredInputVal: {
+                type: String,
+                default: '',
+            },
 
             userInputParser: Function,
+        },
+
+        watch: {
+            deliveredInputVal(newVal) {
+                if (newVal) {
+                    this.userInput = newVal;
+                }
+            }
         },
 
         methods: {

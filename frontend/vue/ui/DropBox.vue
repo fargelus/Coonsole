@@ -35,6 +35,8 @@
 
         mounted() {
             this.calculateSelectSize();
+            // Уберем подсветку первого элемента
+            this.$el.selectedIndex = -1;
         },
 
         methods: {
@@ -137,6 +139,7 @@
             startTraverse(isUserWantsToStartTraverse) {
                 if (isUserWantsToStartTraverse) {
                     this.$el.focus();
+                    this.$el.selectedIndex = 0;
                     this.triggerChangeEvent();
                 }
             },

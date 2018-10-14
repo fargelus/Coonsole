@@ -2,6 +2,7 @@
     <div class="modal cities-list-modal top-line--flamingo">
         <SearchBar class="cities-list-modal__searchbar"
                    @search-query="setCity"
+                   :deliveredInputVal="finalSelectedCityItem"
                    :inputPlaceholder="chooseCityPlaceholder"
                    :searchBase="allCities"
                    :userInputParser="getParsedUserInput"/>
