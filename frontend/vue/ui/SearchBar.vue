@@ -12,7 +12,8 @@
         <DropBox v-if="filteredSearchContent.length"
                  :content="filteredSearchContent"
                  :startTraverse="isDropboxStartTraverse"
-                 @item-clicked="searchDone"/>
+                 @item-clicked="searchDone"
+                 @item-changed="updateSearchInput"/>
     </div>
 </template>
 
@@ -44,6 +45,29 @@
         },
 
         methods: {
+            onKeyDown(evt) {
+                if (!this.userInput) return;
+
+                if (evt.code === 'ArrowDown') {
+                    this.isDropboxStartTraverse = true;
+                } else if (evt.code !== 'ArrowUp') {
+                    this.isDropboxStartTraverse = false;
+                    this.$el.querySelector('.search-input').focus();
+
+                    if (evt.code === 'Escape') {
+                        this.reset();
+                    }
+
+                    if (evt.code === 'Enter') {
+                        this.searchDone(this.userInput);
+                    }
+
+                    if (evt.code === 'Backspace') {
+                        this.filteredSearchContent = [];
+                    }
+                }
+            },
+
             /**
              * Сброс введенного значения
              */
@@ -62,22 +86,33 @@
                 this.filteredSearchContent = [];
             },
 
-            onKeyDown(evt) {
-                if (!this.userInput) return;
+            /**
+             * Уведомляем родительский компонент, что поиск завершен
+             *
+             * @param {String} resultQuery - Результат поиска
+             */
+            searchDone(resultQuery) {
+                this.hideDropbox();
+                this.userInput = resultQuery !== this.userInput ? resultQuery : this.userInput;
 
-                if (evt.code === 'ArrowDown') {
-                    this.isDropboxStartTraverse = true;
-                } else if (evt.code !== 'ArrowUp') {
-                    this.isDropboxStartTraverse = false;
-                    this.$el.querySelector('.search-input').focus();
+                this.$emit('search-query', this.userInput);
+            },
 
-                    if (evt.code === 'Escape') {
-                        this.reset();
-                    }
+            /**
+             * Заполним выпадающий список.
+             * Города фильтруются на лету, в зависимости от ввода пользователя
+             */
+            setDropboxValues() {
+                let correctUserInput = this.userInputParser(this.userInput);
 
-                    if (evt.code === 'Backspace') {
-                        this.filteredSearchContent = [];
-                    }
+                // Фильтруем
+                this.filteredSearchContent = this.getFilteredSearchResults(correctUserInput);
+
+                // Если пользователь набрал валидный город, то спрячем дропбокс
+                const isOneItemLeft = this.filteredSearchContent.length === 1;
+                const isFilteredSearchContainsUserInput = this.filteredSearchContent.includes(correctUserInput);
+                if (isOneItemLeft && isFilteredSearchContainsUserInput) {
+                    this.searchDone(this.userInput);
                 }
             },
 
@@ -108,33 +143,12 @@
             },
 
             /**
-             * Заполним выпадающий список.
-             * Города фильтруются на лету, в зависимости от ввода пользователя*
-             */
-            setDropboxValues() {
-                let correctUserInput = this.userInputParser(this.userInput);
-
-                // Фильтруем
-                this.filteredSearchContent = this.getFilteredSearchResults(correctUserInput);
-
-                // Если пользователь набрал валидный город, то спрячем дропбокс
-                const isOneItemLeft = this.filteredSearchContent.length === 1;
-                const isFilteredSearchContainsUserInput = this.filteredSearchContent.includes(correctUserInput);
-                if (isOneItemLeft && isFilteredSearchContainsUserInput) {
-                    this.searchDone(this.userInput);
-                }
-            },
-
-            /**
-             * Уведомляем родительский компонент, что поиск завершен
+             * Обновляет поисковой запрос текущим значением из дропбокса.
              *
-             * @param {String} resultQuery - Результат поиска
+             * @param {String} newVal - Значение подставляется из дропбокса
              */
-            searchDone(resultQuery) {
-                this.hideDropbox();
-                this.userInput = resultQuery !== this.userInput ? resultQuery : this.userInput;
-
-                this.$emit('search-query', this.userInput);
+            updateSearchInput(newVal) {
+                this.userInput = newVal;
             }
         },
 

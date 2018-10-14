@@ -2,7 +2,8 @@
     <select class="dropbox"
             :style="toggleSelectStyle"
             :disabled="isSelectDisabled"
-            :size="selectMaxSize">
+            :size="selectMaxSize"
+            @change="onChange">
         <option class="dropbox-item dropbox__item text-color--gray"
                 @click="itemClick"
                 v-for="item in content">
@@ -74,8 +75,42 @@
             },
 
             itemClick(evt) {
-                const itemText = evt.target.innerHTML.trim();
+                const itemText = this.extractTextFromHTML(evt.target);
                 this.$emit('item-clicked', itemText);
+            },
+
+            /**
+             * Возвращает текстовое содержимое HTML элемента.
+             *
+             * @param {HTMLElement} HTMLElem
+             * @return {String} - текстовый контент HTML элемента.
+             */
+            extractTextFromHTML(HTMLElem) {
+                return HTMLElem.innerHTML.trim();
+            },
+
+            /**
+             * Пользователь увидит, что выбран самый первый элемент из селекта
+             */
+            triggerChangeEvent() {
+                const ev = new Event('change');
+                this.$el.dispatchEvent(ev);
+            },
+
+            onChange() {
+                const selectedOption = this.extractSelectedOption();
+                const changedItem = this.extractTextFromHTML(selectedOption);
+                this.$emit('item-changed', changedItem);
+            },
+
+            /**
+             * Возвращает текущую активную опцию выбора
+             *
+             * @return {HTMLOptionElement} - текущая выбранная опция.
+             */
+            extractSelectedOption() {
+                const selectedOptionIndex = this.$el.selectedIndex;
+                return this.$el.options[selectedOptionIndex];
             },
         },
 
@@ -102,10 +137,7 @@
             startTraverse(isUserWantsToStartTraverse) {
                 if (isUserWantsToStartTraverse) {
                     this.$el.focus();
-
-                    if (this.selectMaxSize > 1) {
-                        this.$el.selectedIndex = 1;
-                    }
+                    this.triggerChangeEvent();
                 }
             },
         },
