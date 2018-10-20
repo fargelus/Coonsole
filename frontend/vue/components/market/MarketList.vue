@@ -1,39 +1,41 @@
 <template>
-  <div class="market-list">
-    <!-- <router-link tag="li" to="/bar/"></router-link> -->
-    <MarketItem class="market-list__item" v-for="n in 8" :key="n"/>
-  </div>
+    <div class="market-list">
+        <div class="market-list__item" v-for="n in 8">
+            <router-link to="/item">
+                <MarketItem/>
+            </router-link>
+        </div>
+    </div>
 </template>
 
 <script>
-  import MarketItem from './MarketItem.vue';
+    import MarketItem from './MarketItem.vue';
 
-  export default {
-    data() {
-      return {
-          name: 'Market'
-      };
-    },
+    export default {
+        data() {
+            return {
+                name: 'Market',
+            };
+        },
 
-    components: {
-      MarketItem,
-    },
-  }
+        components: {
+            MarketItem,
+        },
+    }
 </script>
 
-<style lang="styl">
+<style lang="styl" type="text/stylus">
     @require "../../../styl/_variables"
 
-.market-list
-    background-color: $snow
+    .market-list
+        background-color: $snow
+        display: flex
+        flex-flow: row wrap
 
-    display: flex
-    flex-flow: row wrap
+        &__item
+            margin-top: 32px
+            min-width: 200px
 
-    &__item
-      flex: 1 1 100%
-      margin-top: 32px
-      &:not(:nth-child(4n))
-        margin-right: 12px
-
+            &:not(:nth-child(4n))
+                margin-right: 12px
 </style>

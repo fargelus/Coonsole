@@ -1,26 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import App from '../vue/App.vue';
 import MarketList from '../vue/components/market/MarketList.vue';
-import CitiesListModal from '../vue/components/CitiesListModal.vue';
+import MarketItemDetail from '../vue/components/market/MarketItemDetail.vue';
 
 const routes = [
     {
         path: '/',
         component: MarketList,
-        /*children: [
-            {
-                path: '',
-                component: MarketList,
-            },
-        ],*/
-        /*beforeEnter: (to, from, next) => {
-            console.log('SMS list beforeEnter()');
-            next();
-        }*/
     },
-    { path: '/bar', component: CitiesListModal },
+    {
+        path: '/item',
+        component: MarketItemDetail,
+    }
 ];
 
 const router = new VueRouter({

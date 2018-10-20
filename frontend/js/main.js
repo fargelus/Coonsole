@@ -20,8 +20,6 @@ function bindImagesSource(imagesObj) {
 }
 
 const vm = new Vue({
-    el: '#app',
-    template: '<router-view></router-view>',
     router,
     render: h => h(App),
 }).$mount('#app');

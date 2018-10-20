@@ -13,7 +13,7 @@
                     <Filters/>
                 </aside>
 
-                <MarketList class="page-content__market"/>
+                <router-view class="page-content__market"></router-view>
             </main>
         </div>
 
@@ -22,7 +22,6 @@
             :citiesListProp="getCitiesModalData"
             v-if="isCitiesModalListOpen"
             v-click-outside="hideCitiesListModal"/>
-        <router-view v-if="false"></router-view>
     </div>
 </template>
 

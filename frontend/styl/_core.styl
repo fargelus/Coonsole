@@ -2,22 +2,25 @@
 @require '_mixins'
 
 html, body, main, aside, aside > *, .page-content
-  height: 100%
+    height: 100%
 
 body
-  background-color: $gallery
-  margin: 0
-  padding: 0
-  color: $masala
-  min-height: 100%
-  //размер общий должен быть 1152, но на body вещать нельзя, ибо полоска сверху уменьшается
+    background-color: $gallery
+    margin: 0
+    padding: 0
+    color: $masala
+    min-height: 100%
+//размер общий должен быть 1152, но на body вещать нельзя, ибо полоска сверху уменьшается
 
 ul
-  list-style-type: none
+    list-style-type: none
 
 .cross-shape
-  cross(color=$flamingo)
-  cursor: pointer
-  display: block
-  size(33px)
-  position: absolute
+    cross(color=$flamingo)
+    cursor: pointer
+    display: block
+    size(33px)
+    position: absolute
+
+a
+    text-decoration: none
