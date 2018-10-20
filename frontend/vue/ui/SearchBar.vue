@@ -71,7 +71,7 @@
                     }
 
                     if (evt.code === 'Enter') {
-                        this.searchDone(this.userInput);
+                        this.emitCheckValidSignal();
                     }
 
                     if (evt.code === 'Backspace') {
@@ -120,12 +120,30 @@
                 // Фильтруем
                 this.filteredSearchContent = this.getFilteredSearchResults(correctUserInput);
 
-                // Если пользователь набрал валидный город, то спрячем дропбокс
+                this.hideDropboxIfUserTypedCity(correctUserInput);
+                this.emitCheckValidSignal();
+            },
+
+            /**
+             * Прячет дропбокс, если пользователь уже набрал город
+             *
+             * @param {String} userInput -- текущее зн-е поиска
+             */
+            hideDropboxIfUserTypedCity(userInput) {
                 const isOneItemLeft = this.filteredSearchContent.length === 1;
-                const isFilteredSearchContainsUserInput = this.filteredSearchContent.includes(correctUserInput);
+                const isFilteredSearchContainsUserInput = this.filteredSearchContent.includes(userInput);
                 if (isOneItemLeft && isFilteredSearchContainsUserInput) {
                     this.searchDone(this.userInput);
                 }
+            },
+            
+            emitCheckValidSignal() {
+                const validationSet = {
+                    'content': this.filteredSearchContent,
+                    'value': this.userInput,
+                };
+
+                this.$emit('check-valid', validationSet);
             },
 
             /**

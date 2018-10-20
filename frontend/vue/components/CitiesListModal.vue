@@ -2,6 +2,7 @@
     <div class="modal cities-list-modal top-line--flamingo">
         <SearchBar class="cities-list-modal__searchbar"
                    @search-query="setCity"
+                   @check-valid="toggleAcceptButtonState"
                    :deliveredInputVal="finalSelectedCityItem"
                    :inputPlaceholder="chooseCityPlaceholder"
                    :searchBase="allCities"
@@ -28,7 +29,7 @@
         </div>
 
         <div class="cities-list-modal__control-buttons">
-            <ui-button orange @click="cityItemChoosedByUser" class="cities-list-modal__control-button-item" :class="{ 'button--disabled': !!finalSelectedCityItem === false }">{{ acceptButtonText }}</ui-button>
+            <ui-button orange @click="cityItemChoosedByUser" class="cities-list-modal__control-button-item" :class="{ 'button--disabled': !finalSelectedCityItem }">{{ acceptButtonText }}</ui-button>
         </div>
     </div>
 </template>
@@ -47,6 +48,7 @@
                 mainCities: [],
                 acceptButtonText: 'Принять',
                 finalSelectedCityItem: '',
+                supposedCity: undefined,
             }
         },
 
@@ -66,6 +68,26 @@
         },
 
         methods: {
+            /**
+             * Устанавливает состояние кнопки "Принять" в зависимости от введенного значения.
+             * @param {Object} checkingEntity - { Значение ввода: список городов для подстановки }
+             */
+            toggleAcceptButtonState(checkingEntity) {
+                const {citiesList, typedVal} = checkingEntity;
+                if (citiesList.length) {
+                    this.changeSupposedCity(citiesList);
+                    this.finalSelectedCityItem = this.supposedCity === typedVal ? this.supposedCity : '';
+                }
+            },
+
+            /**
+             * Сохраняет город, который пользователь хочет ввести.
+             * @param {Array} citiesList - Список текущих автодополняемых городов
+             */
+            changeSupposedCity(citiesList) {
+                this.supposedCity = citiesList.length === 1 ? citiesList[0] : undefined;
+            },
+
             /**
              * Фильтруем в дропбоксе только города начинающиеся с русской заглавной буквы
              * @param {String} inputText - Первый символ ввода в текстовом поле
