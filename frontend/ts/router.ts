@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+// @ts-ignore
 import MarketList from '../vue/components/market/MarketList.vue';
+// @ts-ignore
 import MarketItemDetail from '../vue/components/market/MarketItemDetail.vue';
 
 const routes = [
