@@ -15,7 +15,8 @@
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "suppressImplicitAnyIndexErrors": true
     },
     "include": [
         "ts/**/*.ts"

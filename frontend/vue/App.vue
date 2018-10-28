@@ -1,19 +1,19 @@
 <template>
     <div id="app" class="app">
         <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
-            <header class="page-content__header">
+            <header class="page-content__header bg-theme--snow">
                 <Top class="page-content__header-top"
                      :outerLocation="currentUserLocation"
-                     @city-button-click="showCitiesListModal"/>
-                <HeaderFilter v-if="false"/>
+                     @city-button-click="showCitiesListModal"></Top>
+                <HeaderFilter v-if="false"></HeaderFilter>
             </header>
 
             <main class="main page-content__main">
-                <aside class="page-content__aside">
-                    <Filters/>
-                </aside>
-
-                <router-view class="page-content__market"></router-view>
+                <Aside :changeView="isChangeAsideView"
+                    @view-changed="asideViewChanged"></Aside>
+                <router-view
+                    @change-to-item-detail-view="changeAsideView"
+                    class="page-content__market"></router-view>
             </main>
         </div>
 
@@ -21,7 +21,7 @@
             @city-changed="setNewUserLocation"
             :citiesListProp="getCitiesModalData"
             v-if="isCitiesModalListOpen"
-            v-click-outside="hideCitiesListModal"/>
+            v-click-outside="hideCitiesListModal"></CitiesListModal>
     </div>
 </template>
 
@@ -32,7 +32,7 @@
     import Top from './components/Top.vue';
     import HeaderFilter from './components/HeaderFilter.vue';
     import CitiesListModal from './components/CitiesListModal.vue';
-    import Filters from './components/Filters.vue';
+    import Aside from './components/Aside.vue';
     import MarketList from './components/market/MarketList.vue';
 
     export default Vue.extend({
@@ -40,7 +40,8 @@
             return {
                 isCitiesModalListOpen: false,
                 citiesModalData: [],
-                currentUserLocation: ''
+                currentUserLocation: '',
+                isChangeAsideView: false,
             }
         },
 
@@ -48,7 +49,7 @@
             Top,
             HeaderFilter,
             CitiesListModal,
-            Filters,
+            Aside,
             MarketList
         },
 
@@ -89,7 +90,15 @@
             setNewUserLocation(choosedCityName: string) {
                 this.hideCitiesListModal();
                 this.currentUserLocation = choosedCityName;
-            }
+            },
+
+            changeAsideView(): void {
+                this.isChangeAsideView = true;
+            },
+
+            asideViewChanged(): void {
+                this.isChangeAsideView = false;
+            },
         },
 
         directives: {
@@ -122,7 +131,6 @@
             z-index: 1000
 
         &__header
-            background-color: $snow
             left: 0
             top: 0
             width: 100%
@@ -137,6 +145,6 @@
 
         &__market
             margin-left: 232px
-            padding: 0 0 15px 32px
+            padding: 26px 0 15px 26px
             min-height: 100%
 </style>

@@ -6,6 +6,7 @@ import App from '../vue/App.vue';
 import '../styl/all.styl';
 import LogoIcon from '../assets/images/coonsole_logo.svg';
 import CompassIcon from '../assets/images/compass.svg';
+import LeftArrow from '../assets/images/arrow_left.png';
 import '../ts/ui';
 
 
@@ -28,6 +29,7 @@ new Vue({
 const DOMSelectorToImagesMap = {
   '.js-logo': LogoIcon,
   '.js-compass': CompassIcon,
+  '.js-arrow-left': LeftArrow,
 };
 
 bindImagesSource(DOMSelectorToImagesMap);
