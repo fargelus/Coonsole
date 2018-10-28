@@ -9,10 +9,10 @@
             </header>
 
             <main class="main page-content__main">
-                <Aside :changeView="isChangeAsideView"
-                    @view-changed="asideViewChanged"></Aside>
+                <Aside :changeView="isChangeAsideView"></Aside>
                 <router-view
-                    @change-to-item-detail-view="changeAsideView"
+                    @item-detail-view-create="toggleAsideViewChange"
+                    @item-detail-view-destroy="toggleAsideViewChange"
                     class="page-content__market"></router-view>
             </main>
         </div>
@@ -92,12 +92,8 @@
                 this.currentUserLocation = choosedCityName;
             },
 
-            changeAsideView(): void {
-                this.isChangeAsideView = true;
-            },
-
-            asideViewChanged(): void {
-                this.isChangeAsideView = false;
+            toggleAsideViewChange(): void {
+                this.isChangeAsideView = !this.isChangeAsideView;
             },
         },
 

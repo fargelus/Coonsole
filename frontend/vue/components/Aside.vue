@@ -1,11 +1,13 @@
 <template>
     <aside class="aside page-content__aside">
-        <Filters v-show="!isHideFilters"/>
+        <Filters v-show="!isHideFilters"></Filters>
         <button class="button transparent aside__back-btn"
                 v-show="isHideFilters"
                 @click="onBackBtnClick">
-            <img class="js-arrow-left button__label-left" alt="Вернуться назад" width="17" height="18">
-            Вернуться назад
+            <div>
+                <img src="" class="js-arrow-left button__label-left" alt="Вернуться назад" width="17" height="18">
+                Вернуться назад
+            </div>
         </button>
     </aside>
 </template>
@@ -33,7 +35,6 @@
         methods: {
             onBackBtnClick(): void {
                 this['isHideFilters'] = false;
-                this.$emit('view-changed');
                 history.back();
             },
         },
@@ -51,9 +52,13 @@
 </script>
 
 <style lang="styl" type="text/stylus">
+    @require '../../styl/_variables';
+
     .aside
         &__back-btn
-            height: auto
+            display: flex
+            flex-direction: column
+            width: 100%
 
             &.button
                 padding-top: 22px
@@ -61,5 +66,8 @@
                 font-size: 18px
                 line-height: 1.16
                 font-family: Roboto
+
+            &:hover
+                background-color: $gallery-dark
 
 </style>

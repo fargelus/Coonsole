@@ -1,7 +1,7 @@
 <template>
     <div class="market-list bg-theme--snow">
         <div class="market-list__item" v-for="n in 8">
-            <router-link to="/item" @click.native="changeToItemDetailView">
+            <router-link to="/item">
                 <MarketItem/>
             </router-link>
         </div>
@@ -22,12 +22,6 @@
         components: {
             MarketItem,
         },
-
-        methods: {
-            changeToItemDetailView(): void {
-                this.$emit('change-to-item-detail-view');
-            }
-        }
     });
 </script>
 
