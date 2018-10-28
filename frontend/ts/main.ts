@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import * as _ from 'underscore';
+
 import router from './router';
-// @ts-ignore
 import App from '../vue/App.vue';
 import '../styl/all.styl';
-// @ts-ignore
 import LogoIcon from '../assets/images/coonsole_logo.svg';
-// @ts-ignore
 import CompassIcon from '../assets/images/compass.svg';
 import '../ts/ui';
 

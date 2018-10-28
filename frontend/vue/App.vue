@@ -25,7 +25,8 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+    import Vue from 'vue';
     import axios from 'axios';
     import ClickOutside from 'vue-click-outside';
     import Top from './components/Top.vue';
@@ -34,7 +35,7 @@
     import Filters from './components/Filters.vue';
     import MarketList from './components/market/MarketList.vue';
 
-    export default {
+    export default Vue.extend({
         data() {
             return {
                 isCitiesModalListOpen: false,
@@ -55,7 +56,7 @@
          * Получает и сохраняет список городов.
          */
         beforeCreate() {
-            const that = this;
+            const that: any = this;
             axios.get('./data/cities.json')
                 .then((response) => that.citiesModalData = response.data);
         },
@@ -64,7 +65,7 @@
             // Когда компонент модалки отрисовывается
             // мы можем еще не получить данные с сервера
             // поэтому такой вот хак(
-            getCitiesModalData() {
+            getCitiesModalData(): string[] {
                 return this.citiesModalData ? this.citiesModalData : [];
             }
         },
@@ -85,7 +86,7 @@
              *
              * @param {String} choosedCityName - Название города возвращенного из модалки.
              */
-            setNewUserLocation(choosedCityName) {
+            setNewUserLocation(choosedCityName: string) {
                 this.hideCitiesListModal();
                 this.currentUserLocation = choosedCityName;
             }
@@ -94,7 +95,7 @@
         directives: {
             ClickOutside,
         }
-    }
+    });
 </script>
 
 <style lang="styl" type="text/stylus">
