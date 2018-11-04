@@ -80,6 +80,10 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: 'assets/cities.json',
             to: 'data/',
+        },
+        {
+            from: 'assets/images/favicon.png',
+            to: '',
         }]),
     ],
 };
