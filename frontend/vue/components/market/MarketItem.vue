@@ -33,14 +33,11 @@
         box-sizing: border-box
 
         &:hover
-            & .market-item__caption
-                border: 1px solid $gallery
-
             & .top-line--masala::before
                 background-color: $blaze-orange
 
         &__caption
-            border: 1px solid $snow
+            border: 1px solid $gallery
             padding: 12px
             border-bottom-left-radius: 4px
             border-bottom-right-radius: 4px

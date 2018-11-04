@@ -10,7 +10,7 @@ const routes = [
         component: MarketList,
     },
     {
-        path: '/item',
+        path: '/item/:name',
         component: MarketItemDetail,
     }
 ];
