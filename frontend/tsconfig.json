@@ -3,10 +3,11 @@
         "target": "es5",
         "module": "commonjs",
         "lib": [
+            "es5",
             "es2016",
             "dom"
         ],
-        "outDir": "../public",
+        "outDir": "../public/compiled/",
         "removeComments": true,
         "downlevelIteration": true,
         "strict": true,

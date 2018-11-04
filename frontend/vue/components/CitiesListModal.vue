@@ -195,7 +195,7 @@
     &.modal
         background-color: $snow
         top: 70px
-        height: 460px
+        max-height: 430px
 
     &.top-line--flamingo
         &::before
@@ -231,7 +231,7 @@
     &__control-buttons
         display: flex
         justify-content: flex-end
-        margin: 30px 24px 0 24px
+        margin: 20px 24px 0 24px
 
     &__control-button-item
         text-transform: capitalize
