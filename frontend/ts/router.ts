@@ -10,8 +10,10 @@ const routes = [
         component: MarketList,
     },
     {
-        path: '/item/:name',
+        name: 'MarketItemDetail',
+        path: '/item/:link',
         component: MarketItemDetail,
+        props: true,
     }
 ];
 

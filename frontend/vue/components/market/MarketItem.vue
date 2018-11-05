@@ -1,49 +1,75 @@
 <template>
     <div class="market-item">
         <div class="poster-wrapper bg-theme--gallery"></div>
-        <div class="market-item__caption top-line--masala">
-            <h3 class="market-item__title">{{ itemTitle }}</h3>
+        <div class="market-item__caption top-line--masala border-theme--gallery">
+            <h3 class="market-item__title">{{ title }}</h3>
             <div class="market-item__bottom">
                 <span class="market-item__release-date">{{ itemReleaseDate }}</span>
-                <span class="market-item__price">{{ itemCost }}&#8381;</span>
+                <span class="market-item__price">{{ itemCost }}&nbsp;
+                    <span class="market-item__currency">&#8381;</span>
+                </span>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+    import Vue from 'vue';
+
+    export default Vue.extend({
         name: 'MarketItem',
+
+        props: {
+            title: {
+                type: String,
+                default: '',
+            }
+        },
+
         data() {
             return {
-                itemTitle: 'NAME',
                 itemReleaseDate: '2 дня назад',
                 itemCost: '0000'
             }
         }
-    }
+    });
 </script>
 
 <style lang="styl" type="text/stylus">
     @require "../../../styl/_variables"
 
+    .market-item, .market-item__caption
+        display: flex
+        flex-direction: column
+
+    .market-item__title, .market-item__price
+        font-size: 17px
+        line-height: 1.16
+
     .market-item
-        font-family: RobotoCondensed
         cursor: pointer
-        box-sizing: border-box
+        font-family: RobotoCondensed
+        height: 100%
 
         &:hover
             & .top-line--masala::before
                 background-color: $blaze-orange
 
         &__caption
-            border: 1px solid $gallery
+            justify-content: space-between
             padding: 12px
             border-bottom-left-radius: 4px
             border-bottom-right-radius: 4px
+            min-height: 95px
+
+            &.top-line--masala
+                position: relative
+
+                &::before
+                    position: absolute
+                    width: 100%
 
         &__title
-            font-size: 18px
             font-family: inherit
             margin-top: 3px
 
@@ -53,22 +79,14 @@
             justify-content: space-between
             align-items: center
 
-        &__price
-            font-size: 18px
-            line-height: 1.16
-
         &__release-date
             font-size: 12px
             line-height: 1.16
 
-        .market-item__caption
-            &.top-line--masala
-                position: relative
-            &::before
-                position: absolute
-                width: 100%
+        &__currency
+            font-size: 15px
 
         .poster-wrapper
             width: 100%
-            min-height: 203px
+            flex: 1 1 75%
 </style>

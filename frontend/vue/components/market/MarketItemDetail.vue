@@ -5,8 +5,7 @@
                 <div class="item-detail-spacer--bottom text-color--blaze-orange text-size--upper-medium">Playstation 4</div>
 
                 <div class="item-detail-info">
-                    <h3 class="item-detail__title item-detail__title--main">The Elder Scrolls III: Morrowind.</h3>
-                    <span class="item-detail-info__edition">Game of the Year Edition</span>
+                    <h3 class="item-detail__title item-detail__title--main">{{ title }}</h3>
                     <span class="item-detail-info__price">1500&#x20bd;</span>
                 </div>
             </div>
@@ -36,6 +35,12 @@
 
     export default Vue.extend({
         name: 'MarketItemDetail',
+
+        data() {
+            return {
+               title: this.$route.params.detailData['name'],
+            };
+        },
 
         created(): void {
             this.$emit('item-detail-view-create');

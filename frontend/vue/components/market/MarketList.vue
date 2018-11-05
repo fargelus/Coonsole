@@ -1,7 +1,18 @@
 <template>
     <div class="market-list bg-theme--snow">
-        <router-link class="market-list__item" v-for="link in itemsLink" :key="link" :to="'/item/' + link">
-            <MarketItem/>
+        <router-link class="market-list__item"
+                     v-for="product in productsData"
+                     :key="product.id"
+                     :to="{
+                        name: 'MarketItemDetail',
+                        params: {
+                            link: getLinkFromName(product.name),
+                            detailData: {
+                                name: product.name,
+                            }
+                        },
+                     }">
+            <MarketItem :title="product.name"></MarketItem>
         </router-link>
     </div>
 </template>
@@ -12,32 +23,51 @@
 
     declare module 'vue/types/vue' {
         interface Vue {
-            // data
-            itemsName: string[],
-            itemsLink: string[],
-
             // methods
-            fillItemsLink: () => void,
             getLinkFromName: (name: string) => string,
         }
     }
 
     export default Vue.extend({
+        name: 'Market',
+
         data(): object {
             return {
-                name: 'Market',
-
-                itemsName: [
-                    'Fifa 19',
-                    'Pro Evolution Soccer 2019',
-                    'The Elder Scrolls III: Morrowind',
-                    'Diablo III',
-                    'The Last of Us',
-                    'Tropico 5',
-                    'Battlefield V',
-                    'NBA 2K19',
+                // Более реалистичная модель данных
+                productsData: [
+                    {
+                        id: 1,
+                        name: 'Fifa 19',
+                    },
+                    {
+                        id: 2,
+                        name: 'Pro Evolution Soccer 2019',
+                    },
+                    {
+                        id: 3,
+                        name: 'The Elder Scrolls III: Morrowind',
+                    },
+                    {
+                        id: 4,
+                        name: 'Diablo III',
+                    },
+                    {
+                        id: 5,
+                        name: 'The Last of Us',
+                    },
+                    {
+                        id: 6,
+                        name: 'Tropico 5',
+                    },
+                    {
+                        id: 7,
+                        name: 'Battlefield V',
+                    },
+                    {
+                        id: 8,
+                        name: 'NBA 2K19'
+                    }
                 ],
-                itemsLink: []
             };
         },
 
@@ -45,18 +75,7 @@
             MarketItem,
         },
 
-        mounted(): void {
-            this.fillItemsLink();
-        },
-
         methods: {
-            fillItemsLink(): void {
-                for (const itemName of this.itemsName) {
-                    const link = this.getLinkFromName(itemName);
-                    this.itemsLink.push(link);
-                }
-            },
-
             getLinkFromName(name: string): string {
                 return name.replace(/ /gi, '_').toLowerCase();
             }
@@ -72,7 +91,7 @@
         flex-flow: row wrap
 
         &__item
-            min-width: 206px
+            flex: 0 1 205px
 
             &:not(:nth-child(4n))
                 margin-right: 12px
