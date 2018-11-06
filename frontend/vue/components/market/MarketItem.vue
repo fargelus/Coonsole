@@ -4,8 +4,8 @@
         <div class="market-item__caption top-line--masala border-theme--gallery">
             <h3 class="market-item__title">{{ title }}</h3>
             <div class="market-item__bottom">
-                <span class="market-item__release-date">{{ itemReleaseDate }}</span>
-                <span class="market-item__price">{{ itemCost }}&nbsp;
+                <span class="market-item__release-date">{{ daysPassed }}</span>
+                <span class="market-item__price">{{ price }}&nbsp;
                     <span class="market-item__currency">&#8381;</span>
                 </span>
             </div>
@@ -15,23 +15,31 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import DaysPassed from '../../../ts/days-passed.ts';
 
     export default Vue.extend({
         name: 'MarketItem',
+
+        data() {
+            return {
+                daysPassed: new DaysPassed().getValue(),
+            }
+        },
 
         props: {
             title: {
                 type: String,
                 default: '',
+            },
+            price: {
+                type: Number,
+                default: 0,
+            },
+            releaseDate: {
+                type: String,
+                default: ''
             }
         },
-
-        data() {
-            return {
-                itemReleaseDate: '2 дня назад',
-                itemCost: '0000'
-            }
-        }
     });
 </script>
 

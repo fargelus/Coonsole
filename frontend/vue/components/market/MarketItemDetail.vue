@@ -6,7 +6,7 @@
 
                 <div class="item-detail-info">
                     <h3 class="item-detail__title item-detail__title--main">{{ title }}</h3>
-                    <span class="item-detail-info__price">1500&#x20bd;</span>
+                    <span class="item-detail-info__price">{{price}}&#x20bd;</span>
                 </div>
             </div>
 
@@ -38,7 +38,8 @@
 
         data() {
             return {
-               title: this.$route.params.detailData['name'],
+                title: this.$route.params.detailData['name'],
+                price: this.$route.params.detailData['price'],
             };
         },
 

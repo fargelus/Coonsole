@@ -1,6 +1,11 @@
 <template>
     <div id="app" class="app">
-        <div class="page-content top-line--flamingo" :class="{blured: isCitiesModalListOpen}">
+        <div class="overlay"
+             :class="{
+                'overlay--visible': isCitiesModalListOpen
+            }"></div>
+        <div class="page-content top-line--flamingo"
+             :class="{'blured': isCitiesModalListOpen}">
             <header class="page-content__header bg-theme--snow">
                 <Top class="page-content__header-top"
                      :outerLocation="currentUserLocation"
