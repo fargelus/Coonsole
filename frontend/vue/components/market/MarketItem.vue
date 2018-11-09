@@ -4,7 +4,7 @@
         <div class="market-item__caption top-line--masala border-theme--gallery">
             <h3 class="market-item__title">{{ title }}</h3>
             <div class="market-item__bottom">
-                <span class="market-item__release-date">{{ daysPassed }}</span>
+                <span class="market-item__release-date">{{ releaseDate }}</span>
                 <span class="market-item__price">{{ price }}&nbsp;
                     <span class="market-item__currency">&#8381;</span>
                 </span>
@@ -22,7 +22,7 @@
 
         data() {
             return {
-                daysPassed: new DaysPassed().getValue(),
+                daysPassed: new DaysPassed(this.releaseDate).getValue(),
             }
         },
 

@@ -43,7 +43,7 @@
                         id: 1,
                         name: 'Fifa 19',
                         price: 2000,
-                        release: '1.10.2018',
+                        release: '2.11.2018',
                     },
                     {
                         id: 2,

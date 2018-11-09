@@ -14,17 +14,13 @@ namespace DateHelpers {
         December
     }
 
-    function divideCurrentDate(): object {
+    export function divideCurrentDate(): object {
         const dateInst: Date = new Date();
         return {
             year: dateInst.getFullYear(),
-            month: dateInst.getMonth(),
-            day: dateInst.getDay()
+            month: dateInst.getMonth() + 1,
+            day: dateInst.getDate()
         };
-    }
-
-    export function getCurrentMonthNumber(): number {
-        return divideCurrentDate()['month'];
     }
 
     export function getDaysOfMonth(monthNumber: number): number {
@@ -49,14 +45,47 @@ namespace DateHelpers {
 
 
 class DaysPassed {
-    private readonly currentMonthNumber: number = 0;
+    private readonly daysPassed: number = -1;
+    private readonly currentDate: object;
+    private readonly fromYear: number;
+    private readonly fromMonth: number;
+    private readonly fromDay: number;
 
-    public constructor() {
-        this.currentMonthNumber = DateHelpers.getCurrentMonthNumber();
+    public constructor(fromDate: string) {
+        this.currentDate = DateHelpers.divideCurrentDate();
+        [this.fromDay, this.fromMonth, this.fromYear] = fromDate.split('.').map((str) => +str);
+
+        this.checkIfDateInFuture();
+    }
+
+    private checkIfDateInFuture() {
+        this.checkIfYearInFuture();
+        this.checkIfMonthInFuture();
+        this.checkIfDayInFuture();
+    }
+
+    private checkIfYearInFuture() {
+        if (this.fromYear > this.currentDate['year']) {
+            throw new Error('Неправильный параметр year');
+        }
+    }
+
+    private checkIfMonthInFuture() {
+        const isYearEqual = this.fromYear === this.currentDate['year'];
+        if (this.fromMonth > this.currentDate['month'] && isYearEqual) {
+            throw new Error('Неправильный параметр month');
+        }
+    }
+
+    private checkIfDayInFuture() {
+        const isMonthEqual = this.fromMonth === this.currentDate['month'];
+        if (this.fromDay > this.currentDate['day'] && isMonthEqual) {
+            throw new Error('Неправильный параметр day');
+        }
     }
 
     public getValue() {
-        return this.currentMonthNumber;
+        return this.daysPassed;
     }
 }
 
