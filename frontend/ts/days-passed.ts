@@ -18,12 +18,20 @@ namespace DateHelpers {
         const dateInst: Date = new Date();
         return {
             year: dateInst.getFullYear(),
-            month: dateInst.getMonth() + 1,
+            month: dateInst.getMonth(),
             day: dateInst.getDate()
         };
     }
 
-    export function getDaysOfMonth(monthNumber: number): number {
+    export function countDaysPassedFromNewYear(monthEnd?: string|number): number {
+        const monthLast: number = monthEnd ? +monthEnd : divideCurrentDate()['month'];
+        return new Array(monthLast)
+                   .fill(undefined)
+                   .map((_: undefined, index: number) => getDaysOfMonth(index))
+                   .reduce((acc, current) => acc + current);
+    }
+
+    function getDaysOfMonth(monthNumber: number): number {
         if (monthNumber === Month.February) {
             return isLeapYear() ? 29 : 28;
         }
@@ -45,7 +53,23 @@ namespace DateHelpers {
 
 
 class DaysPassed {
-    private readonly daysPassed: number = -1;
+    private daysPassed: number = -1;
+
+    public constructor(fromDate: string) {
+        new DaysPassedValidator(fromDate).validate();
+        this.countDaysPassed();
+    }
+
+    private countDaysPassed() {
+        this.daysPassed = DateHelpers.countDaysPassedFromNewYear();
+    }
+
+    public getValue() {
+        return this.daysPassed;
+    }
+}
+
+class DaysPassedValidator {
     private readonly currentDate: object;
     private readonly fromYear: number;
     private readonly fromMonth: number;
@@ -54,11 +78,9 @@ class DaysPassed {
     public constructor(fromDate: string) {
         this.currentDate = DateHelpers.divideCurrentDate();
         [this.fromDay, this.fromMonth, this.fromYear] = fromDate.split('.').map((str) => +str);
-
-        this.checkIfDateInFuture();
     }
 
-    private checkIfDateInFuture() {
+    public validate() {
         this.checkIfYearInFuture();
         this.checkIfMonthInFuture();
         this.checkIfDayInFuture();
@@ -72,20 +94,18 @@ class DaysPassed {
 
     private checkIfMonthInFuture() {
         const isYearEqual = this.fromYear === this.currentDate['year'];
-        if (this.fromMonth > this.currentDate['month'] && isYearEqual) {
+        // В Date месяц отсчитывается с 0
+        const currentMonth = this.currentDate['month'] + 1;
+        if (this.fromMonth > currentMonth && isYearEqual) {
             throw new Error('Неправильный параметр month');
         }
     }
 
     private checkIfDayInFuture() {
-        const isMonthEqual = this.fromMonth === this.currentDate['month'];
+        const isMonthEqual = this.fromMonth === this.currentDate['month'] + 1;
         if (this.fromDay > this.currentDate['day'] && isMonthEqual) {
             throw new Error('Неправильный параметр day');
         }
-    }
-
-    public getValue() {
-        return this.daysPassed;
     }
 }
 
