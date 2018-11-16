@@ -105,7 +105,6 @@ class DaysPassed extends DaysPassedBase {
             daysAcc += 1;
         }
 
-        // Доводим год(кол-во дней) до текущего
         let yearIt: number = this.fromYear + 1;
         while (yearIt < this.currentDate['year']) {
             daysAcc += DateHelpers.isLeapYear(yearIt) ? 366 : 365;
