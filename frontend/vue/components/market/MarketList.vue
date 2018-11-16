@@ -85,7 +85,7 @@
                         id: 8,
                         name: 'NBA 2K19',
                         price: 3490,
-                        release: '1.11.2018',
+                        release: '1.01.2017',
                     }
                 ],
             };
