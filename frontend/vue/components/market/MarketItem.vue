@@ -4,7 +4,7 @@
         <div class="market-item__caption top-line--masala border-theme--gallery">
             <h3 class="market-item__title">{{ title }}</h3>
             <div class="market-item__bottom">
-                <span class="market-item__release-date">{{ daysPassed }}</span>
+                <span class="market-item__release-date">{{ getDaysPassedPhrase() }}</span>
                 <span class="market-item__price">{{ price }}&nbsp;
                     <span class="market-item__currency">&#8381;</span>
                 </span>
@@ -23,6 +23,22 @@
         data() {
             return {
                 daysPassed: new DaysPassed(this.releaseDate).getValue(),
+            }
+        },
+
+        methods: {
+            getDayWord(): string {
+                const lastDigit: number = this.daysPassed % 10;
+                const hundreds: number = parseInt('' + this.daysPassed / 10, 10) % 10;
+
+                if (lastDigit >= 5 || lastDigit === 0 || hundreds === 1) {
+                    return 'дней';
+                }
+                return lastDigit >= 2 ? 'дня' : 'день';
+            },
+
+            getDaysPassedPhrase(): string {
+                return `${this.daysPassed} ${this.getDayWord()} назад`;
             }
         },
 
