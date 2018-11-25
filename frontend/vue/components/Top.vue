@@ -1,7 +1,9 @@
 <template>
     <div class="header-top">
         <div class="header-top__group">
-            <img class="js-logo" width="138" height="36" alt="coonsole_logo">
+            <router-link to="/">
+                <img class="js-logo" width="138" height="36" alt="coonsole_logo">
+            </router-link>
 
             <div class="site-search header-top__search interact-element">
                 <input class="site-search__input interact-element bg-theme--gallery" type="text" :placeholder="enterSearchLabel">
@@ -15,7 +17,7 @@
 
         <div class="header-top__group header-top__group--buttons interact-element">
             <ui-button snow>{{ saleLabel }}</ui-button>
-            <ui-button class="header-top__button" orange>{{ signInLabel }}</ui-button>
+            <ui-button class="header-top__button" orange @click="signInClick">{{ signInLabel }}</ui-button>
         </div>
     </div>
 </template>
@@ -51,6 +53,10 @@
         methods: {
             cityButtonClick() {
                 this.$emit('city-button-click');
+            },
+
+            signInClick() {
+                this.$emit('sign-in-button-click');
             }
         },
     }

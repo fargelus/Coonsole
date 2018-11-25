@@ -13,7 +13,7 @@
             </ul>
 
             <div class="filter-item__inner filter-item__inner--price" v-else-if="filterItem.price">
-                <input type="number"
+                <input ref="fromPriceInput" type="number"
                        id="from-price-selector"
                        v-model="from"
                        :class="{'filter-item__element--active' : from.length > 0}"
@@ -24,7 +24,7 @@
                        :placeholder="filterItem.price.from"
                        @change="validatePrice">
 
-                <input type="number"
+                <input ref="tillPriceInput" type="number"
                        id="till-price-selector"
                        v-model="till"
                        :class="{'filter-item__element--active' : till.length > 0}"
@@ -39,85 +39,84 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+    import Vue from 'vue';
+
+    interface IFilterCategory {
+        title: string,
+        items: string[],
+        price?: object,
+        active?: string,
+    }
+
+    export default Vue.extend({
         name: 'Filters',
 
         data() {
-            return {
-                filterItems: [
-                    {
-                        title: 'Сортировать по',
-                        items: [
-                            'Возрастанию цены',
-                            'Убыванию цены',
-                            'Дате добавления'
-                        ],
-                        active: 'Возрастанию цены',
-                    },
-                    {
-                        title: 'Консоль',
-                        items: [
-                            'PlayStation 4',
-                            'PlayStation 3',
-                            'XBOX ONE',
-                            'XBOX 360',
-                            'Nintendo Switch',
-                            'Nintendo WiiU',
-                        ],
-                        active: 'PlayStation 4',
-                    },
-                    {
-                        title: 'Цена',
-                        price: {
-                            from: 'От',
-                            till: 'До',
-                        }
-                    },
+            const sortFilters: IFilterCategory = {
+                title: 'Сортировать по',
+                items: [
+                    'Возрастанию цены',
+                    'Убыванию цены',
+                    'Дате добавления'
                 ],
-                from: '',
-                till: '',
+                active: 'Возрастанию цены',
+            } as IFilterCategory;
+
+            const consoleTypeFilters: IFilterCategory = {
+                title: 'Консоль',
+                items: [
+                    'PlayStation 4',
+                    'PlayStation 3',
+                    'XBOX ONE',
+                    'XBOX 360',
+                    'Nintendo Switch',
+                    'Nintendo WiiU',
+                ],
+                active: 'PlayStation 4',
+            } as IFilterCategory;
+
+            const priceFilters: IFilterCategory = {
+                title: 'Цена',
+                price: {
+                    from: 'От',
+                    till: 'До',
+                }
+            } as IFilterCategory;
+
+            return {
+                filterItems: [sortFilters, consoleTypeFilters, priceFilters],
+                from: 0,
+                till: 19999,
             };
         },
 
         methods: {
             /**
              * Меняем внешний вид текущего активного фильтра
-             * @param {MouseEvent} evt - Объект события мыши
-             * @param {Object} selectedFilterItem - Текущий объект фильтра(элемент filterItems)
              */
-            filterSelectedByUser(evt, selectedFilterItem) {
-                selectedFilterItem.active = evt.target.innerHTML.trim();
+            filterSelectedByUser(evt: MouseEvent, selectedFilterItem: IFilterCategory): void {
+                const target: HTMLElement = evt.target as HTMLElement;
+                selectedFilterItem.active = target.innerHTML.trim() as string;
             },
 
             /**
              * Если зн-е цены больше/меньше порогового, то
              * ставим текущее зн-е цены максимальным или минимальным.
-             *
-             * @param {HTMLElement} inputElement - Инпут с ценой
              */
-            setPriceValueInRange(inputElement) {
-                // Возвращ.зн-я:
-                // 1 - Больше максимального зн-я
-                // 0 - В границах между максим. и миним.
-                // -1 - Меньше миним.
-                const isValueBeyond = (current, min, max) => {
-                    if (current > max) return 1;
-                    if (current < min) return -1;
-                    return 0;
-                };
-
+            setPriceValueInRange(inputElement: HTMLInputElement): void {
                 // Валидация граничных зн-й
-                const currentValue = inputElement.valueAsNumber;
-                const maxValue = inputElement.getAttribute('max');
-                const minValue = inputElement.getAttribute('min');
-                const isBeyond = isValueBeyond(currentValue, minValue, maxValue);
+                const currentValue: number = inputElement.valueAsNumber;
+                const maxValue: number = +(inputElement.getAttribute('max') as string);
+                const minValue: number = +(inputElement.getAttribute('min') as string);
+
+                const isBeyond = this.checkIfInputValBeyond(minValue, maxValue, currentValue);
 
                 if (isBeyond) {
-                    const inputID = inputElement.getAttribute('id');
-                    const targetVal = isBeyond === -1 ? minValue : maxValue;
+                    const inputID = inputElement.getAttribute('id') as string;
+                    const targetVal: number = isBeyond === -1 ? minValue : maxValue;
 
-                    if (inputID.match(/from/)) {
+                    if (inputID.search(/from/) > -1) {
                         this.from = targetVal;
                     } else {
                         this.till = targetVal;
@@ -126,41 +125,64 @@
             },
 
             /**
+             * Возвращ.зн-я:
+             * 1 - Больше максимального зн-я
+             * 0 - В границах между максим. и миним.
+             * -1 - Меньше миним.
+            */
+            checkIfInputValBeyond(min: number, max: number, current: number): number {
+                return current > max ? 1 : current < min ? -1 : 0;
+            },
+
+            /**
              * Валидация цены: цена "от" не должна быть больше цены "до"
-             * @param {MouseEvent} evt - Объект события мыши
              */
-            validatePrice(evt) {
-                const inputElement = evt.target;
+            validatePrice(evt: MouseEvent): void {
+                const inputElement = evt.target as HTMLInputElement;
 
                 // Установка значения в пределах границ
                 this.setPriceValueInRange(inputElement);
 
                 // Выбираем оба инпута
-                const fromPriceInputElement = document.getElementById('from-price-selector');
-                const tillPriceInputElement = document.getElementById('till-price-selector');
-
-                // Проверяем валидны ли поля на тек.момент
-                const isFromPriceInputHasValidError = fromPriceInputElement.classList.contains('validation-error');
-                const isTillPriceInputHasValidError = tillPriceInputElement.classList.contains('validation-error');
-                const isAnybodyHasValidError = isFromPriceInputHasValidError || isTillPriceInputHasValidError;
+                const isAnyHasValidError = this.checkIfAnyPriceInputHasValidError();
 
                 // Если значение "от" больше зн-я "до"
                 // вешаем на текущий инпут класс,
                 // сообщающий об ошибке валидации
-                const inputClasses = inputElement.classList;
-                const isUserAlreadyFillModels = this.from && this.till;
-                if (isUserAlreadyFillModels && +this.from >= +this.till) {
+                const inputClasses: DOMTokenList = inputElement.classList;
+                const isUserAlreadyFillModels: number = this.from && this.till;
+                if (isUserAlreadyFillModels && this.from >= this.till) {
                     // Ошибка валидации должна быть одна
-                    if (!isAnybodyHasValidError) {
+                    if (!isAnyHasValidError) {
                         inputClasses.add('validation-error');
                     }
                 } else {
-                    fromPriceInputElement.classList.remove('validation-error');
-                    tillPriceInputElement.classList.remove('validation-error');
+                    this.removeAllValidErrorsFromPriceInputs();
                 }
+            },
+
+            checkIfAnyPriceInputHasValidError(): boolean {
+                const { from, till } = this.getTypedHTMLInputsFromRef();
+                const isFromPriceInputHasValidError: boolean = from.classList.contains('validation-error');
+                const isTillPriceInputHasValidError: boolean = till.classList.contains('validation-error');
+
+                return isFromPriceInputHasValidError || isTillPriceInputHasValidError;
+            },
+
+            getTypedHTMLInputsFromRef() {
+                const from = this.$refs.fromPriceInput[0] as HTMLInputElement;
+                const till = this.$refs.tillPriceInput[0] as HTMLInputElement;
+
+                return { 'from': from, 'till': till };
+            },
+
+            removeAllValidErrorsFromPriceInputs(): void {
+                const { from, till } = this.getTypedHTMLInputsFromRef();
+                from.classList.remove('validation-error');
+                till.classList.remove('validation-error');
             }
         },
-    }
+    });
 </script>
 
 <style lang="styl" type="text/stylus">
@@ -196,13 +218,6 @@
                 &:not(:last-child)
                     margin-right: 20px
 
-                // Спрячем стрелки(только для webkit)
-                &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
-                    appearance: none
-
-                // Стрелки для FF
-                -moz-appearance: textfield
-
             &:hover
                 background-color: $pinky
                 color: $masala
@@ -212,9 +227,9 @@
 
             &--active
                 border-bottom: 2px solid $masala
+
         &__title
             margin-top: 12px
-            font-weight: 500
 
         &__inner--price
             display: flex

@@ -1,11 +1,11 @@
 <template>
-    <aside class="aside page-content__aside">
+    <aside class="aside">
         <Filters v-show="!isHideFilters"></Filters>
         <button class="button transparent aside__back-btn"
                 v-show="isHideFilters"
                 @click="onBackBtnClick">
             <div>
-                <img src="" class="js-arrow-left button__label-left" alt="Вернуться назад" width="17" height="18">
+                <img class="js-arrow-left button__label-left" alt="Вернуться назад" width="17" height="18">
                 Вернуться назад
             </div>
         </button>

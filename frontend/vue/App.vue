@@ -10,11 +10,10 @@
                 <Top class="page-content__header-top"
                      :outerLocation="currentUserLocation"
                      @city-button-click="showCitiesListModal"></Top>
-                <HeaderFilter v-if="false"></HeaderFilter>
             </header>
 
             <main class="main page-content__main">
-                <Aside :changeView="isChangeAsideView"></Aside>
+                <Aside :changeView="isChangeAsideView" class="page-content__aside"></Aside>
                 <router-view
                     @item-detail-view-create="toggleAsideViewChange"
                     @item-detail-view-destroy="toggleAsideViewChange"
@@ -27,6 +26,7 @@
             :citiesListProp="getCitiesModalData"
             v-if="isCitiesModalListOpen"
             v-click-outside="hideCitiesListModal"></CitiesListModal>
+        <SignInModal></SignInModal>
     </div>
 </template>
 
@@ -34,11 +34,13 @@
     import Vue from 'vue';
     import axios from 'axios';
     import ClickOutside from 'vue-click-outside';
+
     import Top from './components/Top.vue';
-    import HeaderFilter from './components/HeaderFilter.vue';
-    import CitiesListModal from './components/CitiesListModal.vue';
     import Aside from './components/Aside.vue';
     import MarketList from './components/market/MarketList.vue';
+
+    import CitiesListModal from './components/modals/CitiesListModal.vue';
+    import SignInModal from './components/modals/SignInModal.vue';
 
     export default Vue.extend({
         data() {
@@ -52,10 +54,10 @@
 
         components: {
             Top,
-            HeaderFilter,
-            CitiesListModal,
             Aside,
-            MarketList
+            MarketList,
+            CitiesListModal,
+            SignInModal,
         },
 
         /**
@@ -137,7 +139,7 @@
             width: 100%
 
         &__main
-            padding-top: 67px
+            padding-top: 71px
 
         &__aside
             min-width: 232px

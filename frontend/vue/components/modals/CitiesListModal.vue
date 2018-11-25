@@ -36,7 +36,7 @@
 
 <script>
     import _ from 'underscore';
-    import SearchBar from '../ui/SearchBar.vue';
+    import SearchBar from '../../ui/SearchBar.vue';
 
     export default {
         data() {
@@ -177,7 +177,7 @@
 </script>
 
 <style lang="styl" type="text/stylus">
-@require '../../styl/_variables'
+@require '../../../styl/_variables'
 
 .cities-list-modal
 
