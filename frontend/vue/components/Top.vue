@@ -22,8 +22,10 @@
     </div>
 </template>
 
-<script>
-    export default {
+<script lang="ts">
+    import Vue from 'vue';
+
+    export default Vue.extend({
         data() {
             return {
                 saleLabel: 'Продать',
@@ -45,21 +47,21 @@
              * Если props изменился извне,
              * установим это значение, иначе возьмем текущее
              */
-            outerLocation(newVal) {
+            outerLocation(newVal): void {
                 this.userLocation = newVal ? newVal : this.userLocation;
             }
         },
 
         methods: {
-            cityButtonClick() {
+            cityButtonClick(): void {
                 this.$emit('city-button-click');
             },
 
-            signInClick() {
+            signInClick(): void {
                 this.$emit('sign-in-button-click');
             }
         },
-    }
+    });
 </script>
 
 <style lang="styl" type="text/stylus">

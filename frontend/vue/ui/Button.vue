@@ -11,32 +11,10 @@
     </button>
 </template>
 
-<style lang="styl" type="text/stylus">
-    @require '../../styl/_variables'
+<script lang="ts">
+    import Vue from 'vue';
 
-    .button
-        overflow: hidden
-        text-overflow: ellipsis
-        cursor: pointer
-        display: inline-block
-        border-radius: 4px
-        color: $masala
-        padding: 0 12px
-        font-size: 16px
-        max-width: 160px
-        white-space: nowrap
-
-        &__label-left
-            position: relative
-            top: 3px
-            margin-right: 7px
-
-    .button.button-theme--orange
-        color: white
-</style>
-
-<script>
-    export default {
+    export default Vue.extend({
         name: "ui-button",
 
         props: {
@@ -67,9 +45,33 @@
         },
 
         methods: {
-            onClick(event) {
+            onClick(event: string): void {
                 this.href ? window.open(this.href) : this.$emit('click', event);
             }
         },
-    }
+    });
 </script>
+
+<style lang="styl" type="text/stylus">
+    @require '../../styl/_variables'
+
+    .button
+        overflow: hidden
+        text-overflow: ellipsis
+        cursor: pointer
+        display: inline-block
+        border-radius: 4px
+        color: $masala
+        padding: 0 12px
+        font-size: 16px
+        max-width: 160px
+        white-space: nowrap
+
+        &__label-left
+            position: relative
+            top: 3px
+            margin-right: 7px
+
+    .button.button-theme--orange
+        color: white
+</style>
