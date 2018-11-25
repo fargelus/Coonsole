@@ -44,7 +44,7 @@
 
     interface IFilterCategory {
         title: string,
-        items: string[],
+        items?: string[],
         price?: object,
         active?: string,
     }
@@ -61,7 +61,7 @@
                     'Дате добавления'
                 ],
                 active: 'Возрастанию цены',
-            } as IFilterCategory;
+            };
 
             const consoleTypeFilters: IFilterCategory = {
                 title: 'Консоль',
@@ -74,7 +74,7 @@
                     'Nintendo WiiU',
                 ],
                 active: 'PlayStation 4',
-            } as IFilterCategory;
+            };
 
             const priceFilters: IFilterCategory = {
                 title: 'Цена',
@@ -82,7 +82,7 @@
                     from: 'От',
                     till: 'До',
                 }
-            } as IFilterCategory;
+            };
 
             return {
                 filterItems: [sortFilters, consoleTypeFilters, priceFilters],
