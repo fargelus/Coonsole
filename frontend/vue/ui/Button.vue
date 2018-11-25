@@ -2,7 +2,10 @@
     <button type="button" class="button"
             :class="{
                 'button-theme--snow': snow,
-                'button-theme--orange': orange
+                'button-theme--orange': orange,
+                'button-theme--light-orange': light_orange,
+                'button-theme--sky': sky,
+                'button-theme--masala': masala,
             }"
             :disabled="disabled"
             :type="type"
@@ -13,36 +16,35 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import * as _ from 'underscore';
+
+    const btnProps = {
+        type: {
+            type: String,
+            default: 'button',
+        },
+
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+
+        href: {
+            type: String,
+            default: null,
+        },
+    };
+
+    _.each(['snow', 'orange', 'light_orange', 'sky', 'masala'], (btnTheme: string) => {
+        btnProps[btnTheme] = {
+           type: Boolean,
+           default: false,
+       };
+    });
 
     export default Vue.extend({
-        name: "ui-button",
-
-        props: {
-            type: {
-                type: String,
-                default: 'button',
-            },
-
-            snow: {
-                type: Boolean,
-                default: false,
-            },
-
-            orange: {
-                type: Boolean,
-                default: false,
-            },
-
-            href: {
-                type: String,
-                default: null,
-            },
-
-            disabled: {
-                type: Boolean,
-                default: false,
-            },
-        },
+        name: 'ui-button',
+        props: btnProps,
 
         methods: {
             onClick(event: string): void {
@@ -72,6 +74,8 @@
             top: 3px
             margin-right: 7px
 
-    .button.button-theme--orange
-        color: white
+    .button.button-theme
+        &--orange, &--light-orange, &--sky, &--masala
+            color: $snow
+            border: 0
 </style>

@@ -31,3 +31,12 @@ for color in flamingo masala
 
 .ov-hidden
     overflow: hidden
+
+$like-link-tmpl
+    color: $link
+    cursor: pointer
+    &:hover
+        text-decoration: underline
+
+.like-link
+    @extend $like-link-tmpl

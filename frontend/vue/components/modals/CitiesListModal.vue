@@ -196,7 +196,6 @@
         background-color: $snow
         top: 70px
         max-height: 430px
-        z-index: 10002
 
     &.top-line--flamingo
         &::before

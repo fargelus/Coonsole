@@ -3,3 +3,18 @@
 .modal
   centered()
   max-width: 620px
+  z-index: 10002
+
+.modal-mode
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+
+    &__delimeter
+        margin: 0 10px
+        font-size: 30px
+        font-weight: 700
+        color: $gray
+
+    &__title:not(&__title--option)
+        font-size: 23px
