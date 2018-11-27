@@ -1,5 +1,5 @@
 <template>
-    <div class="modal entrance-modal bg-theme--snow" hidden>
+    <div class="modal entrance-modal bg-theme--snow">
         <div class="modal-mode entrance-modal__el">
             <h3 class="modal-mode__title">Вход</h3>
             <div class="modal-mode__delimeter">/</div>

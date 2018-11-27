@@ -10,14 +10,14 @@
                 <ui-button class="site-search__button interact-element bg-theme--gallery">{{ findLabel }}</ui-button>
             </div>
 
-            <button class="button interact-element group-button-last transparent header-top__button" type="button" @click="cityButtonClick">
+            <button class="button interact-element group-button-last transparent header-top__button" type="button" @click="emitBtnClick($event, 'city-button')">
                 <img class="js-compass button__label-left">{{ userLocation }}
             </button>
         </div>
 
         <div class="header-top__group header-top__group--buttons interact-element">
             <ui-button snow>{{ saleLabel }}</ui-button>
-            <ui-button class="header-top__button" orange @click="signInClick">{{ signInLabel }}</ui-button>
+            <ui-button class="header-top__button" orange @click="emitBtnClick($event, 'entrance-button')">{{ signInLabel }}</ui-button>
         </div>
     </div>
 </template>
@@ -53,13 +53,9 @@
         },
 
         methods: {
-            cityButtonClick(): void {
-                this.$emit('city-button-click');
+            emitBtnClick(_: MouseEvent, button: string): void {
+                this.$emit(button);
             },
-
-            signInClick(): void {
-                this.$emit('sign-in-button-click');
-            }
         },
     });
 </script>

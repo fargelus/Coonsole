@@ -2,14 +2,16 @@
     <div id="app" class="app">
         <div class="overlay"
              :class="{
-                'overlay--visible': isCitiesModalListOpen
+                'overlay--visible': isModalOpen,
             }"></div>
+
         <div class="page-content top-line--flamingo"
-             :class="{'blured': isCitiesModalListOpen}">
+             :class="{'blured': isModalOpen}">
             <header class="page-content__header bg-theme--snow">
                 <Top class="page-content__header-top"
                      :outerLocation="currentUserLocation"
-                     @city-button-click="showCitiesListModal"></Top>
+                     @city-button="showModal('city')"
+                     @entrance-button="showModal('entrance')"></Top>
             </header>
 
             <main class="main page-content__main">
@@ -24,9 +26,11 @@
         <CitiesListModal
             @city-changed="setNewUserLocation"
             :citiesListProp="getCitiesModalData"
-            v-if="isCitiesModalListOpen"
-            v-click-outside="hideCitiesListModal"></CitiesListModal>
-        <SignInModal></SignInModal>
+            v-if="modals.city"
+            v-click-outside="hideVisibleModal"></CitiesListModal>
+        <EntranceModal
+            v-if="modals.entrance"
+            v-click-outside="hideVisibleModal"></EntranceModal>
     </div>
 </template>
 
@@ -34,21 +38,23 @@
     import Vue from 'vue';
     import axios from 'axios';
     import ClickOutside from 'vue-click-outside';
+    import * as _ from 'underscore';
 
     import Top from './components/Top.vue';
     import Aside from './components/Aside.vue';
     import MarketList from './components/market/MarketList.vue';
 
     import CitiesListModal from './components/modals/CitiesListModal.vue';
-    import SignInModal from './components/modals/SignInModal.vue';
+    import EntranceModal from './components/modals/EntranceModal.vue';
 
     export default Vue.extend({
         data() {
             return {
-                isCitiesModalListOpen: false,
                 citiesModalData: [],
                 currentUserLocation: '',
                 isChangeAsideView: false,
+                isModalOpen: false,
+                modals: { city: false, entrance: false }
             }
         },
 
@@ -57,7 +63,7 @@
             Aside,
             MarketList,
             CitiesListModal,
-            SignInModal,
+            EntranceModal,
         },
 
         /**
@@ -79,14 +85,19 @@
         },
 
         methods: {
-            showCitiesListModal() {
-                this.isCitiesModalListOpen = true;
+            showModal(type: string) {
+                this.modals[type] = true;
                 document.body.classList.add('ov-hidden');
+                this.isModalOpen = true;
             },
 
-            hideCitiesListModal() {
-                this.isCitiesModalListOpen = false;
+            hideVisibleModal() {
+                const type: string = _.keys(this.modals)
+                                      .filter((key) => this.modals[key])[0] as string;
+
+                this.modals[type] = false;
                 document.body.classList.remove('ov-hidden');
+                this.isModalOpen = false;
             },
 
             /**
@@ -95,7 +106,7 @@
              * @param {String} choosedCityName - Название города возвращенного из модалки.
              */
             setNewUserLocation(choosedCityName: string) {
-                this.hideCitiesListModal();
+                this.hideVisibleModal();
                 this.currentUserLocation = choosedCityName;
             },
 
