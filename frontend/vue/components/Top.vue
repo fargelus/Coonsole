@@ -11,13 +11,15 @@
             </div>
 
             <button class="button interact-element group-button-last transparent header-top__button" type="button" @click="emitBtnClick($event, 'city-button')">
-                <img class="js-compass button__label-left">{{ userLocation }}
+                <img class="js-compass button__label-left" alt="Компас">{{ userLocation }}
             </button>
         </div>
 
         <div class="header-top__group header-top__group--buttons interact-element">
-            <ui-button snow>{{ saleLabel }}</ui-button>
-            <ui-button class="header-top__button" orange @click="emitBtnClick($event, 'entrance-button')">{{ signInLabel }}</ui-button>
+            <ui-button snow v-if="isAuthorized">{{ saleLabel }}</ui-button>
+            <button class="button interact-element group-button-last transparent header-top__button--user" @click="emitBtnClick($event, 'entrance-button')" type="button">
+                <font-awesome-icon class="icon text-color--blaze-orange" width="42" height="32" icon="user" />
+            </button>
         </div>
     </div>
 </template>
@@ -32,7 +34,11 @@
                 signInLabel: 'Войти',
                 findLabel: 'Поиск',
                 enterSearchLabel: 'Введите запрос',
-                userLocation: 'Санкт-Петербург'
+                userLocation: 'Санкт-Петербург',
+                // TODO показываем кнопку
+                // "Продать" только для
+                // авторизованных пользователей
+                isAuthorized: false,
             };
         },
 
@@ -89,6 +95,9 @@
 
     .header-top__button
         margin-left: 20px
+
+        &--user.button
+            padding-right: 22px
 
     .site-search
         position: relative
