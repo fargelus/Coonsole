@@ -2,32 +2,26 @@
 @require '../modificators/_mixes.styl'
 
 .button-theme
-    &--snow, &--orange, &--masala
+    &--snow, &--orange
         &:hover
             opacity: .8
-
-    &--light-orange
-        &:hover
-            opacity: .95
-
-    &--snow
-        border: 1px solid black
-        background-color: $snow
 
     &--orange
         background-color: $blaze-orange
 
-    &--light-orange
-        background-color: $light-orange
+    themes = {
+        twitter: $twitter,
+        vk: $vk,
+        sky: $sky,
+        masala: $masala
+    }
+    for theme, color in themes
+        &--{theme}
+            background-color: color
 
-    &--sky
-        background-color: $sky
+            &:hover
+                background-color: darken(color , 10)
 
-        &:hover
-            background-color: darken($sky, 10)
-
-    &--masala
-        background-color: $masala
 
 .button--disabled
   opacity: .5
@@ -47,6 +41,9 @@
 
     &--gallery
         background-color: $gallery
+
+    &--gallery-dark
+        background-color: darken($gallery, 5)
 
     &--snow
         background-color: $snow

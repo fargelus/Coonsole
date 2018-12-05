@@ -3,9 +3,10 @@
             :class="{
                 'button-theme--snow': snow,
                 'button-theme--orange': orange,
-                'button-theme--light-orange': light_orange,
                 'button-theme--sky': sky,
                 'button-theme--masala': masala,
+                'button-theme--vk': vk,
+                'button-theme--twitter': twitter,
             }"
             :disabled="disabled"
             :type="type"
@@ -35,7 +36,7 @@
         },
     };
 
-    _.each(['snow', 'orange', 'light_orange', 'sky', 'masala'], (btnTheme: string) => {
+    _.each(['snow', 'orange', 'vk', 'sky', 'masala', 'twitter'], (btnTheme: string) => {
         btnProps[btnTheme] = {
            type: Boolean,
            default: false,
@@ -69,13 +70,18 @@
         max-width: 160px
         white-space: nowrap
 
-        &__label-left
+        &__label-left, &__icon
             position: relative
+
+        &__label-left
             top: 3px
             margin-right: 7px
 
+        &__icon
+            right: 5px
+
     .button.button-theme
-        &--orange, &--light-orange, &--sky, &--masala
+        &--orange, &--sky, &--masala, &--twitter, &--vk
             color: $snow
             border: 0
 </style>

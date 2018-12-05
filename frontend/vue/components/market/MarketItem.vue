@@ -15,7 +15,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import DaysPassed from '../../../ts/days-passed.ts';
+    import DaysPassed from '../../../ts/ui/days-passed.ts';
 
     export default Vue.extend({
         name: 'MarketItem',
