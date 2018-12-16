@@ -1,24 +1,32 @@
 <template>
     <div class="modal entrance-modal bg-theme--snow"
          :class="{
-            'forgot-password-order': isForgotFormShowed,
+            'forgot-password-order': isSwitchedToForgotForm,
         }">
 
         <div class="modal-mode entrance-modal__mode entrance-modal__el">
-            <h3
+            <h3 class="modal-mode__title"
                 :class="{
-                    'modal-mode__title--option': isForgotFormShowed,
+                    'modal-mode__title--option': isSwitchedToForgotForm || isSwitchedToRegForm,
                 }"
                 @click="switchToEnterForm"> Вход </h3>
             <div class="modal-mode__delimeter">/</div>
-            <h3 class="modal-mode__title modal-mode__title--option">Регистрация</h3>
+            <h3 class="modal-mode__title"
+                :class="{
+                    'modal-mode__title--option': !isSwitchedToRegForm,
+                }"
+                @click="switchToRegForm">Регистрация
+            </h3>
         </div>
 
-        <h3 class="modal-mode__title entrance-modal__el" v-if="isForgotFormShowed"> Восстановление пароля </h3>
+        <h3 class="modal-mode__title entrance-modal__el" v-show="isSwitchedToForgotForm"> Восстановление пароля </h3>
 
         <Form class="entrance-modal__form entrance-modal__el"
               :isEnterFormShow="isSwitchedToEnterForm"
-              @forgot-form="forgotFormShowed"></Form>
+              :isForgotFormShow="isSwitchedToForgotForm"
+              :isRegFormShow="isSwitchedToRegForm"
+              @forgot-form="switchToForgotForm"
+        ></Form>
 
         <div class="bg-theme--gallery-dark entrance-modal__socials-wrapper entrance-modal__el">
             <h3>Вход через социальные сети</h3>
@@ -54,22 +62,26 @@
         data() {
             return {
                 isSwitchedToEnterForm: true,
-                isForgotFormShowed: false,
+                isSwitchedToRegForm: false,
+                isSwitchedToForgotForm: false,
             }
         },
 
         methods: {
-            forgotFormShowed(): void {
-                this.isForgotFormShowed = true;
-                this.isSwitchedToEnterForm = false;
+            switchToEnterForm(): void {
+                this.isSwitchedToEnterForm = true;
+                this.isSwitchedToRegForm = this.isSwitchedToForgotForm = false;
             },
 
-            switchToEnterForm(): void {
-                if (this.isForgotFormShowed) {
-                    this.isForgotFormShowed = false;
-                    this.isSwitchedToEnterForm = true;
-                }
-            }
+            switchToRegForm(): void {
+                this.isSwitchedToRegForm = true;
+                this.isSwitchedToEnterForm = this.isSwitchedToForgotForm = false;
+            },
+
+            switchToForgotForm(): void {
+                this.isSwitchedToForgotForm = true;
+                this.isSwitchedToEnterForm = this.isSwitchedToEnterForm = false;
+            },
         },
 
         components: {

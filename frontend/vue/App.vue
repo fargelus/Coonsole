@@ -40,7 +40,7 @@
     import ClickOutside from 'vue-click-outside';
     import * as _ from 'underscore';
 
-    import './Helpers.vue';
+    import './components/Helpers.vue';
 
     import Top from './components/Top.vue';
     import Aside from './components/Aside.vue';
