@@ -1,7 +1,7 @@
 <template>
     <div>
-        <form class="form" v-if="enterForm">
-            <input type="text" class="form-input interact-element" placeholder="Email">
+        <form class="form" v-show="enterForm">
+            <input type="text" class="form-input interact-element" placeholder="Email" v-focus>
             <div class="form-input--forgot-pwd">
                 <span class="like-link forgot-link" @click="showForgotForm">Забыли?</span>
                 <input type="text" class="form-input interact-element" placeholder="Пароль">
@@ -9,8 +9,8 @@
             <ui-button type="submit" orange class="interact-element form__button--submit">Войти</ui-button>
         </form>
 
-        <form class="form form--forgot-pwd" v-if="forgotForm">
-            <input type="text" class="form-input interact-element" placeholder="Email">
+        <form class="form form--forgot-pwd" v-show="forgotForm">
+            <input type="text" class="form-input interact-element" placeholder="Email" v-focus>
             <ui-button type="submit" orange class="interact-element form__button--submit form--forgot-pwd__submit">Восстановить пароль</ui-button>
         </form>
     </div>

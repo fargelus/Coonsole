@@ -40,6 +40,8 @@
     import ClickOutside from 'vue-click-outside';
     import * as _ from 'underscore';
 
+    import './Helpers.vue';
+
     import Top from './components/Top.vue';
     import Aside from './components/Aside.vue';
     import MarketList from './components/market/MarketList.vue';
