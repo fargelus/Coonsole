@@ -45,7 +45,7 @@
     import MarketList from './components/market/MarketList.vue';
 
     import CitiesListModal from './components/modals/CitiesListModal.vue';
-    import EntranceModal from './components/modals/EntranceModal.vue';
+    import EntranceModal from './components/modals/entrance_modal/EntranceModal.vue';
 
     export default Vue.extend({
         data() {
