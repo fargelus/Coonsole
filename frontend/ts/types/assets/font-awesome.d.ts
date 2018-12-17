@@ -5,5 +5,7 @@ declare module "@fortawesome/vue-fontawesome" {
 
 declare module "@fortawesome/free-solid-svg-icons" {
     const faUser: any;
-    export {faUser};
+    const faEye: any;
+    const faEyeSlash: any;
+    export {faUser, faEye, faEyeSlash};
 }

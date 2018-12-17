@@ -4,7 +4,7 @@
             <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus>
             <div class="form-input--forgot-pwd">
                 <span class="like-link forgot-link" @click="forgotFormModeSelect">{{forgotPwdText}}</span>
-                <input type="password" class="form-input interact-element" :placeholder=pwdPlaceholder>
+                <PasswordInput></PasswordInput>
             </div>
             <ui-button type="submit" orange class="interact-element form__button--submit">{{enterBtnText}}</ui-button>
         </form>
@@ -17,7 +17,7 @@
         <form class="form" v-show="regForm">
             <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus>
             <input type="text" class="form-input interact-element" :placeholder=namePlaceholder>
-            <input type="password" class="form-input interact-element" :placeholder=pwdPlaceholder>
+            <PasswordInput></PasswordInput>
             <ui-button type="submit" orange class="interact-element form__button--submit form__vspacer">{{regBtnText}}</ui-button>
         </form>
     </div>
@@ -25,6 +25,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import PasswordInput from './PasswordInput.vue';
 
     export default Vue.extend({
         name: "Form",
@@ -34,7 +35,6 @@
                 enterForm: this.isEnterFormShow,
                 emailPlaceholder: 'Email',
                 forgotPwdText: 'Забыли?',
-                pwdPlaceholder: 'Пароль',
                 enterBtnText: 'Войти',
                 forgotForm: this.isForgotFormShow,
                 restorePwdText: 'Восстановить пароль',
@@ -80,6 +80,10 @@
                 this.forgotForm = newVal;
             },
         },
+
+        components: {
+            PasswordInput,
+        }
     });
 </script>
 
