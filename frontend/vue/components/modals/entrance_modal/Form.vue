@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="form" v-show="enterForm">
-            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus>
+            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus required>
             <div class="form-input--forgot-pwd">
                 <span class="like-link forgot-link" @click="forgotFormModeSelect">{{forgotPwdText}}</span>
                 <PasswordInput></PasswordInput>
@@ -10,14 +10,15 @@
         </form>
 
         <form class="form form--forgot-pwd" v-show="forgotForm">
-            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus>
+            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus required>
             <ui-button type="submit" orange class="interact-element form__button--submit form--forgot-pwd__submit form__vspacer">{{restorePwdText}}</ui-button>
         </form>
 
         <form class="form" v-show="regForm">
-            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus>
-            <input type="text" class="form-input interact-element" :placeholder=namePlaceholder>
+            <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus required>
+            <input type="text" class="form-input interact-element" :placeholder=namePlaceholder required>
             <PasswordInput></PasswordInput>
+            <vue-recaptcha class="form__recaptcha" id="recaptcha" @render="recaptchaRender" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></vue-recaptcha>
             <ui-button type="submit" orange class="interact-element form__button--submit form__vspacer">{{regBtnText}}</ui-button>
         </form>
     </div>
@@ -26,6 +27,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import PasswordInput from './PasswordInput.vue';
+    import VueRecaptcha from 'vue-recaptcha';
 
     export default Vue.extend({
         name: "Form",
@@ -64,6 +66,20 @@
         methods: {
             forgotFormModeSelect(): void {
                 this.$emit('forgot-form');
+            },
+
+            recaptchaRender(): void {
+                const loadedIFrameContent = (function getLoadedIframeContent() {
+                    const iframe: HTMLIFrameElement = document.querySelector('#recaptcha iframe') as HTMLIFrameElement;
+                    const iframeContent: Document = iframe.contentDocument as Document;
+                    if (iframeContent!.readyState === 'complete') {
+                        iframe.contentWindow!.onload = function() {
+                            return iframeContent;
+                        };
+                    }
+
+                    setTimeout(getLoadedIframeContent, 100);
+                })();
             }
         },
 
@@ -83,6 +99,7 @@
 
         components: {
             PasswordInput,
+            VueRecaptcha,
         }
     });
 </script>
@@ -104,4 +121,8 @@
 
             &__submit
                 align-self: flex-start
+
+        &__recaptcha
+            flex: 1 1 100%
+            margin: 15px 0 5px
 </style>

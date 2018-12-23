@@ -1,6 +1,6 @@
 <template>
     <div class="password-input">
-        <input :type="currentType" class="form-input interact-element" :placeholder=pwdPlaceholder v-model="passwordText">
+        <input :type="currentType" class="form-input interact-element" :placeholder=pwdPlaceholder v-model="passwordText" required>
         <div class="password-input__icons">
             <font-awesome-icon v-show="passwordText && !isReveal" class="icon" width="22" height="16" icon="eye-slash" @click="revealPwd" />
             <font-awesome-icon v-show="passwordText && isReveal" class="icon" width="22" height="16" icon="eye" @click="encryptPwd"/>
