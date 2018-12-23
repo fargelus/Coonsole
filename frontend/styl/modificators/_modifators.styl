@@ -3,7 +3,7 @@
 
 .button-theme
     &--snow, &--orange
-        &:hover
+        &:hover:not(.button--disabled)
             opacity: .8
 
     &--orange
@@ -21,12 +21,6 @@
 
             &:hover
                 background-color: darken(color , 10)
-
-
-.button--disabled
-  opacity: .5
-  &:hover
-    opacity: .5
 
 
 .bg-theme

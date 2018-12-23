@@ -18,8 +18,14 @@
             <input type="email" class="form-input interact-element" :placeholder=emailPlaceholder v-focus required>
             <input type="text" class="form-input interact-element" :placeholder=namePlaceholder required>
             <PasswordInput></PasswordInput>
-            <vue-recaptcha class="form__recaptcha" id="recaptcha" @render="recaptchaRender" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></vue-recaptcha>
-            <ui-button type="submit" orange class="interact-element form__button--submit form__vspacer">{{regBtnText}}</ui-button>
+            <vue-recaptcha
+                class="form__recaptcha"
+                id="recaptcha"
+                sitekey="6LepRIQUAAAAACafzCaHZ45D5Ef9LP3A3QrQg377"
+                @verify="recapthaVerified"></vue-recaptcha>
+            <ui-button type="submit" :class="{
+                'button--disabled': !isCaptchaVerified,
+            }" orange class="interact-element form__button--submit form__vspacer">{{regBtnText}}</ui-button>
         </form>
     </div>
 </template>
@@ -43,6 +49,7 @@
                 regForm: this.isRegFormShow,
                 namePlaceholder: 'Ваше имя',
                 regBtnText: 'Зарегистрироваться',
+                isCaptchaVerified: false,
             }
         },
 
@@ -68,19 +75,9 @@
                 this.$emit('forgot-form');
             },
 
-            recaptchaRender(): void {
-                const loadedIFrameContent = (function getLoadedIframeContent() {
-                    const iframe: HTMLIFrameElement = document.querySelector('#recaptcha iframe') as HTMLIFrameElement;
-                    const iframeContent: Document = iframe.contentDocument as Document;
-                    if (iframeContent!.readyState === 'complete') {
-                        iframe.contentWindow!.onload = function() {
-                            return iframeContent;
-                        };
-                    }
-
-                    setTimeout(getLoadedIframeContent, 100);
-                })();
-            }
+            recapthaVerified(): void {
+                this.isCaptchaVerified = true;
+            },
         },
 
         watch: {

@@ -80,6 +80,10 @@
         &__icon
             right: 5px
 
+        &--disabled
+            opacity: .55
+            cursor: default
+
     .button.button-theme
         &--orange, &--sky, &--masala, &--twitter, &--vk
             color: $snow
