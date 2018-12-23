@@ -18,12 +18,15 @@
                 :price="product.price"
                 :releaseDate="product.release"></MarketItem>
         </router-link>
+
+        <Pagination class="market-list__pagination"></Pagination>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue';
     import MarketItem from './MarketItem.vue';
+    import Pagination from '../Pagination.vue';
 
     declare module 'vue/types/vue' {
         interface Vue {
@@ -93,6 +96,7 @@
 
         components: {
             MarketItem,
+            Pagination,
         },
 
         methods: {
@@ -109,6 +113,7 @@
     .market-list
         display: flex
         flex-flow: row wrap
+        position: relative
 
         &__item
             flex: 0 1 205px
