@@ -1,16 +1,38 @@
 <template>
     <div class="pagination bg-theme--gallery">
         <div class="pagination__item pagination-item"
+             @click="turnOverPage(n)"
              :class="{
-                'pagination__item--active': n === 1,
-            }" v-for="n in 3">{{n}}</div>
+                'pagination__item--active': n === currentPage,
+            }" v-for="n in total">{{n}}</div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "Pagination"
-    }
+<script lang="ts">
+    import Vue from 'vue';
+
+    export default Vue.extend({
+        name: "Pagination",
+
+        props: {
+            total: {
+                type: Number,
+                default: 3,
+            },
+        },
+
+        data() {
+            return {
+                currentPage: 1,
+            }
+        },
+
+        methods: {
+            turnOverPage(newPage: number): void {
+                this.currentPage = newPage;
+            }
+        },
+    });
 </script>
 
 <style lang="styl" type="text/stylus">
