@@ -19,8 +19,8 @@ use App\Helpers\Pagination;
 
 class ItemsController extends BaseController
 {
-	/** @var int - Количество новостей на одной странице */
-    protected $_max_count = 10;
+	/** @var int - Количество товаров на одной странице */
+    protected $_max_count = 8;
 
 	/**
 	 * @Route("/")
@@ -42,11 +42,11 @@ class ItemsController extends BaseController
 		$pagination = new Pagination($count, $this->_max_count);
 		$list = $repository->getList($pagination->getStartId());
 		$tmpl_params = [
-			'news' => $list,
+			'items' => $list,
 			'pagination' => $pagination->designData(),
 		];
 
-		return $this->render('news/news_preview.twig', $tmpl_params);
+		return $this->render('index.twig', $tmpl_params);
     }
 
     /**
@@ -81,10 +81,6 @@ class ItemsController extends BaseController
 			'news'	=>	$list,
 			'meta'	=>	'lel',
 		];
-
-
-		//$content = $this->render('news/news_preview.twig', $tmpl_params);
-		//$content = new Response($tmpl_params);
 
         return new JsonResponse($tmpl_params);
     }

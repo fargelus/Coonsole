@@ -1,8 +1,0 @@
-{% extends "content.twig" %}
-{% block content %}
-    {% if post is defined %}
-        {% block post %}
-            <li><a href="/news/{{ post.link }}">{{ post.name }}</a><br> {{ post.description }}</li>
-        {% endblock %}
-    {% endif %}
-{% endblock %}
