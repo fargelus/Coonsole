@@ -1,9 +1,12 @@
 {% extends "content.twig" %}
 {% block content %}
     {% if items is defined %}
-        {% set json_params = items|json_encode(constant('JSON_UNESCAPED_UNICODE')) %}
-        <div id="app">
-            <App></App>
-        </div>
+        {% set json_items = items|json_encode(constant('JSON_UNESCAPED_UNICODE')) %}
+
+        <script>
+            const items = '{{json_items|raw}}';
+            localStorage.setItem('market_items', items);
+        </script>
+        <div id="app"></div>
     {% endif %}
 {% endblock %}

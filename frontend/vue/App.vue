@@ -75,6 +75,8 @@
             const that: any = this;
             axios.get('./data/cities.json')
                 .then((response) => that.citiesModalData = response.data);
+            // Данные о товарах из бд
+            console.log(localStorage.getItem('market_items'));
         },
 
         computed: {
