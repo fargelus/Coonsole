@@ -56,9 +56,10 @@
         },
 
         mounted() {
-            this.calculateSelectSize();
+            const self: any = this;
+            self.calculateSelectSize();
             // Уберем подсветку первого элемента
-            (this.$el as HTMLSelectElement).selectedIndex = -1;
+            (self.$el as HTMLSelectElement).selectedIndex = -1;
         },
 
         methods: {
@@ -140,7 +141,8 @@
         computed: {
             toggleSelectStyle(): string {
                 if (this.isSelectDisabled) {
-                    const childOption: Element = this.$el.children[0];
+                    const self: any = this;
+                    const childOption: HTMLOptionElement = self.$el.children[0];
                     return 'padding: ' + getComputedStyle(childOption).padding;
                 }
 
@@ -154,14 +156,18 @@
 
         watch: {
             content(): void {
-                this.setSelectSizeLessOrEqualToContent();
+                // Фикс ошибок TS
+                const self: any = this;
+                self.setSelectSizeLessOrEqualToContent();
             },
 
             startTraverse(isUserWantsToStartTraverse: Boolean): void {
                 if (isUserWantsToStartTraverse) {
-                    this.$el.focus();
-                    (this.$el as HTMLSelectElement).selectedIndex = 0;
-                    this.triggerChangeEvent();
+                    // Фикс ошибок TS
+                    const self: any = this;
+                    self.focus();
+                    (this.$el as any).selectedIndex = 0;
+                    self.triggerChangeEvent();
                 }
             },
         },
