@@ -1,8 +1,8 @@
 import * as _ from 'underscore';
 
-import LogoIcon from '../../assets/images/coonsole_logo.svg';
-import CompassIcon from '../../assets/images/compass.svg';
-import LeftArrow from '../../assets/images/arrow_left.png';
+import LogoIcon from '../../assets/images/compile/coonsole_logo.svg';
+import CompassIcon from '../../assets/images/compile/compass.svg';
+import LeftArrow from '../../assets/images/compile/arrow_left.png';
 
 const DOMSelectorToImagesMap = {
     '.js-logo': LogoIcon,

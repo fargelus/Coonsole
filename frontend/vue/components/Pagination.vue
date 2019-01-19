@@ -43,10 +43,7 @@
     .pagination
         display: flex
         justify-content: center
-        position: absolute
         align-items: center
-        left: 0
-        top: 0
         height: 32px
         width: 100%
 

@@ -63,7 +63,7 @@
 
     .item-detail-wrapper
         &__content
-            padding-right: 32px
+            padding: 28px 39px 0 29px
 
     .item-detail-elem
         padding: 20px

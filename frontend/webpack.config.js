@@ -11,10 +11,16 @@ Encore
         loader: 'vue-style-loader!css-loader!stylus-loader',
     })
     .addPlugin(
-        new CopyWebpackPlugin([{
-            from: 'assets/cities.json',
-            to: 'data/',
-        }]),
+        new CopyWebpackPlugin([
+            {
+                from: 'assets/cities.json',
+                to: 'data/',
+            },
+            {
+                from: 'assets/images/static',
+                to: 'images/[name].[ext]',
+            },
+        ]),
     )
     .enableVueLoader()
     .enableTypeScriptLoader((tsconfig) => {

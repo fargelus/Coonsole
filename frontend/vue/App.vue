@@ -153,7 +153,6 @@
 
         &__main
             padding-top: 71px
-            border-top: 1px solid $chicago-transp
 
         &__aside
             min-width: 232px
@@ -162,6 +161,5 @@
 
         &__market
             margin-left: 232px
-            padding: 62px 0 15px 26px
             min-height: 100%
 </style>

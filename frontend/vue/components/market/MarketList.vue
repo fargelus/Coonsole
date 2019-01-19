@@ -1,25 +1,26 @@
 <template>
-    <div class="market-list bg-theme--snow">
-        <router-link class="market-list__item"
-                     v-for="product in productsData"
-                     :key="product.id"
-                     :to="{
-                        name: 'MarketItemDetail',
-                        params: {
-                            link: getLinkFromName(product.name),
-                            detailData: {
-                                name: product.name,
-                                price: product.price,
-                            }
-                        },
-                     }">
-            <MarketItem
-                :title="product.name"
-                :price="product.price"
-                :releaseDate="product.release"></MarketItem>
-        </router-link>
-
+    <div class="market-list">
         <Pagination class="market-list__pagination"></Pagination>
+        <div class="market-list__inner bg-theme--snow">
+            <router-link class="market-list__item"
+                         v-for="product in productsData"
+                         :key="product.id"
+                         :to="{
+                            name: 'MarketItemDetail',
+                            params: {
+                                link: getLinkFromName(product.name),
+                                detailData: {
+                                    name: product.name,
+                                    price: product.price,
+                                }
+                            },
+                         }">
+                <MarketItem
+                    :title="product.name"
+                    :price="product.price"
+                    :releaseDate="product.release"></MarketItem>
+            </router-link>
+        </div>
     </div>
 </template>
 
@@ -112,8 +113,14 @@
 
     .market-list
         display: flex
-        flex-flow: row wrap
-        position: relative
+        flex-flow: column nowrap
+
+        &__inner
+            display: flex
+            flex-flow: row wrap
+            flex: 1 1 auto
+            position: relative
+            padding: 23px 0 23px 29px
 
         &__item
             flex: 0 1 205px
