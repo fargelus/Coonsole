@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="app">
+    <div id="coonsole-app" class="h100">
         <div class="overlay"
              :class="{
                 'overlay--visible': isModalOpen,
@@ -60,6 +60,13 @@
             }
         },
 
+        props: {
+            items: {
+                type: String,
+                default: '',
+            },
+        },
+
         components: {
             Top,
             Aside,
@@ -75,8 +82,6 @@
             const that: any = this;
             axios.get('./data/cities.json')
                 .then((response) => that.citiesModalData = response.data);
-            // Данные о товарах из бд
-            console.log(localStorage.getItem('market_items'));
         },
 
         computed: {
@@ -129,7 +134,7 @@
     @require '../styl/_variables.styl'
 
     /* Common Styles */
-    .app, .page-content__header-top, .main
+    .coonsole-app, .page-content__header-top, .main
         margin: 0 auto
 
     .page-content__header-top, .main
@@ -140,10 +145,6 @@
         z-index: 1
 
     /* End Of Common Styles */
-
-    .app
-        height: 100%
-
     .page-content
         &.top-line--flamingo::before
             z-index: 1000

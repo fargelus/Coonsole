@@ -7,8 +7,9 @@ import './ui/ui-btn';
 import './ui/icons';
 
 new Vue({
+    el: '#app',
     router,
-    render: h => h(App),
-}).$mount('#app');
+    components: {App},
+});
 
 import './ui/images';

@@ -2,11 +2,8 @@
 {% block content %}
     {% if items is defined %}
         {% set json_items = items|json_encode(constant('JSON_UNESCAPED_UNICODE')) %}
-
-        <script>
-            const items = '{{json_items|raw}}';
-            localStorage.setItem('market_items', items);
-        </script>
-        <div id="app"></div>
+        <div id="app" class="h100">
+            <App items="{{ json_items }}"></App>
+        </div>
     {% endif %}
 {% endblock %}
