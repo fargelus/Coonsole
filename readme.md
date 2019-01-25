@@ -14,6 +14,5 @@
 *Девелоп сборка*
 ```bash
 cd frontend/
-yarn
-npm run build
+yarn run build:dev
 ```
