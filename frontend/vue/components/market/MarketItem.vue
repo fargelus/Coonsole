@@ -48,8 +48,8 @@
                 default: '',
             },
             price: {
-                type: Number,
-                default: 0,
+                type: String,
+                default: '0',
             },
             releaseDate: {
                 type: String,
@@ -84,7 +84,7 @@
             padding: 12px
             border-bottom-left-radius: 4px
             border-bottom-right-radius: 4px
-            min-height: 95px
+            min-height: 72px
 
             &.top-line--masala
                 position: relative

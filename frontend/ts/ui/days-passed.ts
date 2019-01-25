@@ -62,7 +62,7 @@ class DaysPassedBase {
 
     protected constructor(fromDate: string) {
         this.currentDate = DateHelpers.divideCurrentDate();
-        [this.fromDay, this.fromMonth, this.fromYear] = fromDate.split('.').map((str) => +str);
+        [this.fromYear, this.fromMonth, this.fromDay] = fromDate.split('-').map((str) => +str);
     }
 
     protected isMonthEqual(): boolean {

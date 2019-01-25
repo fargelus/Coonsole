@@ -17,6 +17,7 @@
             <main class="main page-content__main">
                 <Aside :changeView="isChangeAsideView" class="page-content__aside"></Aside>
                 <router-view
+                    :productsData="marketItems"
                     @item-detail-view-create="toggleAsideViewChange"
                     @item-detail-view-destroy="toggleAsideViewChange"
                     class="page-content__market"></router-view>
@@ -56,7 +57,8 @@
                 currentUserLocation: '',
                 isChangeAsideView: false,
                 isModalOpen: false,
-                modals: { city: false, entrance: false }
+                modals: { city: false, entrance: false },
+                marketItems: JSON.parse(this.items),
             }
         },
 
