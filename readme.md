@@ -11,8 +11,15 @@
 2. node + npm v8.9x
 
 #### Сборка
-*Девелоп сборка*
+*__Девелоп сборка__*
+
+*Фронтенд*
 ```bash
 cd frontend/
 yarn run build:dev
+```
+
+*Бэк*
+```bash
+php bin/console server:run
 ```
