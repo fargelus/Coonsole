@@ -3,7 +3,9 @@
     {% if items is defined %}
         {% set json_items = items|json_encode(constant('JSON_UNESCAPED_UNICODE')) %}
         <div id="app" class="h100">
-            <App items="{{ json_items }}"></App>
+            <App items_group_count="{{ pages }}"
+                items="{{ json_items }}">
+            </App>
         </div>
     {% endif %}
 {% endblock %}

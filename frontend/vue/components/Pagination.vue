@@ -1,10 +1,10 @@
 <template>
     <div class="pagination bg-theme--gallery">
         <div class="pagination__item pagination-item"
-             @click="turnOverPage(n)"
+             @click="turnOverPage(page)"
              :class="{
-                'pagination__item--active': n === currentPage,
-            }" v-for="n in total">{{n}}</div>
+                'pagination__item--active': page === currentPage,
+            }" v-for="page in pages">{{page}}</div>
     </div>
 </template>
 
@@ -15,9 +15,9 @@
         name: "Pagination",
 
         props: {
-            total: {
+            pages: {
                 type: Number,
-                default: 3,
+                default: 0,
             },
         },
 

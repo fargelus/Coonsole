@@ -17,7 +17,8 @@
             <main class="main page-content__main">
                 <Aside :changeView="isChangeAsideView" class="page-content__aside"></Aside>
                 <router-view
-                    :productsData="marketItems"
+                    :products_data="marketItems"
+                    :products_group_count="items_group_count"
                     @item-detail-view-create="toggleAsideViewChange"
                     @item-detail-view-destroy="toggleAsideViewChange"
                     class="page-content__market"></router-view>
@@ -66,6 +67,10 @@
             items: {
                 type: String,
                 default: '',
+            },
+            items_group_count: {
+                type: String,
+                default: '0',
             },
         },
 

@@ -1,9 +1,12 @@
 <template>
     <div class="market-list">
-        <Pagination class="market-list__pagination"></Pagination>
+        <Pagination v-if="products_group_count"
+                    :pages="+products_group_count"
+                    class="market-list__pagination">
+        </Pagination>
         <div class="market-list__inner bg-theme--snow">
             <router-link class="market-list__item"
-                         v-for="product in productsData"
+                         v-for="product in products_data"
                          :key="product.id"
                          :to="{
                             name: 'MarketItemDetail',
@@ -44,10 +47,15 @@
         },
 
         props: {
-          productsData: {
-              type: Array,
-              default: () => [],
-          },
+            products_data: {
+                type: Array,
+                default: () => [],
+            },
+
+            products_group_count: {
+                type: String,
+                default: '',
+            },
         },
 
         components: {
@@ -58,7 +66,7 @@
         methods: {
             getLinkFromName(name: string): string {
                 return name.replace(/ /gi, '_').toLowerCase();
-            }
+            },
         },
     });
 </script>

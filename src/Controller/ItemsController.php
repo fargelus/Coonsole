@@ -20,7 +20,7 @@ use App\Helpers\Pagination;
 class ItemsController extends BaseController
 {
 	/** @var int - Количество товаров на одной странице */
-    protected $_max_count = 8;
+    protected $_max_count = 2;
 
 	/**
 	 * @Route("/")
@@ -43,6 +43,7 @@ class ItemsController extends BaseController
 		$list = $repository->getList($pagination->getStartId());
 		$tmpl_params = [
 			'items' => $list,
+            'pages' => ceil($count / $this->_max_count),
 			'pagination' => $pagination->designData(),
 		];
 
