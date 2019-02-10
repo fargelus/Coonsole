@@ -40,10 +40,10 @@ class ItemsController extends BaseController
 		}
 
 		$pagination = new Pagination($count, $this->_max_count);
-		$list = $repository->getList($pagination->getStartId());
+		$list = $repository->getList($pagination->getStartId(), $this->_max_count);
 		$tmpl_params = [
 			'items' => $list,
-            'pages' => ceil($count / $this->_max_count),
+            'pages' => $pagination->totalPages(),
 			'pagination' => $pagination->designData(),
 		];
 

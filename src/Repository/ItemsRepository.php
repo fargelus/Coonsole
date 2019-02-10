@@ -41,7 +41,7 @@ class ItemsRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT * FROM items n WHERE n.id >= :id ORDER BY n.id ASC LIMIT '.(int) $count;
+        $sql = 'SELECT * FROM items it WHERE it.id >= :id ORDER BY it.id ASC LIMIT '.(int) $count;
         $stmt = $conn->prepare($sql);
         $stmt->execute([
 			'id' => (int) $page,

@@ -10,18 +10,18 @@ class Pagination
 {
 	private $_current_page;
 	private $_max_per_page;
-	private $_count;
+	private $_totalCount;
 
 	/**
 	 * Pagination constructor.
 	 *
-	 * @param int $count
+	 * @param int $totalCount
 	 * @param int $max
 	 * @param int $current_page
 	 */
-	public function __construct(int $count, int $max, int $current_page = 1)
+	public function __construct(int $totalCount, int $max, int $current_page = 1)
 	{
-		$this->_count = $count;
+		$this->_totalCount = $totalCount;
 		$this->_max_per_page = $max;
 		$this->_current_page = $current_page;
 	}
@@ -32,8 +32,8 @@ class Pagination
 	 */
 	public function totalPages() : int
 	{
-		if ($this->_count > 0 && $this->_max_per_page > 0) {
-			$result = (int) ceil($this->_count / $this->_max_per_page);
+		if ($this->_totalCount > 0 && $this->_max_per_page > 0) {
+			$result = (int) ceil($this->_totalCount / $this->_max_per_page);
 		} else {
 			$result = 1;
 		}
@@ -49,7 +49,7 @@ class Pagination
 	public function getStartId(string $sort = 'DESC') : int
 	{
 		if ($sort === 'DESC') {
-			$id = $this->_count - ($this->_current_page * $this->_max_per_page);
+			$id = $this->_totalCount - ($this->_current_page * $this->_max_per_page);
 		} else {
 			$id = ($this->_current_page - 1) * $this->_max_per_page;
 		}
