@@ -70,17 +70,16 @@ class ItemsController extends BaseController
 		} catch (\Exception $e) {
 			$count = 0;
 		}
-		$pagination = new Pagination($count, $this->_max_count);
+		$pagination = new Pagination($count, $this->_max_count, $page);
 
 		if ($page > $pagination->totalPages()) {
 			throw $this->createNotFoundException('Нет такой страницы, 404 ');
 		}
 
-		$list = $repository->getList($pagination->getStartId());;
+		$list = $repository->getList($pagination->getStartId(FALSE), $this->_max_count);
 
 		$tmpl_params = [
-			'news'	=>	$list,
-			'meta'	=>	'lel',
+			'paged_items'	=>	$list,
 		];
 
         return new JsonResponse($tmpl_params);

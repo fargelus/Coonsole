@@ -1,12 +1,13 @@
 <template>
     <div class="market-list">
-        <Pagination v-if="products_group_count"
-                    :pages="+products_group_count"
+        <Pagination v-if="isPagesMoreThanOne()"
+                    @switch-page="getItemsFromPage"
+                    :pages="pagesCount"
                     class="market-list__pagination">
         </Pagination>
         <div class="market-list__inner bg-theme--snow">
             <router-link class="market-list__item"
-                         v-for="product in products_data"
+                         v-for="product in marketItems"
                          :key="product.id"
                          :to="{
                             name: 'MarketItemDetail',
@@ -31,9 +32,17 @@
     import Vue from 'vue';
     import MarketItem from './MarketItem.vue';
     import Pagination from '../Pagination.vue';
+    import axios from 'axios';
 
     declare module 'vue/types/vue' {
         interface Vue {
+            // props
+            products_data: string[],
+            products_group_count: string,
+
+            // data
+            pagesCount: number,
+
             // methods
             getLinkFromName: (name: string) => string,
         }
@@ -43,7 +52,10 @@
         name: 'Market',
 
         data(): object {
-            return {};
+            return {
+                marketItems: this.products_data,
+                pagesCount: +this.products_group_count,
+            };
         },
 
         props: {
@@ -67,6 +79,17 @@
             getLinkFromName(name: string): string {
                 return name.replace(/ /gi, '_').toLowerCase();
             },
+
+            getItemsFromPage(page: number): void {
+                const that: any = this;
+                axios
+                    .get(`/items/page/${page}`)
+                    .then(response => that.marketItems = (response as any).data.paged_items);
+            },
+
+            isPagesMoreThanOne(): boolean {
+                return this.pagesCount > 1;
+            }
         },
     });
 </script>

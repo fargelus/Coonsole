@@ -46,15 +46,10 @@ class Pagination
 	 *
 	 * @return int
 	 */
-	public function getStartId(string $sort = 'DESC') : int
+	public function getStartId($init = TRUE) : int
 	{
-		if ($sort === 'DESC') {
-			$id = $this->_totalCount - ($this->_current_page * $this->_max_per_page);
-		} else {
-			$id = ($this->_current_page - 1) * $this->_max_per_page;
-		}
-
-		return ($id < 0) ? 0 : (int) $id;
+        // Для первой страницы курсор будет 0, для остальных -> смещение
+		return $init ? 0 : $this->_current_page * $this->_max_per_page - 1;
 	}
 
 	/**

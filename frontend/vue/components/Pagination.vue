@@ -30,6 +30,7 @@
         methods: {
             turnOverPage(newPage: number): void {
                 this.currentPage = newPage;
+                this.$emit('switch-page', newPage);
             }
         },
     });
